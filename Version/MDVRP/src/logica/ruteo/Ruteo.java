@@ -34,6 +34,7 @@ public class Ruteo implements IRuteo
 			DTNodo prox=it.next();
 			if((prox.getDemanda()+conteocap)>capacidad)
 			{
+				constr.setCosto(1);
 				ar.add(constr);
 				conteocap=prox.getDemanda();
 				constr=new DTRuteo(deposito);
@@ -45,6 +46,7 @@ public class Ruteo implements IRuteo
 				conteocap=conteocap+prox.getDemanda();
 			}
 		}
+		constr.setCosto(1);
 		ar.add(constr);
 		return ar;
 	}

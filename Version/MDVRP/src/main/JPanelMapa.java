@@ -4,18 +4,28 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
+
 import javax.swing.JPanel;
+
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
 import datatypes.DTRuteo;
 
-public class JPanelMapa extends JPanel
+public class JPanelMapa extends JPanel 
 {
+	
+	private boolean contornos;
+	private boolean sombreado;
+
 	private DTDepositoVRP vrp;
 	private int ancho;
 	private int alto;
@@ -42,6 +52,7 @@ public class JPanelMapa extends JPanel
 	int alto2=ymaximo-yminimo;
 	private int borde;
 	
+	private int escalaBD;
 	
 	public JPanelMapa()
 	{
@@ -55,6 +66,8 @@ public class JPanelMapa extends JPanel
 		asignado=false;
 		ruteado=false;
 		borde=10;
+		contornos=false;
+		escalaBD=8;
 	}
 	
 	public void setVRP(DTDepositoVRP d)
@@ -88,8 +101,569 @@ public class JPanelMapa extends JPanel
 		ancho2=xmaximo-xminimo;
 		alto2=ymaximo-yminimo;
 
+		//******************************
+				if(asignado&&this.sombreado)
+				{
+					Iterator<DTAsignacion> ita= asignacionescrudas.iterator();
+					while(ita.hasNext())
+					{
+						DTAsignacion es=ita.next();
+						Collection<DTNodo> ntd=es.getClientes();
+						int norte=Integer.MAX_VALUE;
+						int sur=Integer.MIN_VALUE;
+						int este=Integer.MAX_VALUE;
+						int oeste=Integer.MIN_VALUE;
+						Iterator<DTNodo> itno=ntd.iterator();
+						//ArrayList<DTNodo> arn=new ArrayList<DTNodo>();
+						ArrayList<DTNodo> borde=new ArrayList<DTNodo>();
+						while(itno.hasNext())
+						{
+							DTNodo n=itno.next();
+							borde.add(n);
+							if(n.getY()>sur)sur=n.getY();
+							if(n.getY()<norte)norte=n.getY();
+							if(n.getX()>oeste)oeste=n.getX();
+							if(n.getY()<este)este=n.getY();
+						}
+						borde.add(es.getDeposito());
+						DTNodo extremoizq=null;
+						int extrizq=Integer.MIN_VALUE;
+						int extrder=Integer.MAX_VALUE;
+						DTNodo extremoder=null;
+						DTNodo extremosup=null;
+						DTNodo extremoinf=null;
+						int extrsup=Integer.MIN_VALUE;
+						int extrinf=Integer.MAX_VALUE;
+						Iterator<DTNodo> extr=borde.iterator();
+						while(extr.hasNext())
+						{
+							DTNodo pr=extr.next();
+							if(pr.getX()<extrder)
+							{
+								extrder=pr.getX();
+								extremoder=pr;
+							}
+							if(pr.getX()>extrizq)
+							{
+								extrizq=pr.getX();
+								extremoizq=pr;
+							}
+							if(pr.getY()>extrsup)
+							{
+								extrsup=pr.getY();
+								extremosup=pr;
+							}
+							if(pr.getY()<extrinf)
+							{
+								extrinf=pr.getY();
+								extremoinf=pr;
+							}
+						}
+						ArrayList<DTNodo> nborde;
+						nborde=new ArrayList<DTNodo>();
+						nborde.add(extremoder);
+						
+					//	System.out.println("derecho:"+extremoder.getId()+" izquierdo:"+extremoizq.getId()+" arriba:"+extremoinf.getId()+" abajo:"+extremosup.getId());
+						
+						//primer cuadrante
+						DTNodo tortuga=extremoder;
+						boolean haymas=true;
+						while(haymas)
+						{
+							haymas=false;
+							if((util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga).intValue()!=0))
+							{
+								BigDecimal num=new BigDecimal(tortuga.getY()-extremoinf.getY());
+								BigDecimal den=util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga);
+								BigDecimal sen=num.divide(den, escalaBD, RoundingMode.CEILING);
+
+//								double sen=(double)(tortuga.getY()-extremoinf.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga);
+							//	System.out.println(sen+" "+tortuga.getId()+" "+extremoinf.getId());
+								Iterator<DTNodo> izqader=borde.iterator();
+								DTNodo mayor=tortuga;
+								while(izqader.hasNext())
+								{
+									DTNodo nt=izqader.next();
+									if((util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt).intValue())!=0)
+									if(nt.getX()<extremoinf.getX())
+									{
+										BigDecimal num2=new BigDecimal(tortuga.getY()-nt.getY());
+										BigDecimal den2=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+										BigDecimal sen2=num2.divide(den2, escalaBD, RoundingMode.CEILING);
+									
+										if(sen2.compareTo(sen)==1)
+										{
+											BigDecimal num3=new BigDecimal(tortuga.getY()-nt.getY());
+											BigDecimal den3=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+											sen=num3.divide(den3, escalaBD, RoundingMode.CEILING);
+						
+											mayor=nt;
+											haymas=true;
+										}
+									}
+								}
+								if(haymas)
+								{
+									nborde.add(mayor);
+									tortuga=mayor;
+								//	System.out.println("agrego "+tortuga.getId());
+								}
+							}
+						}
+						nborde.add(extremoinf);
+						//segundo cuadrante
+						tortuga=extremoizq;
+						haymas=true;
+						java.util.Stack<DTNodo> saca=new java.util.Stack<DTNodo>();
+						while(haymas)
+						{
+							haymas=false;
+							if((util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga).intValue()!=0))
+							{
+								BigDecimal num=new BigDecimal(tortuga.getY()-extremoinf.getY());
+								BigDecimal den=util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga);
+								BigDecimal sen=num.divide(den, escalaBD, RoundingMode.CEILING);
+							//	double sen=(double)(tortuga.getY()-extremoinf.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga);
+							//	System.out.println(sen+" "+tortuga.getId()+" "+extremoinf.getId());
+								Iterator<DTNodo> izqader=borde.iterator();
+								DTNodo mayor=tortuga;
+								while(izqader.hasNext())
+								{
+									DTNodo nt=izqader.next();
+									if((util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt).intValue())!=0)
+									if((nt.getX()>extremoinf.getX()))
+									{
+										BigDecimal num2=new BigDecimal(tortuga.getY()-nt.getY());
+										BigDecimal den2=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+										BigDecimal sen2=num2.divide(den2, escalaBD, RoundingMode.CEILING);
+									
+										if(sen2.compareTo(sen)==1)
+										{
+											BigDecimal num3=new BigDecimal(tortuga.getY()-nt.getY());
+											BigDecimal den3=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+											sen=num3.divide(den3, escalaBD, RoundingMode.CEILING);
+										
+											mayor=nt;
+											haymas=true;
+										}
+									}
+								}
+								if(haymas)
+								{
+									saca.push(mayor);
+									tortuga=mayor;
+								//	System.out.println("agrego "+tortuga.getId());
+								}
+							}
+						}
+						while(!saca.isEmpty())
+						{
+							nborde.add(saca.pop());
+						}
+						nborde.add(extremoizq);
+						//tercer cuadrante
+						tortuga=extremoizq;
+						haymas=true;
+						while(haymas)
+						{
+							haymas=false;
+				//			System.out.println("extremosup "+extremosup.getId()+"    extremoizq "+extremoizq.getId()+" dist "+util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga));
+							if((util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga).intValue()!=0))
+							{
+								BigDecimal num=new BigDecimal(tortuga.getY()-extremosup.getY());
+								BigDecimal den=util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga);
+								BigDecimal sen=num.divide(den, escalaBD, RoundingMode.CEILING);
+
+								//double sen=(double)(tortuga.getY()-extremosup.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga);
+								//System.out.println(sen+" "+tortuga.getId()+" "+extremosup.getId());
+								Iterator<DTNodo> izqader=borde.iterator();
+								DTNodo mayor=tortuga;
+								while(izqader.hasNext())
+								{
+									DTNodo nt=izqader.next();
+									if((util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt).intValue())!=0)
+									if(nt.getX()>extremosup.getX())
+									{
+										BigDecimal num2=new BigDecimal(tortuga.getY()-nt.getY());
+										BigDecimal den2=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+										BigDecimal sen2=num2.divide(den2, escalaBD, RoundingMode.CEILING);
+									
+										if(sen2.compareTo(sen)==-1)
+										{
+											BigDecimal num3=new BigDecimal(tortuga.getY()-nt.getY());
+											BigDecimal den3=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+											sen=num3.divide(den3, escalaBD, RoundingMode.CEILING);
+									
+//											sen=(double)(tortuga.getY()-nt.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+											mayor=nt;
+											haymas=true;
+										}
+									}
+								}
+								if(haymas)
+								{
+									nborde.add(mayor);
+									tortuga=mayor;
+									//System.out.println("agrego "+tortuga.getId());
+								}
+							}
+						}
+						nborde.add(extremosup);
+						//cuarto cuadrante
+						tortuga=extremoder;
+						haymas=true;
+						java.util.Stack<DTNodo> saca2=new java.util.Stack<DTNodo>();
+						while(haymas)
+						{
+							haymas=false;
+							if((util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga).intValue()!=0))
+							{
+								BigDecimal num=new BigDecimal(tortuga.getY()-extremosup.getY());
+								BigDecimal den=util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga);
+								BigDecimal sen=num.divide(den, escalaBD, RoundingMode.CEILING);
+
+//								double sen=(double)(tortuga.getY()-extremosup.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga);
+			//					System.out.println(sen+" "+tortuga.getId()+" "+extremosup.getId());
+								Iterator<DTNodo> izqader=borde.iterator();
+								DTNodo mayor=tortuga;
+								while(izqader.hasNext())
+								{
+									DTNodo nt=izqader.next();
+									if((util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt).intValue())!=0)
+									if(nt.getX()<extremosup.getX())
+									{
+										BigDecimal num2=new BigDecimal(tortuga.getY()-nt.getY());
+										BigDecimal den2=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+										BigDecimal sen2=num2.divide(den2, escalaBD, RoundingMode.CEILING);
+									
+										if(sen2.compareTo(sen)==-1)
+										{
+											BigDecimal num3=new BigDecimal(tortuga.getY()-nt.getY());
+											BigDecimal den3=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+											sen=num3.divide(den3, escalaBD, RoundingMode.CEILING);
+									
+//											sen=(double)(tortuga.getY()-nt.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+											mayor=nt;
+											haymas=true;
+										}
+									}
+								}
+								if(haymas)
+								{
+									saca2.push(mayor);
+									tortuga=mayor;
+								}
+							}
+						}
+						while(!saca2.isEmpty())
+						{
+							nborde.add(saca2.pop());
+						}
+						Iterator<DTNodo> itb=nborde.iterator();
+						int contador=0;
+						int equis[];
+						equis=new int[nborde.size()];
+						int yes[];
+						yes=new int[nborde.size()];
+						while(itb.hasNext())
+						{
+							DTNodo pr=itb.next();
+							equis[contador]=this.transformarX(pr.getX());
+							yes[contador]=this.transformarY(pr.getY());
+							contador++;
+						}
+						
+//						g.setColor(Color.BLACK);
+//						((Graphics2D)g).drawPolygon(equis, yes, contador);
+						g.setColor(Color.LIGHT_GRAY);
+						((Graphics2D)g).fillPolygon(equis, yes, contador);
+					}
+					
+					
+				}	
+				//**************************************
+				
+		//******************************
+		if(asignado&&this.contornos)
+		{
+			Iterator<DTAsignacion> ita= asignacionescrudas.iterator();
+			while(ita.hasNext())
+			{
+				DTAsignacion es=ita.next();
+				Collection<DTNodo> ntd=es.getClientes();
+				int norte=Integer.MAX_VALUE;
+				int sur=Integer.MIN_VALUE;
+				int este=Integer.MAX_VALUE;
+				int oeste=Integer.MIN_VALUE;
+				Iterator<DTNodo> itno=ntd.iterator();
+				//ArrayList<DTNodo> arn=new ArrayList<DTNodo>();
+				ArrayList<DTNodo> borde=new ArrayList<DTNodo>();
+				while(itno.hasNext())
+				{
+					DTNodo n=itno.next();
+					borde.add(n);
+					if(n.getY()>sur)sur=n.getY();
+					if(n.getY()<norte)norte=n.getY();
+					if(n.getX()>oeste)oeste=n.getX();
+					if(n.getY()<este)este=n.getY();
+				}
+				borde.add(es.getDeposito());
+				DTNodo extremoizq=null;
+				int extrizq=Integer.MIN_VALUE;
+				int extrder=Integer.MAX_VALUE;
+				DTNodo extremoder=null;
+				DTNodo extremosup=null;
+				DTNodo extremoinf=null;
+				int extrsup=Integer.MIN_VALUE;
+				int extrinf=Integer.MAX_VALUE;
+				Iterator<DTNodo> extr=borde.iterator();
+				while(extr.hasNext())
+				{
+					DTNodo pr=extr.next();
+					if(pr.getX()<extrder)
+					{
+						extrder=pr.getX();
+						extremoder=pr;
+					}
+					if(pr.getX()>extrizq)
+					{
+						extrizq=pr.getX();
+						extremoizq=pr;
+					}
+					if(pr.getY()>extrsup)
+					{
+						extrsup=pr.getY();
+						extremosup=pr;
+					}
+					if(pr.getY()<extrinf)
+					{
+						extrinf=pr.getY();
+						extremoinf=pr;
+					}
+				}
+				ArrayList<DTNodo> nborde;
+				nborde=new ArrayList<DTNodo>();
+				nborde.add(extremoder);
+				
+				//System.out.println("derecho:"+extremoder.getId()+" izquierdo:"+extremoizq.getId()+" arriba:"+extremoinf.getId()+" abajo:"+extremosup.getId());
+				
+				//primer cuadrante
+				DTNodo tortuga=extremoder;
+				boolean haymas=true;
+				while(haymas)
+				{
+					haymas=false;
+					if((util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga).intValue()!=0))
+					{
+						BigDecimal num=new BigDecimal(tortuga.getY()-extremoinf.getY());
+						BigDecimal den=util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga);
+						BigDecimal sen=num.divide(den, escalaBD, RoundingMode.CEILING);
+
+//						double sen=(double)(tortuga.getY()-extremoinf.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga);
+					//	System.out.println(sen+" "+tortuga.getId()+" "+extremoinf.getId());
+						Iterator<DTNodo> izqader=borde.iterator();
+						DTNodo mayor=tortuga;
+						while(izqader.hasNext())
+						{
+							DTNodo nt=izqader.next();
+							if((util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt).intValue())!=0)
+							if(nt.getX()<extremoinf.getX())
+							{
+								BigDecimal num2=new BigDecimal(tortuga.getY()-nt.getY());
+								BigDecimal den2=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+								BigDecimal sen2=num2.divide(den2, escalaBD, RoundingMode.CEILING);
+							
+								if(sen2.compareTo(sen)==1)
+								{
+									BigDecimal num3=new BigDecimal(tortuga.getY()-nt.getY());
+									BigDecimal den3=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+									sen=num3.divide(den3, escalaBD, RoundingMode.CEILING);
+				
+									mayor=nt;
+									haymas=true;
+								}
+							}
+						}
+						if(haymas)
+						{
+							nborde.add(mayor);
+							tortuga=mayor;
+							//System.out.println("agrego "+tortuga.getId());
+						}
+					}
+				}
+				nborde.add(extremoinf);
+				//segundo cuadrante
+				tortuga=extremoizq;
+				haymas=true;
+				java.util.Stack<DTNodo> saca=new java.util.Stack<DTNodo>();
+				while(haymas)
+				{
+					haymas=false;
+					if((util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga).intValue()!=0))
+					{
+						BigDecimal num=new BigDecimal(tortuga.getY()-extremoinf.getY());
+						BigDecimal den=util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga);
+						BigDecimal sen=num.divide(den, escalaBD, RoundingMode.CEILING);
+					//	double sen=(double)(tortuga.getY()-extremoinf.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(extremoinf,tortuga);
+					//	System.out.println(sen+" "+tortuga.getId()+" "+extremoinf.getId());
+						Iterator<DTNodo> izqader=borde.iterator();
+						DTNodo mayor=tortuga;
+						while(izqader.hasNext())
+						{
+							DTNodo nt=izqader.next();
+							if((util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt).intValue())!=0)
+							if((nt.getX()>extremoinf.getX()))
+							{
+								BigDecimal num2=new BigDecimal(tortuga.getY()-nt.getY());
+								BigDecimal den2=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+								BigDecimal sen2=num2.divide(den2, escalaBD, RoundingMode.CEILING);
+							
+								if(sen2.compareTo(sen)==1)
+								{
+									BigDecimal num3=new BigDecimal(tortuga.getY()-nt.getY());
+									BigDecimal den3=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+									sen=num3.divide(den3, escalaBD, RoundingMode.CEILING);
+								
+									mayor=nt;
+									haymas=true;
+								}
+							}
+						}
+						if(haymas)
+						{
+							saca.push(mayor);
+							tortuga=mayor;
+							//System.out.println("agrego "+tortuga.getId());
+						}
+					}
+				}
+				while(!saca.isEmpty())
+				{
+					nborde.add(saca.pop());
+				}
+				nborde.add(extremoizq);
+				//tercer cuadrante
+				tortuga=extremoizq;
+				haymas=true;
+				while(haymas)
+				{
+					haymas=false;
+		//			System.out.println("extremosup "+extremosup.getId()+"    extremoizq "+extremoizq.getId()+" dist "+util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga));
+					if((util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga).intValue()!=0))
+					{
+						BigDecimal num=new BigDecimal(tortuga.getY()-extremosup.getY());
+						BigDecimal den=util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga);
+						BigDecimal sen=num.divide(den, escalaBD, RoundingMode.CEILING);
+
+						//double sen=(double)(tortuga.getY()-extremosup.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga);
+						//System.out.println(sen+" "+tortuga.getId()+" "+extremosup.getId());
+						Iterator<DTNodo> izqader=borde.iterator();
+						DTNodo mayor=tortuga;
+						while(izqader.hasNext())
+						{
+							DTNodo nt=izqader.next();
+							if((util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt).intValue())!=0)
+							if(nt.getX()>extremosup.getX())
+							{
+								BigDecimal num2=new BigDecimal(tortuga.getY()-nt.getY());
+								BigDecimal den2=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+								BigDecimal sen2=num2.divide(den2, escalaBD, RoundingMode.CEILING);
+							
+								if(sen2.compareTo(sen)==-1)
+								{
+									BigDecimal num3=new BigDecimal(tortuga.getY()-nt.getY());
+									BigDecimal den3=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+									sen=num3.divide(den3, escalaBD, RoundingMode.CEILING);
+							
+//									sen=(double)(tortuga.getY()-nt.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+									mayor=nt;
+									haymas=true;
+								}
+							}
+						}
+						if(haymas)
+						{
+							nborde.add(mayor);
+							tortuga=mayor;
+							//System.out.println("agrego "+tortuga.getId());
+						}
+					}
+				}
+				nborde.add(extremosup);
+				//cuarto cuadrante
+				tortuga=extremoder;
+				haymas=true;
+				java.util.Stack<DTNodo> saca2=new java.util.Stack<DTNodo>();
+				while(haymas)
+				{
+					haymas=false;
+					if((util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga).intValue()!=0))
+					{
+						BigDecimal num=new BigDecimal(tortuga.getY()-extremosup.getY());
+						BigDecimal den=util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga);
+						BigDecimal sen=num.divide(den, escalaBD, RoundingMode.CEILING);
+
+//						double sen=(double)(tortuga.getY()-extremosup.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(extremosup,tortuga);
+	//					System.out.println(sen+" "+tortuga.getId()+" "+extremosup.getId());
+						Iterator<DTNodo> izqader=borde.iterator();
+						DTNodo mayor=tortuga;
+						while(izqader.hasNext())
+						{
+							DTNodo nt=izqader.next();
+							if((util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt).intValue())!=0)
+							if(nt.getX()<extremosup.getX())
+							{
+								BigDecimal num2=new BigDecimal(tortuga.getY()-nt.getY());
+								BigDecimal den2=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+								BigDecimal sen2=num2.divide(den2, escalaBD, RoundingMode.CEILING);
+							
+								if(sen2.compareTo(sen)==-1)
+								{
+									BigDecimal num3=new BigDecimal(tortuga.getY()-nt.getY());
+									BigDecimal den3=util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+									sen=num3.divide(den3, escalaBD, RoundingMode.CEILING);
+							
+//									sen=(double)(tortuga.getY()-nt.getY())/(double)util.Distancia.getInstancia().getDistanciaGrafica(tortuga,nt);
+									mayor=nt;
+									haymas=true;
+								}
+							}
+						}
+						if(haymas)
+						{
+							saca2.push(mayor);
+							tortuga=mayor;
+						}
+					}
+				}
+				while(!saca2.isEmpty())
+				{
+					nborde.add(saca2.pop());
+				}
+				Iterator<DTNodo> itb=nborde.iterator();
+				int contador=0;
+				int equis[];
+				equis=new int[nborde.size()];
+				int yes[];
+				yes=new int[nborde.size()];
+				while(itb.hasNext())
+				{
+					DTNodo pr=itb.next();
+					equis[contador]=this.transformarX(pr.getX());
+					yes[contador]=this.transformarY(pr.getY());
+					contador++;
+				}
+				
+				g.setColor(Color.BLACK);
+				((Graphics2D)g).drawPolygon(equis, yes, contador);
+		//		g.setColor(Color.GRAY);
+		//		((Graphics2D)g).fillPolygon(equis, yes, contador);
+			}
+			
+		}	
+		//**************************************
 		
-		//System.out.println("ancho alto "+ancho+" "+alto );
 		
 		
 		Iterator<DTNodo> it2=this.vrp.getNodos().iterator();
@@ -152,7 +726,7 @@ public class JPanelMapa extends JPanel
 				g.drawLine(transformarX(xprevio), transformarY(yprevio),transformarX(dep.getX())+5,transformarY(dep.getY())+5);
 			}
 		}
-	//	if(vrp.getNodos().size()>0)g.drawLine(transformarX(xminimo), transformarY(yminimo),transformarX(xmaximo),transformarY(ymaximo));
+		
 	}
 	
 	public boolean estaResaltadaRuta(DTRuteo r)
@@ -227,11 +801,13 @@ public class JPanelMapa extends JPanel
 				DTNodo dn=itn.next();
 				asignaciones.put(dn.getId(), dep);				
 			}
+			//System.out.println(n.getClientes().size()+"--------------------------");
 
 		}
 		//System.out.println("se asigno al mapa"+asignaciones.size());
 		asignado=true;
 		asignacionescrudas=c;
+		ruteado=false;
 		this.repaint();
 	}
 
@@ -327,5 +903,16 @@ public class JPanelMapa extends JPanel
 		}
 		this.repaint();
 
+	}
+	
+	public void setContorno(boolean c)
+	{
+		this.contornos=c;
+		this.repaint();
+	}
+	public void setSombreado(boolean c)
+	{
+		this.sombreado=c;
+		this.repaint();
 	}
 }

@@ -31,6 +31,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -110,19 +111,45 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 								System.out.println("You chose to open this file: " +chooser.getSelectedFile().getName());
 								System.out.println("You chose to open this file: " +chooser.getSelectedFile().getAbsolutePath());
 								Collection<String> col=ControladorArchivo.getInstancia().leerArchivoDepositoVRP(chooser.getSelectedFile().getAbsolutePath());
-								Cargador r=new Cargador(getThis(),col);
+							    boolean explicito=false;
+							    Iterator<String> it=col.iterator();
+							    while(it.hasNext()){
+							    	String n=it.next();
+							    	if(n.contains("EXPLICIT")){explicito=true;}
+							    }
+								if(explicito)
+								{
+									Cargador r=new Cargador(getThis(),col);
+								}
+								else
+								{
+									DTDepositoVRP dep=Fabrica.getInstancia().getSistema().ImportarDepositoVRP(col);
+									etiquetas.setVRP(dep);
+									mapa.setVRP(dep);
+									nodos.setVRP(dep);
+									nodos.setMapa(mapa);
+									etiquetas.setMapa(mapa);
+									rutas.setMapa(mapa);
+									rutas.setVRP(dep);
+									etiquetas.setPanRutas(rutas);
+									rutas.setEtiquetas(etiquetas);
+									vrpcargado=dep;
+										/*
+										 * 
+					 etiquetas.setVRP(resultado);
+				  	 mapa.setVRP(resultado);
+					 nodos.setVRP(resultado);
+					 nodos.setMapa(mapa);
+					 etiquetas.setMapa(mapa);
+					 rutas.setMapa(mapa);
+					 rutas.setVRP(resultado);
+					 etiquetas.setPanRutas(rutas);
+					 rutas.setEtiquetas(etiquetas);
+					 vrpcargado=resultado;
+										 */
+								}
 								
-								/*DTDepositoVRP dep=Fabrica.getInstancia().getSistema().ImportarDepositoVRP(col);
-								etiquetas.setVRP(dep);
-								mapa.setVRP(dep);
-								nodos.setVRP(dep);
-								nodos.setMapa(mapa);
-								etiquetas.setMapa(mapa);
-								rutas.setMapa(mapa);
-								rutas.setVRP(dep);
-								etiquetas.setPanRutas(rutas);
-								vrpcargado=dep;
-								*/
+								
 							}
 						}
 						catch(Exception ex)
@@ -224,8 +251,8 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 				general.add(centro,BorderLayout.SOUTH);
 				Fabrica.getInstancia().getSistema().setInicioEstadoConsulta();
 				setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-				setTitle("CARGANDO DATOS");
-				setSize(500,500);
+				setTitle("MAPEANDO MATRIZ DE DISTANCIAS");
+				setSize(padre.getWidth()-20,600);
 				Toolkit kit = getToolkit();
 			    Dimension screenSize = kit.getScreenSize();
 			    int screenWidth = screenSize.width;
@@ -286,7 +313,7 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 			         {
 			             try 
 			             {
-			                 Thread.sleep(1000);
+			                 Thread.sleep(10);
 			               //  System.out.println("sigo vivo");
 			            	 
 			             } 
@@ -311,6 +338,7 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 					 rutas.setMapa(mapa);
 					 rutas.setVRP(resultado);
 					 etiquetas.setPanRutas(rutas);
+					 rutas.setEtiquetas(etiquetas);
 					 vrpcargado=resultado;
 					 this.di.dispose();
 
@@ -353,8 +381,13 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 			public Sur()
 			{
 				super ();
-				
+				borde=10;
+				mapeados=new ArrayList<DTNodo>();
+				Sistema.getInstancia().setMapeados(mapeados);
+				this.repaint();
 			}
+			private int borde;
+
 			private Collection<DTNodo> mapeados;
 			private DTNodo radio;
 			private int xminimo;
@@ -368,8 +401,8 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 			 public void paint (Graphics g) 
 			 {
 				 super.paint (g);
-				 ancho=this.getWidth();
-				 alto=this.getHeight();
+				 ancho=this.getWidth()-borde*2;
+				 alto=this.getHeight()-borde*2;
 					
 				 	xminimo=Integer.MAX_VALUE;
 				  	xmaximo=Integer.MIN_VALUE;
@@ -387,9 +420,9 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 						if(d.getY()<yminimo) yminimo=d.getY();
 						if(d.getY()>ymaximo) ymaximo=d.getY();
 					}
-				 	ancho2=xmaximo-xminimo;
-				 	alto2=ymaximo-yminimo;
-
+				 	ancho2=(xmaximo-xminimo);
+				 	alto2=(ymaximo-yminimo);
+				 	
 					
 					//System.out.println("ancho alto "+ancho+" "+alto );
 					
@@ -399,18 +432,18 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 					{
 						DTNodo d=it2.next();
 						int radioo=Distancia.getInstancia().getDistancia(d, radio);
-						System.out.println("radio "+radioo);
+				//		System.out.println("radio "+radioo);
 						if(d.getEsDesposito())	
 						{
 							g.setColor(Color.RED);
 							g.drawString("D_"+d.getId(), transformarX(d.getX()),transformarY(d.getY()) );
-							((Graphics2D)g).drawOval( transformarX(d.getX()-radioo), transformarY(d.getY()-radioo), transformarX(radioo*2),transformarX(radioo*2));
+							((Graphics2D)g).drawOval( transformarX(d.getX()-radioo), transformarY(d.getY()-radioo), transformarX(d.getX()+radioo)-transformarX(d.getX()-radioo),transformarY(d.getY()+radioo)-transformarY(d.getY()-radioo));
 						}
 						else 
 						{
 							g.setColor(Color.BLUE);
 							g.drawString("C_"+d.getId(), transformarX(d.getX()),transformarY(d.getY()) );
-							((Graphics2D)g).drawOval( transformarX(d.getX()-radioo), transformarY(d.getY()-radioo), transformarX(radioo*2), transformarX(radioo*2));
+							((Graphics2D)g).drawOval( transformarX(d.getX()-radioo), transformarY(d.getY()-radioo),transformarX(d.getX()+radioo)-transformarX(d.getX()-radioo),transformarY(d.getY()+radioo)-transformarY(d.getY()-radioo));
 
 						}
 					}
@@ -422,14 +455,16 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 				public int transformarX(int x)
 				{
 					int posrelativa=x-xminimo;
-					return ancho*posrelativa/ancho2;
+					return ancho*posrelativa/ancho2+borde;
+					
 
 				}
 				
 				public int transformarY(int y)
 				{
 					int posrelativa=y-yminimo;
-					return alto*posrelativa/alto2;
+					return alto*posrelativa/alto2+borde;
+					
 				}
 				
 				public void setMapeados(Collection<DTNodo> m){this.mapeados=m;}
