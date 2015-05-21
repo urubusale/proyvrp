@@ -303,7 +303,7 @@ public class Sistema implements ISistema
 	}
 	synchronized public void adelantarPorgresoDeAvance(float p)
 	{
-		System.out.println("adelantado .... "+p);
+//		System.out.println("adelantado .... "+p);
 		this.progreso=this.progreso+p;
 	}
 

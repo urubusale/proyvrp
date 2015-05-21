@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -61,17 +62,24 @@ public class JPanelEtiquetas extends JPanel
 	
 	private JTextField capacidadt;
 	private JTextField cargat;
+	private JTextField costototalt;
+	private JLabel contornos;
+	private JCheckBox chcont;
 	
+	private JLabel sombreados;
+	private JCheckBox chsomb;
 	
 	public JPanelEtiquetas()
 	{
 		super();
 		this.capacidadt=new JTextField(20);
 		this.cargat=new JTextField(20);
+		this.costototalt=new JTextField(20);
 		this.capacidadt.setEditable(false);
 		this.cargat.setEditable(false);
+		this.costototalt.setEditable(false);
 		this.superior=new JPanel();
-		this.superior.setLayout(new GridLayout(13,1));
+		this.superior.setLayout(new GridLayout(16,1));
 		this.setLayout(new GridLayout(2,1));
 		this.add(superior);
 		tabla=new JTableAsignaciones();
@@ -168,6 +176,7 @@ public class JPanelEtiquetas extends JPanel
 				mapa.setAsignaciones(asignaciones);
 				asignado=true;
 				rutear.setEnabled(true);
+				panrutas.setRutas(new ArrayList<DTRuteo>());
 			}
 		});
 		
@@ -203,6 +212,7 @@ public class JPanelEtiquetas extends JPanel
 				mapa.setAsignaciones(asignaciones);
 				asignado=true;
 				rutear.setEnabled(true);
+				panrutas.setRutas(new ArrayList<DTRuteo>());
 			}
 		});
 		
@@ -221,6 +231,7 @@ public class JPanelEtiquetas extends JPanel
 				mapa.setAsignaciones(asignaciones);
 				asignado=true;
 				rutear.setEnabled(true);
+				panrutas.setRutas(new ArrayList<DTRuteo>());
 			}
 		});
 		
@@ -239,16 +250,41 @@ public class JPanelEtiquetas extends JPanel
 		p13.add(this.cargat);
 		JPanel p14=new JPanel();
 		p14.setLayout(new GridLayout(1,2));
-		p14.add(new JLabel(""));
-		p14.add(new JLabel(""));
+		p14.add(new JLabel("COSTO TOTAL"));
+		p14.add(this.costototalt);
 		JPanel p15=new JPanel();
 		p15.setLayout(new GridLayout(1,2));
-		p15.add(new JLabel(""));
-		p15.add(new JLabel(""));
+		this.contornos=new JLabel("CONTORNOS");
+		this.chcont=new JCheckBox();
+		p15.add(this.contornos);
+		p15.add(this.chcont);
+		this.chcont.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent t)
+					{
+						mapa.setContorno(chcont.isSelected());
+						chsomb.setEnabled(chcont.isSelected());
+						if(!chcont.isSelected()) {
+							chsomb.setSelected(false);
+							mapa.setSombreado(false);
+						}
+					}
+				});
 		JPanel p16=new JPanel();
+		this.sombreados=new JLabel("SOMBREADOS");
+		this.chsomb=new JCheckBox();
+		this.chsomb.setEnabled(false);
+		this.chsomb.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent t)
+			{
+				mapa.setSombreado(chsomb.isSelected());
+			}
+		});
+
 		p16.setLayout(new GridLayout(1,2));
-		p16.add(new JLabel(""));
-		p16.add(new JLabel(""));
+		p16.add(this.sombreados);
+		p16.add(this.chsomb);
 	
 		this.superior.add(p1);
 		this.superior.add(p2);
@@ -263,7 +299,9 @@ public class JPanelEtiquetas extends JPanel
 		this.superior.add(p11);
 		this.superior.add(p12);
 		this.superior.add(p13);
-
+		this.superior.add(p14);
+		this.superior.add(p15);
+		this.superior.add(p16);
 
 		this.setPreferredSize(new Dimension(280,10));
 	}
@@ -299,6 +337,7 @@ public class JPanelEtiquetas extends JPanel
 		}
 		this.capacidadt.setText(String.valueOf(captotal));
 		this.cargat.setText(String.valueOf(carga));
+		this.costototalt.setText("-");
 	}
 	
 	public void setMapa(JPanelMapa m)
@@ -312,6 +351,11 @@ public class JPanelEtiquetas extends JPanel
 	{
 		this.panrutas=m;
 		//tabla.setMapa(m);
+	}
+	
+	public void setCosto(int c)
+	{
+		this.costototalt.setText(String.valueOf(c));
 	}
 	
 }

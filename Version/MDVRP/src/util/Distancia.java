@@ -1,5 +1,6 @@
 package util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -59,7 +60,7 @@ public class Distancia
 		}
 	}
 	
-	private int obtenerDistExplicitaLowerRow(DTNodo n1,DTNodo n2)
+	private int obtenerDistExplicitaLowerCol(DTNodo n1,DTNodo n2)
 	{
 		DTNodo menor;
 		DTNodo mayor;
@@ -92,7 +93,7 @@ public class Distancia
 		return 1;
 	}
 
-	private int obtenerDistExplicitaLowerCol(DTNodo n1,DTNodo n2)
+	private int obtenerDistExplicitaLowerRow(DTNodo n1,DTNodo n2)
 	{
 		DTNodo menor;
 		DTNodo mayor;
@@ -231,7 +232,7 @@ public class Distancia
 	public void insertarNodo(ArrayList<DTNodo> maps,DTNodo p,int rango)
 	{
 		Sistema.getInstancia().adelantarPorgresoDeAvance((float)100/this.dimension);
-		try{Thread.sleep(1000);}catch(Exception ex){ex.printStackTrace();}
+	//	try{Thread.sleep(500);}catch(Exception ex){ex.printStackTrace();}
 		Sistema.getInstancia().setMapeados(new ArrayList<DTNodo>(maps));
 		Sistema.getInstancia().setRadio(p);
 		
@@ -317,6 +318,18 @@ public class Distancia
 		maps.add(p);
 		
 
+	}
+	
+	public BigDecimal getDistanciaGrafica(DTNodo n1,DTNodo n2)
+	{
+		int difx=n1.getX()-n2.getX();
+		int dify=n1.getY()-n2.getY();
+		BigDecimal difxB=new BigDecimal(difx);
+		BigDecimal difyB=new BigDecimal(dify);
+		difxB=difxB.multiply(difxB);
+		difyB=difyB.multiply(difyB);
+		BigDecimal suma=difxB.add(difyB);
+		return BigDecimal.valueOf(Math.sqrt(suma.doubleValue()));
 	}
 	
 	private class DTPunto
