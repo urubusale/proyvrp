@@ -32,6 +32,10 @@ public class JTableRutas extends JTable
 
 		this.getColumnModel().getColumn(2).setHeaderValue(new String("COSTO"));
 		this.getColumnModel().getColumn(2).setPreferredWidth(20);
+		
+		this.getColumnModel().getColumn(3).setHeaderValue(new String("CARGA"));
+		this.getColumnModel().getColumn(3).setPreferredWidth(20);
+
 
 		this.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.getSelectionModel().addListSelectionListener(this);
@@ -53,8 +57,14 @@ public class JTableRutas extends JTable
 
 		this.getColumnModel().getColumn(2).setHeaderValue(new String("COSTO"));
 		this.getColumnModel().getColumn(2).setPreferredWidth(20);
+		this.getColumnModel().getColumn(3).setHeaderValue(new String("CARGA"));
+		this.getColumnModel().getColumn(3).setPreferredWidth(20);
+
 		javax.swing.table.TableRowSorter trsr=new javax.swing.table.TableRowSorter< ModeloTablaRutas>(( ModeloTablaRutas)this.getModel());
 		trsr.setComparator(0, new Comparador());
+		trsr.setComparator(2, new Comparador());
+		trsr.setComparator(3, new Comparador());
+
 		this.setRowSorter(trsr);
 		trsr.toggleSortOrder(0);
 
@@ -120,12 +130,14 @@ public class JTableRutas extends JTable
 				DTRuteo dt=it.next();
 				Iterator<DTNodo> no=dt.getRuta().iterator();
 				String ruta="";
+				int carga=0;
 				while(no.hasNext())
 				{
 					DTNodo nodo=no.next();
 					ruta=ruta+" "+nodo.getId();
+					carga=carga+nodo.getDemanda();
 				}
-				lineas.add(new DTLineaTabla(dt.getDeposito().getId(),ruta,dt.getCosto()));
+				lineas.add(new DTLineaTabla(dt.getDeposito().getId(),ruta,dt.getCosto(),carga));
 			}
 
 		}
@@ -138,7 +150,7 @@ public class JTableRutas extends JTable
 		 public int getColumnCount() 
 	     //Returns the number of columns in the model.
 		 {
-			 return 3;
+			 return 4;
 		 }
 		 public int getRowCount() 
 		 {
@@ -164,6 +176,12 @@ public class JTableRutas extends JTable
 			 {
 				 DTLineaTabla dt=(DTLineaTabla)this.lineas.toArray()[rowIndex];
 				 return dt.getCosto();
+				 //return s;
+			 }
+			 if (columnIndex==3)
+			 {
+				 DTLineaTabla dt=(DTLineaTabla)this.lineas.toArray()[rowIndex];
+				 return dt.getCarga();
 				 //return s;
 			 }
 	
@@ -209,14 +227,18 @@ public class JTableRutas extends JTable
 		private int deposito;
 		private String ruta;
 		private int costo;
-		public DTLineaTabla(int d,String c,int co)
+		private int carga;
+
+		public DTLineaTabla(int d,String c,int co,int car)
 		{
 			deposito=d;
 			ruta=c;
 			this.costo=co;
+			this.carga=car;
 		}
 		public int getDeposito(){return deposito;}
 		public String getRuta(){return ruta;}
 		public int getCosto(){return this.costo;}
+		public int getCarga(){return this.carga;}
 	}
 }

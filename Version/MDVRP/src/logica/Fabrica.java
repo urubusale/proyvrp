@@ -1,5 +1,6 @@
 package logica;
 import logica.asignacion.Asignacion;
+import logica.ruteo.ClarkWright;
 import logica.ruteo.Ruteo;
 
 public class Fabrica 
@@ -27,6 +28,6 @@ public class Fabrica
 	}
 	public IRuteo getRuteo()
 	{
-		return Ruteo.getInstancia();
+		return ClarkWright.getInstancia();
 	}
 }

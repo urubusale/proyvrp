@@ -43,7 +43,7 @@ public class ClarkWright implements IRuteo
 			while(it2.hasNext())
 			{
 				DTNodo nodo2=it2.next();
-				if (nodo1 != nodo2)
+				if (nodo1.getId()!= nodo2.getId())
 				{					
 					int ci0 = Distancia.getInstancia().getDistancia(nodo1, deposito);
 					int c0j = Distancia.getInstancia().getDistancia(deposito, nodo2);
@@ -71,6 +71,7 @@ public class ClarkWright implements IRuteo
 			DTNodo prox=it.next();
 			constr=new DTRuteo(deposito);
 			constr.agregarCliente(prox);
+			constr.setCosto(util.Distancia.getInstancia().getDistancia(deposito, prox)*2);
 			solucion.add(constr);
 		}
 
@@ -84,18 +85,23 @@ public class ClarkWright implements IRuteo
 
 	        	DTNodo nodo_i = distancia.getNodo1();
 	        	DTNodo nodo_j = distancia.getNodo2();
-	        	
+	        	//System.out.println("nodoi nodoj "+nodo_i.getId()+" "+nodo_j.getId());
 	        	DTRuteo ruta1 = Ruta.getInstancia().getRutaDondeClienteEsUltimo(solucion, nodo_i);
 	        	DTRuteo ruta2 = Ruta.getInstancia().getRutaDondeClienteEsPrimero(solucion, nodo_j);
-	        	
-	            if ((ruta1!=null) & (ruta2!=null)) {
-	                //if (ruta1.getCosto() + ruta1.getCosto() <= this.vrp.getVehicleCapacity()) { 
-	                	// Si el merge es Factible
-	            	solucion = Ruta.getInstancia().mergeRutas(solucion, ruta1, ruta2);
-	                //}
+	            if ((ruta1!=null) & (ruta2!=null)) 
+	            {
+	            	if(!Ruta.getInstancia().sonMismaRuta(ruta1,ruta2)) 
+	                if (Ruta.getInstancia().getCarga(ruta1) + Ruta.getInstancia().getCarga(ruta2) <= capacidad) 
+	                { 
+	                //	 Si el merge es Factible
+	                //	if(Ruta.getInstancia().sonMismaRuta(ruta1,ruta2)) System.out.println("son la misma ruta!!!! en el merge");
+	                	solucion = Ruta.getInstancia().mergeRutas(solucion, ruta1, ruta2);
+	                }
 	            }
 	        }
 	    }		
 		return solucion;
 	}
+	
+
 }
