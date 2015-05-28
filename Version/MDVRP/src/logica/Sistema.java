@@ -206,6 +206,7 @@ public class Sistema implements ISistema
 					while(stk.hasMoreTokens())
 					{
 						String nodo=stk.nextToken();
+						System.out.println(nodo+"    nodo!!!");
 						Integer inte=Integer.valueOf(nodo);
 						explicita.add(inte);
 					}

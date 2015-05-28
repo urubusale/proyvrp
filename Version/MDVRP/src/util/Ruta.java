@@ -2,6 +2,7 @@ package util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import datatypes.DTNodo;
 import datatypes.DTRuteo;
@@ -22,7 +23,7 @@ public class Ruta {
 		for (DTRuteo rutaActual : ListRutas) {
 			ArrayList<DTNodo> rutaNodo = (ArrayList<DTNodo>) rutaActual.getRuta();
 			if (!rutaNodo.isEmpty()) {
-				if (rutaNodo.get(rutaNodo.size()-1)==nodo_i) {
+				if (rutaNodo.get(rutaNodo.size()-1).getId()==nodo_i.getId()) {
 					rutaEncontrada = rutaActual;
 				}
 			}
@@ -35,7 +36,7 @@ public class Ruta {
 		for (DTRuteo rutaActual : ListRutas) {
 			ArrayList<DTNodo> rutaNodo = (ArrayList<DTNodo>) rutaActual.getRuta();
 			if (!rutaNodo.isEmpty()) {
-				if (rutaNodo.get(1)==nodo_i) {
+				if (rutaNodo.get(0).getId()==nodo_i.getId()) {
 					rutaEncontrada = rutaActual;
 				}
 			}
@@ -60,8 +61,56 @@ public class Ruta {
 			RutaUnida.agregarCliente(nodoRuta);
 		}
 		
+		setCosto(RutaUnida);
 		solucion.add(RutaUnida);
 		return solucion;
 	}
-
+	
+	public void setCosto(DTRuteo dt)
+	{
+		DTNodo dep=dt.getDeposito();
+		Iterator<DTNodo> it=dt.getRuta().iterator();
+		DTNodo previo=dep;
+		int costo=0;
+		while(it.hasNext())
+		{
+			DTNodo n=it.next();
+			costo=costo+util.Distancia.getInstancia().getDistancia(previo, n);
+			previo=n;
+		}
+		costo=costo+util.Distancia.getInstancia().getDistancia(previo, dep);
+		dt.setCosto(costo);
+		
+	}
+	
+	public int getCarga(DTRuteo dt)
+	{
+		DTNodo dep=dt.getDeposito();
+		Iterator<DTNodo> it=dt.getRuta().iterator();
+		int carga=0;
+		while(it.hasNext())
+		{
+			DTNodo n=it.next();
+			carga=carga+n.getDemanda();
+		}
+		return carga;
+	}
+	public boolean sonMismaRuta(DTRuteo uno,DTRuteo dos)
+	{
+		if(uno.getDeposito().getId()==dos.getDeposito().getId())
+		{
+			if(uno.getRuta().size()==00&&dos.getRuta().size()==0)
+			{
+				return true;
+				
+			}else
+			{
+				if(uno.getRuta().size()>0&&dos.getRuta().size()>0)
+				{
+					if(uno.getRuta().iterator().next().getId()==dos.getRuta().iterator().next().getId())return true;
+					else return false;
+				}else return false;
+			}
+		}else return false;
+	}
 }

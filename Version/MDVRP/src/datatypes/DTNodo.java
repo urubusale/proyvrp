@@ -12,6 +12,14 @@ public class DTNodo
 		esDeposito=false;
 		demanda=0;
 	}
+	public DTNodo(DTNodo n)
+	{
+		this.id=n.getId();
+		esDeposito=n.getEsDesposito();
+		demanda=n.getDemanda();
+		x=n.getX();
+		y=n.getY();
+	}
 	public int getId(){return this.id;}
 	public void setX(int x){this.x=x;}
 	public void setY(int y){this.y=y;}
