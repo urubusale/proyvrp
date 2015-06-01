@@ -24,6 +24,13 @@ public class Deposito
 		this.asignados.add(c);
 		this.capacidadLibre=capacidadLibre-c.getNodo().getDemanda();
 	}
+	
+	public void sacarCliente(Cliente c)
+	{
+		this.asignados.remove(c);
+		this.capacidadLibre=capacidadLibre + c.getNodo().getDemanda();
+	}
+	
 	public void setCapacidadLibre(int c){this.capacidadLibre=c;}
 	public int getCapacidadLibre(){return this.capacidadLibre;}
 }

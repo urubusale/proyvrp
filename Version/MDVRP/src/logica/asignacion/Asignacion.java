@@ -6,6 +6,7 @@ import java.util.Iterator;
 import logica.IAsignacion;
 import logica.asignacion.urgencias.Urgencias;
 import logica.asignacion.urgencias.UrgenciasCap;
+import logica.asignacion.urgencias.UrgenciasCap2;
 import datatypes.*;
 
 public class Asignacion implements IAsignacion
@@ -37,7 +38,7 @@ public class Asignacion implements IAsignacion
 	
 	public Collection<DTAsignacion> asignarCap2(DTDepositoVRP d) //SEGUIR ACA
 	{
-		return UrgenciasCap.getInstancia().asignar(d);		
+		return UrgenciasCap2.getInstancia().asignar(d);		
 	}
 
 
