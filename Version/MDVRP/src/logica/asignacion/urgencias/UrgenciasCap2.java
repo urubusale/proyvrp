@@ -4,10 +4,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import logica.Fabrica;
 import util.Distancia;
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
+import datatypes.DTRuteo;
 
 public class UrgenciasCap2 {
 	static private UrgenciasCap2 instancia=null;
@@ -90,8 +92,175 @@ public class UrgenciasCap2 {
 		
 		// agrego a lista si los 2 cliente + cercanos a cada cliente pertencen al mismo deposito deposito (que no es el mismo que el deposito asignado para el cliente).
 		
-		Iterator<Deposito> itd1=depositos.iterator();
+		//acaaaa
+		int capacidadvehiculo=Integer.valueOf(d.getCAPACITY());
+		System.out.println("cap del vehiculo "+capacidadvehiculo);
+
+		ArrayList<DTAsignacion> ar=null;
+		int costomenor=0;
+
+		Iterator<Deposito> itdd=this.depositos.iterator();
+		while(itdd.hasNext())
+		{
+			Deposito dep=itdd.next();
+			DTAsignacion dta=new DTAsignacion(dep.getNodo());
+			Iterator<Cliente> itcli=dep.getAsignados().iterator();
+			while(itcli.hasNext())
+			{
+				Cliente cli=itcli.next();
+				dta.agregarCliente(cli.getNodo());
+			}
+			Iterator<DTRuteo> itrut=Fabrica.getInstancia().getRuteo().rutear(dta, capacidadvehiculo).iterator();
+			while(itrut.hasNext())
+			{
+				DTRuteo next=itrut.next();
+				costomenor=costomenor+next.getCosto();
+			}
+		}
+		System.out.println("costo inicial "+costomenor);
+		int cantidadIteraciones=0;
+
+		boolean terminar=false;
+		while(!terminar)
+		{
+			cantidadIteraciones++;
+			this.calcularEnagenamiento();
+			// Aplico todos los cambios de la lista de enagenados para ver que pasa.
+			int costoahora=costomenor;
+			Iterator<Enagenado> itena= this.enagenados.iterator();
+			while(itena.hasNext())
+			{
+				Enagenado ena=itena.next();
+				//System.out.println(ena.getCliente().getNodo().getId()+" enagenado! ");
+				if(ena.getDepositoDestino().getCapacidadLibre()>=ena.getCliente().getNodo().getDemanda())
+				{
+					//hacer copia de los datos
+					//ArrayList<Deposito> respaldoDep=new ArrayList<Deposito>();
+					Iterator<Deposito> respita=this.depositos.iterator();
+					int costo=0;
+					while(respita.hasNext())
+					{
+						Deposito dep=respita.next();
+						Deposito nuevo=new Deposito(dep);
+						if(nuevo.getNodo().getId()==ena.getDeposito().getNodo().getId())
+							nuevo.sacarCliente(ena.getCliente());
+						if(nuevo.getNodo().getId()==ena.getDepositoDestino().getNodo().getId())
+							nuevo.agregarCliente(ena.getCliente());
+					//	respaldoDep.add(nuevo);
+						
+						DTAsignacion dta=new DTAsignacion(nuevo.getNodo());
+						Iterator<Cliente> itcli=nuevo.getAsignados().iterator();
+						while(itcli.hasNext())
+						{
+							Cliente cli=itcli.next();
+							dta.agregarCliente(cli.getNodo());
+						}
+						Iterator<DTRuteo> itrut=Fabrica.getInstancia().getRuteo().rutear(dta, capacidadvehiculo).iterator();
+						while(itrut.hasNext())
+						{
+							DTRuteo next=itrut.next();
+							costo=costo+next.getCosto();
+						}
+					}
+					if(costo<costomenor)
+					{
+						ena.getDeposito().sacarCliente(ena.getCliente());
+						ena.getDepositoDestino().agregarCliente(ena.getCliente());
+						costomenor=costo;
+						System.out.println("se encontró una mejora en iteracion "+cantidadIteraciones+" nuevo costo "+costomenor);
+						break;
+					}else System.out.println("el costo dio "+costo);
+				}
+				else
+				{
+					int demanda=ena.getCliente().getNodo().getDemanda();
+					Iterator<Deposito> itnnn=this.depositos.iterator();
+					int masposible=Integer.MAX_VALUE;
+					Deposito candidato=null;
+					while(itnnn.hasNext())
+					{
+						Deposito depo=itnnn.next();
+						if(depo.getNodo().getId()!=ena.getDeposito().getNodo().getId())
+							if(depo.getNodo().getId()!=ena.getDepositoDestino().getNodo().getId())
+							{
+								if(depo.getCapacidadLibre()>=demanda)
+								{
+									int dist=Distancia.getInstancia().getDistancia(depo.getNodo(),ena.getCliente().getNodo());
+									if(dist<masposible)
+									{
+										candidato=depo;
+										masposible=dist;
+									}
+								}
+							}
+					}
+					if(candidato!=null)
+					{
+						Iterator<Deposito> respita=this.depositos.iterator();
+						int costo=0;
+						while(respita.hasNext())
+						{
+							Deposito dep=respita.next();
+							Deposito nuevo=new Deposito(dep);
+							if(nuevo.getNodo().getId()==ena.getDeposito().getNodo().getId())
+								nuevo.sacarCliente(ena.getCliente());
+							if(nuevo.getNodo().getId()==candidato.getNodo().getId())
+								nuevo.agregarCliente(ena.getCliente());
+						//	respaldoDep.add(nuevo);
+							
+							DTAsignacion dta=new DTAsignacion(nuevo.getNodo());
+							Iterator<Cliente> itcli=nuevo.getAsignados().iterator();
+							while(itcli.hasNext())
+							{
+								Cliente cli=itcli.next();
+								dta.agregarCliente(cli.getNodo());
+							}
+							Iterator<DTRuteo> itrut=Fabrica.getInstancia().getRuteo().rutear(dta, capacidadvehiculo).iterator();
+							while(itrut.hasNext())
+							{
+								DTRuteo next=itrut.next();
+								costo=costo+next.getCosto();
+							}
+						}
+						if(costo<costomenor)
+						{
+							ena.getDeposito().sacarCliente(ena.getCliente());
+							candidato.agregarCliente(ena.getCliente());
+							costomenor=costo;
+							System.out.println("se encontró una mejora en iteracion "+cantidadIteraciones+" nuevo costo ***********"+costomenor);
+							break;
+						}else System.out.println("el costo dio**** "+costo);
+					}
+				}
+			}
+			if(costoahora==costomenor)terminar=true;
+			
+	
 		
+		}
+		// construir DT de salida.
+		ar=new ArrayList<DTAsignacion>();
+		
+		Iterator<Deposito> itd=depositos.iterator();
+		while(itd.hasNext())
+		{
+			Deposito dep=itd.next();
+			DTAsignacion dta=new DTAsignacion(dep.getNodo());
+			Iterator<Cliente> itcli=dep.getAsignados().iterator();
+			while(itcli.hasNext())
+			{
+				Cliente cli=itcli.next();
+				dta.agregarCliente(cli.getNodo());
+			}
+			ar.add(dta);
+		}
+		return ar;
+	}
+	
+	private void calcularEnagenamiento()
+	{
+		Iterator<Deposito> itd1=depositos.iterator();
+		this.enagenados=new ArrayList<Enagenado>();
 		while(itd1.hasNext())
 		{ 
 			Deposito dep1 = itd1.next();
@@ -132,6 +301,7 @@ public class UrgenciasCap2 {
 		// limpio lista de enegenados por la distancia al deposito.
 		int distCaC1, distCaC2, distDep;
 		Iterator<Enagenado> itena= this.enagenados.iterator();
+		ArrayList<Enagenado> asacar=new ArrayList<Enagenado>();
 		while(itena.hasNext())
 		{
 			Enagenado ena=itena.next();
@@ -139,45 +309,18 @@ public class UrgenciasCap2 {
 			distCaC2 = Distancia.getInstancia().getDistancia(ena.getCliente().getClieteMasCercano2().getNodo(), ena.getCliente().getNodo());
 			distDep =  Distancia.getInstancia().getDistancia(ena.getCliente().getNodo(), ena.getDeposito().getNodo());
 			
-			System.out.println("Clientes mas cercanos a " + ena.getCliente().getNodo().getId() + " ( " + ena.getDeposito().getNodo().getId() + " ). c 1 y c2 " + ena.getCliente().getClieteMasCercano1().getNodo().getId() +  " ," 
-					 +  ena.getCliente().getClieteMasCercano2().getNodo().getId() + "(" +ena.getDepositoDestino().getNodo().getId() + ")" );
+			//System.out.println("Clientes mas cercanos a " + ena.getCliente().getNodo().getId() + " ( " + ena.getDeposito().getNodo().getId() + " ). c 1 y c2 " + ena.getCliente().getClieteMasCercano1().getNodo().getId() +  " ," 
+			//		 +  ena.getCliente().getClieteMasCercano2().getNodo().getId() + "(" +ena.getDepositoDestino().getNodo().getId() + ")" );
 			
 			
 			if (distCaC1 + distCaC2 > distDep)
-				this.enagenados.remove(ena);
-		}
-		
-		
-		// Aplico todos los cambios de la lista de enagenados para ver que pasa.
-		itena= this.enagenados.iterator();
-		while(itena.hasNext())
-		{
-			Enagenado ena=itena.next();
-			ena.getDeposito().sacarCliente(ena.getCliente());
-			ena.getDepositoDestino().agregarCliente(ena.getCliente());
-		}
-		
-		
-		// construir DT de salida.
-		ArrayList<DTAsignacion> ar=new ArrayList<DTAsignacion>();
-		
-		Iterator<Deposito> itd=depositos.iterator();
-		while(itd.hasNext())
-		{
-			Deposito dep=itd.next();
-			DTAsignacion dta=new DTAsignacion(dep.getNodo());
-			Iterator<Cliente> itcli=dep.getAsignados().iterator();
-			while(itcli.hasNext())
-			{
-				Cliente cli=itcli.next();
-				dta.agregarCliente(cli.getNodo());
-			}
-			ar.add(dta);
-		}
-		
+				asacar.add(ena);//this.enagenados.remove(ena);
+			else ena.setMu(distDep-(distCaC1+distCaC2));
 
-		
-		return ar;
+		}
+		Iterator<Enagenado> itsacar=asacar.iterator();
+		while(itsacar.hasNext()){this.enagenados.remove(itsacar.next());}
+
 	}
 	
 	private int calcularMu(ClienteCap2 c,Collection<Deposito> dep)

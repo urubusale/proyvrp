@@ -59,7 +59,9 @@ public class ClarkWright implements IRuteo
 	}
 	
 	@Override
-	public Collection<DTRuteo> rutear(DTAsignacion dt, int capacidad) {
+	public Collection<DTRuteo> rutear(DTAsignacion dt, int capacidad) 
+	{
+//		System.out.println("ruteo "+dt.getDeposito().getId());
 		Collection<DTRuteo> solucion = new ArrayList<DTRuteo>();
 		DTNodo deposito=dt.getDeposito();
 		Iterator<DTNodo> it=dt.getClientes().iterator();
@@ -68,7 +70,9 @@ public class ClarkWright implements IRuteo
 		//Paso 1 (inicialización). Para cada cliente i construir la ruta (0, i, 0).
 		while(it.hasNext())
 		{
+			
 			DTNodo prox=it.next();
+		//	System.out.println("inicio "+prox.getId());
 			constr=new DTRuteo(deposito);
 			constr.agregarCliente(prox);
 			constr.setCosto(util.Distancia.getInstancia().getDistancia(deposito, prox)*2);
@@ -78,14 +82,14 @@ public class ClarkWright implements IRuteo
 		// Paso 2 Cálculo de ahorros
 		calcularAhorros (dt);
 		
-		System.out.println("Solucion Inicial: \n"+solucion.toString());
+	//	System.out.println("Solucion Inicial: \n"+solucion.toString());
 		
 		for (DTDistancia distancia : listDistance) {
 	        if (distancia.getDistancia() > 0) { 
 
 	        	DTNodo nodo_i = distancia.getNodo1();
 	        	DTNodo nodo_j = distancia.getNodo2();
-	        	//System.out.println("nodoi nodoj "+nodo_i.getId()+" "+nodo_j.getId());
+	  //      	System.out.println("nodoi nodoj "+nodo_i.getId()+" "+nodo_j.getId());
 	        	DTRuteo ruta1 = Ruta.getInstancia().getRutaDondeClienteEsUltimo(solucion, nodo_i);
 	        	DTRuteo ruta2 = Ruta.getInstancia().getRutaDondeClienteEsPrimero(solucion, nodo_j);
 	            if ((ruta1!=null) & (ruta2!=null)) 

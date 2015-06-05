@@ -1,6 +1,9 @@
 package main;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,11 +12,17 @@ import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import logica.Fabrica;
+import logica.Sistema;
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
@@ -68,10 +77,11 @@ public class JPanelEtiquetas extends JPanel
 	
 	private JLabel sombreados;
 	private JCheckBox chsomb;
-	
-	public JPanelEtiquetas()
+	private JFramePrincipalVRP padre;	
+	public JPanelEtiquetas(JFramePrincipalVRP a)
 	{
 		super();
+		padre=a;
 		this.capacidadt=new JTextField(20);
 		this.cargat=new JTextField(20);
 		this.costototalt=new JTextField(20);
@@ -225,13 +235,15 @@ public class JPanelEtiquetas extends JPanel
 		asignarCap2.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				asignaciones=Fabrica.getInstancia().getSistema().asignarCap2(vrp);
+			/*	asignaciones=Fabrica.getInstancia().getSistema().asignarCap2(vrp);
 				inferior.setAsignaciones(asignaciones);
 				inferior2.setAsignaciones(asignaciones);
 				mapa.setAsignaciones(asignaciones);
 				asignado=true;
 				rutear.setEnabled(true);
-				panrutas.setRutas(new ArrayList<DTRuteo>());
+				panrutas.setRutas(new ArrayList<DTRuteo>());*/
+				Cargador car=new Cargador(padre);
+				//car.setVisible(true);
 			}
 		});
 		
@@ -357,5 +369,168 @@ public class JPanelEtiquetas extends JPanel
 	{
 		this.costototalt.setText(String.valueOf(c));
 	}
+	
+	//********************
+	private class Cargador extends JDialog implements java.beans.PropertyChangeListener
+	{
+		private TaskWorker task;
+		private boolean done;
+		private JProgressBar progressBar;
+		private JTextArea mensaje;
+		public Cargador(JFramePrincipalVRP pad) 
+		{
+			super(pad,true);
+			init();
+		}
+		public void init()
+		{
+			mensaje=new JTextArea();
+			mensaje.setEditable(false);
+			JPanel general=new JPanel(new BorderLayout());
+			JPanel centro=new JPanel();
+			general.add(centro,BorderLayout.SOUTH);
+			JScrollPane centrob=new JScrollPane(mensaje);
+			general.add(centrob,BorderLayout.CENTER);
+		//	centrob.add(mensaje);
+			Fabrica.getInstancia().getSistema().setInicioEstadoConsulta();
+			setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+			Toolkit kit = getToolkit();
+		    Dimension screenSize = kit.getScreenSize();
+		    int screenWidth = screenSize.width;
+			setSize(screenWidth,150);
+
+		    int screenHeight = screenSize.height;
+		    Dimension windowSize = getSize();
+		    int windowWidth = windowSize.width;
+		    int windowHeight = windowSize.height;
+		    int upperLeftX = (screenWidth - windowWidth)/2;
+		    int upperLeftY = (screenHeight - windowHeight)/2;
+		    setLocation(upperLeftX,  screenSize.height-200);
+			progressBar = new JProgressBar(0, 200);
+			
+			centro.add(progressBar);
+			this.setContentPane(general);
+			progressBar.setValue(0);
+			//progressBar.setStringPainted(true);
+			//progressBar.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			progressBar.setIndeterminate(true);
+			done = false;
+			task = new TaskWorker(this);
+			task.addPropertyChangeListener(this);
+			task.execute();
+			setVisible(true);	
+		}
+		public void termino()
+		{
+			JPanel norte=new JPanel();
+			JButton fin=new JButton("ACEPTAR");
+			norte.add(fin);
+			JPanel p=(JPanel)this.getContentPane();
+			p.add(norte,BorderLayout.NORTH);
+			fin.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e)
+			{
+				inferior.setAsignaciones(asignaciones);
+				inferior2.setAsignaciones(asignaciones);
+				mapa.setAsignaciones(asignaciones);
+				asignado=true;
+				rutear.setEnabled(true);
+				panrutas.setRutas(new ArrayList<DTRuteo>());
+	    		System.out.println("terminó");
+
+				dispose();}});
+			progressBar.setVisible(false);
+			
+			
+			this.doLayout();
+		}
+		 public void propertyChange(java.beans.PropertyChangeEvent evt) 
+		 {
+			    if (!done) 
+			    {
+			        int progress = task.getProgress();
+			        progressBar.setValue(progress);
+			        Collection<DTAsignacion> parciales=Sistema.getInstancia().getParciales();
+			        if(parciales!=null)
+			        {
+			        	inferior.setAsignaciones(parciales);
+						inferior2.setAsignaciones(parciales);
+						mapa.setAsignaciones(parciales);
+			        }
+			        Collection<DTNodo> resaltados=Sistema.getInstancia().getResaltados();
+			        if(resaltados!=null)
+			        {
+						mapa.setResaltados(resaltados);
+			        }
+			       String mensaje=Sistema.getInstancia().getMensaje();
+			          if(mensaje!=null)
+			        {
+			        	this.mensaje.setText(mensaje);
+			        }else this.mensaje.setText("");
+			    //    taskOutput.append(String.format(		                "Completed %d%% of task.\n", progress));
+			    }
+		 }
+			
+		private class TaskWorker extends javax.swing.SwingWorker<Void, Void>
+		{
+			private Cargador diw;
+			public TaskWorker(Cargador dia) 
+			{
+				super();
+			 	this.diw=dia;
+			 }
+			 
+			 @Override
+		     public Void doInBackground() 
+			 {
+		         int progress = 0;
+		         setProgress(0);
+		         Hilo h=new Hilo();
+				 h.start();
+		         while (Fabrica.getInstancia().getSistema().getEstadoConsulta()==0) 
+		         {
+		             try 
+		             {
+		                 Thread.sleep(80);
+		               //  System.out.println("sigo vivo");
+		            	 
+		             } 
+		             catch (InterruptedException ignore) 
+		             {}
+		             
+		             progress = logica.Fabrica.getInstancia().getSistema().getPorgresoDeAvance();
+		        //   System.out.println(progress+"    pprogres");
+		             setProgress(Math.min(progress, 100));
+		         }
+		         return null;
+		     }
+			 @Override
+			 public void done()
+			 {
+				 	done=true;
+		    		diw.termino();
+			 }
+		 }
+		
+		
+		
+		private class Hilo extends Thread 
+		{
+			public Hilo() 
+		    {
+		    }
+		    public void run() 
+		    {
+		    	try
+		    	{
+		    		System.out.println("entro aca");
+		    		asignaciones=Fabrica.getInstancia().getSistema().asignarCap2(vrp);
+		    		Fabrica.getInstancia().getSistema().setFinalizadoOkEstadoConsulta();
+		    	}catch(Exception ex){ex.printStackTrace();}
+			}
+		}
+	}
+	//********************
+	
+
 	
 }

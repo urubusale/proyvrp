@@ -17,6 +17,12 @@ public class Deposito
 		asignados=new ArrayList<Cliente>();
 		capacidadLibre=d.getDemanda();
 	}
+	public Deposito(Deposito dep)
+	{
+		this.nodo=dep.getNodo();
+		this.asignados=new ArrayList<Cliente>(dep.getAsignados());
+		this.capacidadLibre=dep.getCapacidadLibre();
+	}
 	public DTNodo getNodo(){return nodo;}
 	public Collection<Cliente> getAsignados(){return asignados;}
 	public void agregarCliente(Cliente c)
