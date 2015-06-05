@@ -7,6 +7,8 @@ import logica.IAsignacion;
 import logica.asignacion.urgencias.Urgencias;
 import logica.asignacion.urgencias.UrgenciasCap;
 import logica.asignacion.urgencias.UrgenciasCap2;
+import logica.asignacion.urgencias.UrgenciasCap21;
+import logica.asignacion.urgencias.UrgenciasCap22;
 import datatypes.*;
 
 public class Asignacion implements IAsignacion

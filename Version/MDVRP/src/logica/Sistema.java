@@ -295,6 +295,9 @@ public class Sistema implements ISistema
 	{
 		estadoConsulta=0;
 		progreso=0;
+		mensaje="";
+		resaltados=new ArrayList<DTNodo>();
+		pareciales=null;
 	}
 	
 	public int getPorgresoDeAvance()
@@ -309,11 +312,24 @@ public class Sistema implements ISistema
 	}
 
 	private Collection<DTNodo> mapeados;
+	
+	private Collection<DTNodo> resaltados;
+	private Collection<DTAsignacion> pareciales;
+	private String mensaje;
 	private DTNodo radio;
 	public DTNodo getRadio(){return radio;}
 	public void setRadio(DTNodo s){this.radio=s;}
 	public void setMapeados(Collection<DTNodo> m){this.mapeados=m;}
 	public Collection<DTNodo> getMapeados(){return this.mapeados;}
+	public void setParciales(Collection<DTAsignacion> m){this.pareciales=m;}
+	public Collection<DTAsignacion> getParciales(){return this.pareciales;}
+	
+	public void setResaltados(Collection<DTNodo> m){this.resaltados.addAll(m);}
+	public Collection<DTNodo> getResaltados(){return this.resaltados;}
+	public void setMensaje(String m)
+	{mensaje=mensaje+m+"\n";}
+	public String getMensaje(){return this.mensaje;}
+
 }
 
 

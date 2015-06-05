@@ -77,7 +77,7 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 				
 				this.addWindowListener(this);
 				jpgeneral=new JPanel(new BorderLayout(3,3));
-				etiquetas=new JPanelEtiquetas();
+				etiquetas=new JPanelEtiquetas(this);
 				jpgeneral.add(etiquetas, BorderLayout.WEST);
 				
 				nodos=new JPanelNodos(new JTableNodos());
