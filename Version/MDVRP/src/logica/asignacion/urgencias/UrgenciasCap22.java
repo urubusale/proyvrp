@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import logica.Fabrica;
 import logica.Sistema;
+import util.Config;
 import util.Distancia;
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
@@ -47,6 +48,7 @@ public class UrgenciasCap22 {
 			{
 				Deposito dep=new Deposito(dt);
 				depositos.add(dep);
+				
 			}
 		}
 		
@@ -69,7 +71,7 @@ public class UrgenciasCap22 {
 		{
 			ClienteCap2 cliente=it3.next();
 			cliente = addClientesMasCercanos(cliente);
-			System.out.println("Clientes mas cercanos" +  cliente.getNodo().getId() + " y nodos " + cliente.getClieteMasCercano1().getNodo().getId() +  " ," 
+			System.out.println("Clientes mas cercanos " +  cliente.getNodo().getId() + " y nodos " + cliente.getClieteMasCercano1().getNodo().getId() +  " ," 
 					 +  cliente.getClieteMasCercano2().getNodo().getId());
 		}		
 		
@@ -137,6 +139,11 @@ public class UrgenciasCap22 {
 		int cantidadIteraciones=0;
 		ArrayList<DTNodo> resaltado=null;
 
+		// Inicializo el Tiempo en Config
+		Config.getInstancia().empezarAlgoritmo();
+		
+		int costoanterior = 0;		
+		boolean terminarPorConfig=false;
 		boolean terminar=false;
 		String mensaje=null;
 		while(!terminar)
@@ -185,8 +192,9 @@ public class UrgenciasCap22 {
 					{
 						ena.getDeposito().sacarCliente(ena.getCliente());
 						ena.getDepositoDestino().agregarCliente(ena.getCliente());
+						costoanterior=costomenor;
 						costomenor=costo;
-						mensaje="*1 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se pasó al cliente"+ena.getCliente().getNodo().getId()+ " desde el deposito "+ ena.getDeposito().getNodo().getId()+" al deposito destino "+ena.getDepositoDestino().getNodo().getId();
+						mensaje="*1 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se pasó al cliente "+ena.getCliente().getNodo().getId()+ " desde el deposito "+ ena.getDeposito().getNodo().getId()+" al deposito destino "+ena.getDepositoDestino().getNodo().getId();
 						System.out.println(mensaje);
 						resaltado.add(ena.getCliente().getNodo());
 						resaltado.add(ena.getDeposito().getNodo());
@@ -257,7 +265,13 @@ public class UrgenciasCap22 {
 				}
 	
 			}
-			if(costoahora==costomenor)terminar=true;
+			if(costoahora==costomenor)
+				terminar=true;
+			if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costoanterior,costomenor))
+			{
+				terminar=true;
+				terminarPorConfig = true;
+			}
 			Sistema.getInstancia().adelantarPorgresoDeAvance((float)100/this.enagenados.size());
 			ArrayList<DTAsignacion> par=new ArrayList<DTAsignacion>();
 			
@@ -281,7 +295,7 @@ public class UrgenciasCap22 {
 		}
 	
 		terminar=false;
-		while(!terminar)
+		while(!terminar && !terminarPorConfig)
 		{
 			
 			System.out.println("lll");
@@ -384,6 +398,7 @@ public class UrgenciasCap22 {
 								ena.getDepositoDestino().agregarCliente(ena.getCliente());
 								candidatodep.agregarCliente(candidato);
 								ena.getDepositoDestino().sacarCliente(candidato);
+								costoanterior=costomenor;
 								costomenor=costo;
 								mensaje="*2 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
 										+ " desde el depostio "+ena.getDeposito().getNodo().getId()	+" al deposito "+ena.getDepositoDestino().getNodo().getId() +" y para hacer \n lugar se pasó al cliente "+ candidato.getNodo().getId() +" del deposito"
@@ -451,6 +466,7 @@ public class UrgenciasCap22 {
 								{
 									ena.getDeposito().sacarCliente(ena.getCliente());
 									candidato2.agregarCliente(ena.getCliente());
+									costoanterior=costomenor;
 									costomenor=costo;
 									mensaje="*3 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
 											+ " desde el depostio "+ena.getDeposito().getNodo().getId()+	" al deposito "+candidato2.getNodo().getId();
@@ -524,6 +540,7 @@ public class UrgenciasCap22 {
 							{
 								ena.getDeposito().sacarCliente(ena.getCliente());
 								candidato2.agregarCliente(ena.getCliente());
+								costoanterior=costomenor;
 								costomenor=costo;
 								mensaje="*4 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
 										+ " desde el depostio "+ena.getDeposito().getNodo().getId()+	" al deposito "+candidato2.getNodo().getId();
@@ -539,7 +556,13 @@ public class UrgenciasCap22 {
 						}
 					}
 				}
-			if(costoahora==costomenor)terminar=true;
+			if(costoahora==costomenor)
+				terminar=true;
+			if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costoanterior,costomenor))
+			{
+				terminar=true;
+				terminarPorConfig = true;
+			}
 			Sistema.getInstancia().adelantarPorgresoDeAvance((float)100/this.enagenados.size());
 			ArrayList<DTAsignacion> par=new ArrayList<DTAsignacion>();
 			

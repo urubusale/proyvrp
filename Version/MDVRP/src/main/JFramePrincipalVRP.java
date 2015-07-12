@@ -1,22 +1,31 @@
 package main;
 import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.border.Border;
 
+import util.Config;
 import util.Distancia;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
@@ -29,6 +38,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -65,6 +75,7 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 			super("MDVRP");
 			vrpcargado=new DTDepositoVRP();
 			initGUI();
+			initConfiguration();
 		}
 		
 	
@@ -166,12 +177,12 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 				JMenu menu=new JMenu("MENU");
 				menu.setFont(new java.awt.Font("Goudi",java.awt.Font.PLAIN,9));
 				
-				JMenuItem menuitem=new JMenuItem("VER");
+				JMenuItem menuitem=new JMenuItem("CONFIGURACIÓN");
 				menuitem.setFont(new java.awt.Font("Goudi",java.awt.Font.PLAIN,9));
 				menuitem.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e)
 					{
-					JOptionPane.showMessageDialog(getThis(),"hola","",JOptionPane.PLAIN_MESSAGE);	
+						JDialogConfig jdc=new JDialogConfig();						
 					}
 				});
 				
@@ -471,5 +482,9 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 				public void setRadio(DTNodo i){this.radio=i;}
 			
 		}
-			
+		
+		public void initConfiguration() 
+		{
+			Config.getInstancia();			
+		}
 }
