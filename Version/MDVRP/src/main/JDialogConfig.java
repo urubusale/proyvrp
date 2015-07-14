@@ -15,6 +15,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 
 import util.Config;
@@ -28,8 +30,8 @@ public class JDialogConfig extends JDialog
 	}
 	public void init()
 	{
-		setSize(366,180);				
-	    setLocation(500,  200);
+		setSize(300,220);				
+	    setLocation(533,  200);
 	    setTitle("CONFIGURACIÓN");
 	    setResizable(false);
 	    
@@ -163,14 +165,23 @@ public class JDialogConfig extends JDialog
 	    panel.add(fieldMejora);
 	    panel.add(labelMejora);
 	    
+	    int porcentajeDep = Config.getInstancia().getPorcentajeDep();
+	    
+	    JPanel panel2 = new JPanel(new GridLayout(0, 3));
+	    
+	    Border border2 = BorderFactory.createTitledBorder("Porcentaje capacidad en Depósitos");
+	    panel2.setBorder(border2);
+	    panel2.add(new JLabel("Capacidad"));
+	    final JSpinner jSpinerCap = new JSpinner(new SpinnerNumberModel(porcentajeDep,100,120,1));
+	    panel2.add(jSpinerCap);
+	    panel2.add(new JLabel(" %"));
+	    
 	    JPanel Jbotton=new JPanel();
 		JButton aceptar=new JButton("ACEPTAR");
 		Jbotton.add(aceptar);
 		JButton cancelar=new JButton("CANCELAR");
 		Jbotton.add(cancelar);
-		
-		
-		
+				
 		aceptar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{				
@@ -186,6 +197,8 @@ public class JDialogConfig extends JDialog
 				if (mejoraButton.isSelected())
 					Config.getInstancia().setMejora((double) fieldMejora.getValue());
 				
+				Config.getInstancia().setPorcentajeDep((int) jSpinerCap.getValue());
+				
 				dispose();
 			}
 		});
@@ -198,6 +211,7 @@ public class JDialogConfig extends JDialog
 		});
 	    JPanel p=(JPanel)this.getContentPane();
 	    p.add(panel,BorderLayout.NORTH);
+	    p.add(panel2);
 	    p.add(Jbotton,BorderLayout.SOUTH);
 			    
 		setVisible(true);
