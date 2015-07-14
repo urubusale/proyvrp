@@ -79,7 +79,7 @@ public class Config {
 	public boolean terminarPorConfig(int cantidadIteraciones, double costoAnterior, double costoMenor) {
 		long timeActual = System.currentTimeMillis();
 		
-		System.out.println("tiempo actual "+timeActual);
+		/*System.out.println("tiempo actual "+timeActual);
 		System.out.println("tiempo start  "+timeStart);
 		System.out.println("tiempo Config "+Config.tiempo);
 		long timesum = timeStart + Config.tiempo;
@@ -88,7 +88,7 @@ public class Config {
 		System.out.println("costoAnterior "+costoAnterior);
 		double costoprint = 100-((costoMenor*100)/costoAnterior);
 		System.out.println("% costo "+costoprint);
-		System.out.println("%mejora "+Config.mejora);
+		System.out.println("%mejora "+Config.mejora);*/
 		
 		if (Config.bIteracciones)
 			if (Config.iteracciones <= cantidadIteraciones)
