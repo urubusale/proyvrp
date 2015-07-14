@@ -18,6 +18,7 @@ public class Config {
 		tiempo=0;
 		iteracciones=0;
 		mejora=0;
+		porcentajeDep=100;
 	}
 
 	static private boolean bTiempo;
@@ -26,6 +27,7 @@ public class Config {
 	static private long tiempo;
 	static private int iteracciones;
 	static private double mejora;
+	static private int porcentajeDep;
 	
 	static private long timeStart;
 	
@@ -77,7 +79,7 @@ public class Config {
 	public boolean terminarPorConfig(int cantidadIteraciones, double costoAnterior, double costoMenor) {
 		long timeActual = System.currentTimeMillis();
 		
-		/*System.out.println("tiempo actual "+timeActual);
+		System.out.println("tiempo actual "+timeActual);
 		System.out.println("tiempo start  "+timeStart);
 		System.out.println("tiempo Config "+Config.tiempo);
 		long timesum = timeStart + Config.tiempo;
@@ -86,7 +88,7 @@ public class Config {
 		System.out.println("costoAnterior "+costoAnterior);
 		double costoprint = 100-((costoMenor*100)/costoAnterior);
 		System.out.println("% costo "+costoprint);
-		System.out.println("%mejora "+Config.mejora);*/
+		System.out.println("%mejora "+Config.mejora);
 		
 		if (Config.bIteracciones)
 			if (Config.iteracciones <= cantidadIteraciones)
@@ -103,5 +105,11 @@ public class Config {
 				if ((100-(costoMenor*100)/costoAnterior) <= Config.mejora)
 					return true;		
 		return false;	
+	}
+	public int getPorcentajeDep() {
+		return porcentajeDep;
+	}
+	public void setPorcentajeDep(int porcentajeDep) {
+		Config.porcentajeDep = porcentajeDep;
 	}
 }

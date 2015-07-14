@@ -36,7 +36,7 @@ public class Asignacion implements IAsignacion
 
 	public Collection<DTAsignacion> asignarCap(DTDepositoVRP d)
 	{
-		return UrgenciasCap.getInstancia().asignar(d);		
+		return UrgenciasCap2.getInstancia().asignar(d);		
 	}
 	
 	public Collection<DTAsignacion> asignarCap2(DTDepositoVRP d) //SEGUIR ACA
