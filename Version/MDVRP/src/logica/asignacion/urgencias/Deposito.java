@@ -3,6 +3,7 @@ package logica.asignacion.urgencias;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import util.Config;
 import datatypes.DTNodo;
 
 ///////////////// OJO 1.2 HARCODEADO /////////////////
@@ -17,7 +18,7 @@ public class Deposito
 		this.nodo=d;
 		asignados=new ArrayList<Cliente>();
 		capacidadLibre=d.getDemanda();
-		capacidadLibrePonderada= (int)(d.getDemanda()*1.2); 
+		capacidadLibrePonderada= (int)(d.getDemanda()*(Config.getInstancia().getHolguraDep1()));
 	}
 	
 	public Deposito(Deposito dep)

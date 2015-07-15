@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import logica.Fabrica;
+import util.Config;
 import util.Distancia;
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
@@ -120,6 +121,9 @@ public class UrgenciasCap2 {
 		System.out.println("costo inicial "+costomenor);
 		int cantidadIteraciones=0;
 
+		// Inicializo el Tiempo en Config
+		Config.getInstancia().empezarAlgoritmo(costomenor);
+
 		boolean terminar=false;
 		while(!terminar)
 		{
@@ -157,7 +161,10 @@ public class UrgenciasCap2 {
 					ena.getDepositoDestino().agregarCliente(ena.getCliente());
 				}
 			}
-			if(cantidadIteraciones==5) terminar=true;	
+			
+			//if(cantidadIteraciones==5) terminar=true;
+			if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costomenor))
+				terminar=true;
 		}
 		// construir DT de salida.
 		ar=new ArrayList<DTAsignacion>();
