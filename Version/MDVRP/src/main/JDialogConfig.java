@@ -35,6 +35,7 @@ public class JDialogConfig extends JDialog
 	    setTitle("CONFIGURACIÓN");
 	    setResizable(false);
 	    
+	    // Condiciones de Parada
 	    final JRadioButton ningunoButton = new JRadioButton("Ninguno");
 		ningunoButton.setActionCommand("Ninguno");
 		ningunoButton.setSelected(Config.getInstancia().isNinguno());
@@ -148,34 +149,43 @@ public class JDialogConfig extends JDialog
 	        }
 	     });
 	    
-	    JPanel panel = new JPanel(new GridLayout(0, 3));
+	    JPanel panelCond = new JPanel(new GridLayout(0, 3));
 	    
 	    Border border = BorderFactory.createTitledBorder("Condiciones de Parada");
-	    panel.setBorder(border);
-	    panel.add(ningunoButton);
-	    panel.add(new JLabel(""));
-	    panel.add(new JLabel(""));
-	    panel.add(tiempoButton);
-	    panel.add(fieldTiempo);
-	    panel.add(labelTiempo);
-	    panel.add(iteracButton);
-	    panel.add(fieldIterac);
-	    panel.add(labelIterac);
-	    panel.add(mejoraButton);
-	    panel.add(fieldMejora);
-	    panel.add(labelMejora);
+	    panelCond.setBorder(border);
+	    panelCond.add(ningunoButton);
+	    panelCond.add(new JLabel(""));
+	    panelCond.add(new JLabel(""));
+	    panelCond.add(tiempoButton);
+	    panelCond.add(fieldTiempo);
+	    panelCond.add(labelTiempo);
+	    panelCond.add(iteracButton);
+	    panelCond.add(fieldIterac);
+	    panelCond.add(labelIterac);
+	    panelCond.add(mejoraButton);
+	    panelCond.add(fieldMejora);
+	    panelCond.add(labelMejora);
 	    
-	    int porcentajeDep = Config.getInstancia().getPorcentajeDep();
+	    // Holgura en los Depósitos
+	    int holguraDep = Config.getInstancia().getHolguraDep();
+	    JPanel panelHolgura = new JPanel(new GridLayout(0, 3));
+	    Border borderHolgura = BorderFactory.createTitledBorder("Holgura en los Depósitos");
+	    panelHolgura.setBorder(borderHolgura);
+	    panelHolgura.add(new JLabel("Holgura"));
+	    final JSpinner jSpinerHolgura = new JSpinner(new SpinnerNumberModel(holguraDep,100,200,1));
+	    panelHolgura.add(jSpinerHolgura);
+	    panelHolgura.add(new JLabel(" %"));
 	    
-	    JPanel panel2 = new JPanel(new GridLayout(0, 3));
+	    // Lambda-Opt
+	    JPanel panelLambda = new JPanel(new GridLayout(0, 3));
+	    Border borderLambda = BorderFactory.createTitledBorder("Lambda-Opt");
+	    panelLambda.setBorder(borderLambda);
+	    panelLambda.add(new JLabel("Cantidad"));
+	    final JFormattedTextField fieldLambda = new JFormattedTextField (new Integer(Config.getInstancia().getLambdaOpt()));
+	    panelLambda.add(fieldLambda);
+	    panelLambda.add(new JLabel(" Segmentos"));
 	    
-	    Border border2 = BorderFactory.createTitledBorder("Porcentaje capacidad en Depósitos");
-	    panel2.setBorder(border2);
-	    panel2.add(new JLabel("Capacidad"));
-	    final JSpinner jSpinerCap = new JSpinner(new SpinnerNumberModel(porcentajeDep,100,120,1));
-	    panel2.add(jSpinerCap);
-	    panel2.add(new JLabel(" %"));
-	    
+	    // Botones
 	    JPanel Jbotton=new JPanel();
 		JButton aceptar=new JButton("ACEPTAR");
 		Jbotton.add(aceptar);
@@ -197,7 +207,7 @@ public class JDialogConfig extends JDialog
 				if (mejoraButton.isSelected())
 					Config.getInstancia().setMejora((double) fieldMejora.getValue());
 				
-				Config.getInstancia().setPorcentajeDep((int) jSpinerCap.getValue());
+				Config.getInstancia().setHolguraDep((int) jSpinerHolgura.getValue());
 				
 				dispose();
 			}
@@ -210,8 +220,9 @@ public class JDialogConfig extends JDialog
 			}
 		});
 	    JPanel p=(JPanel)this.getContentPane();
-	    p.add(panel,BorderLayout.NORTH);
-	    p.add(panel2);
+	    p.add(panelCond,BorderLayout.NORTH);
+	    p.add(panelHolgura);
+	    p.add(panelLambda);
 	    p.add(Jbotton,BorderLayout.SOUTH);
 			    
 		setVisible(true);

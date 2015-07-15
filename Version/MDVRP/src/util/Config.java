@@ -18,7 +18,8 @@ public class Config {
 		tiempo=0;
 		iteracciones=0;
 		mejora=0;
-		porcentajeDep=100;
+		holguraDep=1;
+		lambdaOpt=3;
 	}
 
 	static private boolean bTiempo;
@@ -27,9 +28,13 @@ public class Config {
 	static private long tiempo;
 	static private int iteracciones;
 	static private double mejora;
-	static private int porcentajeDep;
 	
+	static private double holguraDep;
+	
+	static private int lambdaOpt;
+		
 	static private long timeStart;
+	static private int costoInicial;
 	
 	public boolean isNinguno() {
 		return !bTiempo && !bIteracciones && !bMejora;
@@ -70,13 +75,33 @@ public class Config {
 	public void setMejora(double mejora) {
 		Config.mejora = mejora;
 	}
+	public double getHolguraDep1() {
+		return holguraDep;
+	}
+	public int getHolguraDep() {
+		return (int) (holguraDep * 100);
+	}
+	public void setHolguraDep(int holgura) {
+		Config.holguraDep = (double) (holgura / 100);
+	}
+	public int getLambdaOpt() {
+		return lambdaOpt;
+	}
+	public void setLambdaOpt(int lambdaOpt) {
+		Config.lambdaOpt = lambdaOpt;
+	}
 	private static void setTimeStart(long timeStart) {
 		Config.timeStart = timeStart;
 	}
-	public void empezarAlgoritmo() {		
+	private static void setCostoInicial(int costoInicial) {
+		Config.costoInicial = costoInicial;
+	}	
+	public void empezarAlgoritmo(int costoInicial) {		
 		setTimeStart(System.currentTimeMillis());
+		setCostoInicial(costoInicial);
 	}
-	public boolean terminarPorConfig(int cantidadIteraciones, double costoAnterior, double costoMenor) {
+	
+	public boolean terminarPorConfig(int cantidadIteraciones, double costoMenor) {
 		long timeActual = System.currentTimeMillis();
 		
 		/*System.out.println("tiempo actual "+timeActual);
@@ -99,17 +124,9 @@ public class Config {
 				return true;
 		
 		if (Config.bMejora)			
-			if (costoAnterior == 0)
-				return false;
-			else				
-				if ((100-(costoMenor*100)/costoAnterior) <= Config.mejora)
-					return true;		
+			if ((100-(costoMenor*100)/Config.costoInicial) <= Config.mejora)
+				return true;
+		
 		return false;	
-	}
-	public int getPorcentajeDep() {
-		return porcentajeDep;
-	}
-	public void setPorcentajeDep(int porcentajeDep) {
-		Config.porcentajeDep = porcentajeDep;
 	}
 }

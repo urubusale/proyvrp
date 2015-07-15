@@ -140,9 +140,8 @@ public class UrgenciasCap22 {
 		ArrayList<DTNodo> resaltado=null;
 
 		// Inicializo el Tiempo en Config
-		Config.getInstancia().empezarAlgoritmo();
+		Config.getInstancia().empezarAlgoritmo(costomenor);
 		
-		int costoanterior = 0;		
 		boolean terminarPorConfig=false;
 		boolean terminar=false;
 		String mensaje=null;
@@ -192,7 +191,6 @@ public class UrgenciasCap22 {
 					{
 						ena.getDeposito().sacarCliente(ena.getCliente());
 						ena.getDepositoDestino().agregarCliente(ena.getCliente());
-						costoanterior=costomenor;
 						costomenor=costo;
 						mensaje="*1 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se pasó al cliente "+ena.getCliente().getNodo().getId()+ " desde el deposito "+ ena.getDeposito().getNodo().getId()+" al deposito destino "+ena.getDepositoDestino().getNodo().getId();
 						System.out.println(mensaje);
@@ -267,7 +265,7 @@ public class UrgenciasCap22 {
 			}
 			if(costoahora==costomenor)
 				terminar=true;
-			if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costoanterior,costomenor))
+			if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costomenor))
 			{
 				terminar=true;
 				terminarPorConfig = true;
@@ -398,7 +396,6 @@ public class UrgenciasCap22 {
 								ena.getDepositoDestino().agregarCliente(ena.getCliente());
 								candidatodep.agregarCliente(candidato);
 								ena.getDepositoDestino().sacarCliente(candidato);
-								costoanterior=costomenor;
 								costomenor=costo;
 								mensaje="*2 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
 										+ " desde el depostio "+ena.getDeposito().getNodo().getId()	+" al deposito "+ena.getDepositoDestino().getNodo().getId() +" y para hacer \n lugar se pasó al cliente "+ candidato.getNodo().getId() +" del deposito"
@@ -466,7 +463,6 @@ public class UrgenciasCap22 {
 								{
 									ena.getDeposito().sacarCliente(ena.getCliente());
 									candidato2.agregarCliente(ena.getCliente());
-									costoanterior=costomenor;
 									costomenor=costo;
 									mensaje="*3 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
 											+ " desde el depostio "+ena.getDeposito().getNodo().getId()+	" al deposito "+candidato2.getNodo().getId();
@@ -540,7 +536,6 @@ public class UrgenciasCap22 {
 							{
 								ena.getDeposito().sacarCliente(ena.getCliente());
 								candidato2.agregarCliente(ena.getCliente());
-								costoanterior=costomenor;
 								costomenor=costo;
 								mensaje="*4 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
 										+ " desde el depostio "+ena.getDeposito().getNodo().getId()+	" al deposito "+candidato2.getNodo().getId();
@@ -558,7 +553,7 @@ public class UrgenciasCap22 {
 				}
 			if(costoahora==costomenor)
 				terminar=true;
-			if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costoanterior,costomenor))
+			if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costomenor))
 			{
 				terminar=true;
 				terminarPorConfig = true;
