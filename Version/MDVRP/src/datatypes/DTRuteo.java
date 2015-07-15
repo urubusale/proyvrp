@@ -1,6 +1,7 @@
 package datatypes;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 public class DTRuteo 
 {
 	private DTNodo deposito;
@@ -23,5 +24,15 @@ public class DTRuteo
 	public void agregarCliente(DTNodo c){this.ruta.add(c);}
 	public void setCosto(int c){this.costo=c;}
 	public int getCosto(){return this.costo;}
-
+	public void println()
+	{
+		System.out.print("dep: "+deposito.getId());
+		Iterator<DTNodo> it=ruta.iterator();
+		while(it.hasNext())
+		{
+			DTNodo n=it.next();
+			System.out.print("-"+n.getId());
+		}
+		System.out.println("");
+	}
 }

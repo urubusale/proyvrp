@@ -52,8 +52,13 @@ public class JPanelEtiquetas extends JPanel
 	private JButton asignar;
 	private JButton asignarCap;
 	private JButton asignarCap2;
+	private JButton asignarCap22;
+
 
 	private JButton rutear;
+	private JButton rutearopt;
+	private JButton rutearoptintra;
+
 	private boolean asignado;
 	private Collection<DTAsignacion> asignaciones;
 	private Collection<DTRuteo> rutas;
@@ -89,7 +94,7 @@ public class JPanelEtiquetas extends JPanel
 		this.cargat.setEditable(false);
 		this.costototalt.setEditable(false);
 		this.superior=new JPanel();
-		this.superior.setLayout(new GridLayout(16,1));
+		this.superior.setLayout(new GridLayout(18,1));
 		this.setLayout(new GridLayout(2,1));
 		this.add(superior);
 		tabla=new JTableAsignaciones();
@@ -168,27 +173,20 @@ public class JPanelEtiquetas extends JPanel
 		p8.setLayout(new GridLayout(1,2));
 		p8.add(CAPACITY);
 		p8.add(tCAPACITY);
+		
 		JPanel p9=new JPanel();
-		p9.setLayout(new GridLayout(1,2));
-		this.asignar=new JButton("ASIGNAR");
-		this.asignar.setEnabled(false);
+		p9.setLayout(new GridLayout(1,4));
 		this.rutear=new JButton("RUTEAR");
 		this.rutear.setEnabled(false);
-		p9.add(asignar);
+		this.rutearopt=new JButton("RUT-opt");
+		this.rutearopt.setEnabled(false);
+		this.rutearoptintra=new JButton("R-iopt");
+		this.rutearoptintra.setEnabled(false);
+		
 		p9.add(rutear);
-		asignar.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				asignaciones=Fabrica.getInstancia().getSistema().asignar(vrp);
-				inferior.setAsignaciones(asignaciones);
-				inferior2.setAsignaciones(asignaciones);
+		p9.add(rutearopt);
+		p9.add(rutearoptintra);
 
-				mapa.setAsignaciones(asignaciones);
-				asignado=true;
-				rutear.setEnabled(true);
-				panrutas.setRutas(new ArrayList<DTRuteo>());
-			}
-		});
 		
 		rutear.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
@@ -203,10 +201,68 @@ public class JPanelEtiquetas extends JPanel
 				panrutas.setRutas(rutas);
 //				inferior.setAsignaciones(asignaciones);
 //				mapa.setAsignaciones(asignaciones);
-				rutear.setEnabled(false);
+			//	rutear.setEnabled(false);
 			}
 		});
+		rutearopt.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				Iterator<DTAsignacion> it=asignaciones.iterator();
+				rutas=new ArrayList<DTRuteo>();
+				while(it.hasNext())
+				{
+					DTAsignacion d=it.next();
+					rutas.addAll(Fabrica.getInstancia().getSistema().rutearopt(d,capacidad));
+				}
+				panrutas.setRutas(rutas);
+//				inferior.setAsignaciones(asignaciones);
+//				mapa.setAsignaciones(asignaciones);
+			//	rutearopt.setEnabled(false);
+			}
+		});
+
+		rutearoptintra.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				Iterator<DTAsignacion> it=asignaciones.iterator();
+				rutas=new ArrayList<DTRuteo>();
+				while(it.hasNext())
+				{
+					DTAsignacion d=it.next();
+					rutas.addAll(Fabrica.getInstancia().getSistema().post2intraroute(d,capacidad));
+				}
+				panrutas.setRutas(rutas);
+//				inferior.setAsignaciones(asignaciones);
+//				mapa.setAsignaciones(asignaciones);
+			//	rutearopt.setEnabled(false);
+			}
+		});
+
+
+		JPanel p17=new JPanel();
+		p17.setLayout(new GridLayout(1,4));
+		this.asignar=new JButton("ASIGNAR SIN CAPACIDADES");
+		this.asignar.setEnabled(false);
 		
+		p17.add(asignar);
+
+		asignar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				asignaciones=Fabrica.getInstancia().getSistema().asignar(vrp);
+				inferior.setAsignaciones(asignaciones);
+				inferior2.setAsignaciones(asignaciones);
+
+				mapa.setAsignaciones(asignaciones);
+				asignado=true;
+				rutear.setEnabled(true);
+				rutearopt.setEnabled(true);
+				rutearoptintra.setEnabled(true);
+
+				panrutas.setRutas(new ArrayList<DTRuteo>());
+			}
+		});
+
 		JPanel p10=new JPanel();
 		p10.setLayout(new GridLayout(1,2));
 		
@@ -222,6 +278,8 @@ public class JPanelEtiquetas extends JPanel
 				mapa.setAsignaciones(asignaciones);
 				asignado=true;
 				rutear.setEnabled(true);
+				rutearopt.setEnabled(true);
+				rutearoptintra.setEnabled(true);
 				panrutas.setRutas(new ArrayList<DTRuteo>());
 			}
 		});
@@ -229,10 +287,33 @@ public class JPanelEtiquetas extends JPanel
 		JPanel p11=new JPanel();
 		p11.setLayout(new GridLayout(1,2));
 		
-		this.asignarCap2=new JButton("ASIGNAR con CAPACIDADES FASE 1 Y 2");
+		this.asignarCap2=new JButton("ASIGNAR con CAPACIDADES FASE 1y2-RAPIDO");
 		this.asignarCap2.setEnabled(false);
 		p11.add(asignarCap2);
 		asignarCap2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				asignaciones=Fabrica.getInstancia().getSistema().asignarCap2(vrp);
+				inferior.setAsignaciones(asignaciones);
+				inferior2.setAsignaciones(asignaciones);
+				mapa.setAsignaciones(asignaciones);
+				asignado=true;
+				rutear.setEnabled(true);
+				rutearopt.setEnabled(true);
+				rutearoptintra.setEnabled(true);
+				panrutas.setRutas(new ArrayList<DTRuteo>());
+	//			Cargador car=new Cargador(padre);
+				//car.setVisible(true);
+			}
+		});
+		
+		JPanel p18=new JPanel();
+		p18.setLayout(new GridLayout(1,2));
+		
+		this.asignarCap22=new JButton("ASIGNAR con CAPACIDADES FASE 1y2-LENTO");
+		this.asignarCap22.setEnabled(false);
+		p18.add(asignarCap22);
+		asignarCap22.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
 			/*	asignaciones=Fabrica.getInstancia().getSistema().asignarCap2(vrp);
@@ -307,6 +388,10 @@ public class JPanelEtiquetas extends JPanel
 		this.superior.add(p7);
 		this.superior.add(p8);
 		this.superior.add(p9);
+		this.superior.add(p17);
+		this.superior.add(p18);
+
+
 		this.superior.add(p10);
 		this.superior.add(p11);
 		this.superior.add(p12);
@@ -314,6 +399,7 @@ public class JPanelEtiquetas extends JPanel
 		this.superior.add(p14);
 		this.superior.add(p15);
 		this.superior.add(p16);
+
 
 		this.setPreferredSize(new Dimension(280,10));
 	}
@@ -332,8 +418,12 @@ public class JPanelEtiquetas extends JPanel
 		this.asignar.setEnabled(true);
 		this.asignarCap.setEnabled(true);
 		this.asignarCap2.setEnabled(true);
+		this.asignarCap22.setEnabled(true);
+
 
 		this.rutear.setEnabled(false);
+		this.rutearopt.setEnabled(false);
+		this.rutearoptintra.setEnabled(false);
 		inferior.limpiar();
 		inferior2.limpiar();
 
@@ -434,6 +524,9 @@ public class JPanelEtiquetas extends JPanel
 				mapa.setAsignaciones(asignaciones);
 				asignado=true;
 				rutear.setEnabled(true);
+				rutearopt.setEnabled(true);
+				rutearoptintra.setEnabled(true);
+
 				panrutas.setRutas(new ArrayList<DTRuteo>());
 	    		System.out.println("terminó");
 
@@ -523,14 +616,15 @@ public class JPanelEtiquetas extends JPanel
 		    	try
 		    	{
 		    		System.out.println("entro aca");
-		    		asignaciones=Fabrica.getInstancia().getSistema().asignarCap2(vrp);
+		    		asignaciones=Fabrica.getInstancia().getSistema().asignarCap22(vrp);
 		    		Fabrica.getInstancia().getSistema().setFinalizadoOkEstadoConsulta();
 		    	}catch(Exception ex){ex.printStackTrace();}
 			}
 		}
 	}
 	//********************
-	
 
+
+//*****************************
 	
 }

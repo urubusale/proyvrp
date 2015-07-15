@@ -2,6 +2,7 @@ package logica.ruteo;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import logica.IRuteo;
 import datatypes.*;
 
@@ -51,7 +52,15 @@ public class Ruteo implements IRuteo
 		return ar;
 	}
 	
-	
+	public Collection<DTRuteo> rutear4opt(DTAsignacion dt,int capacidad)
+	{
+		return new ArrayList<DTRuteo>();
+	}
+
+	public Collection<DTRuteo> post2intraroute(DTAsignacion dt,int capacidad)
+	{
+		return new ArrayList<DTRuteo>();
+	}
 
 }
 
