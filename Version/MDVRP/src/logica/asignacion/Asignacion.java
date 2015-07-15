@@ -9,7 +9,6 @@ import logica.asignacion.urgencias.UrgenciasCap;
 import logica.asignacion.urgencias.UrgenciasCap2;
 import logica.asignacion.urgencias.UrgenciasCap21;
 import logica.asignacion.urgencias.UrgenciasCap22;
-import logica.asignacion.urgencias.UrgenciasCap222;
 import datatypes.*;
 
 public class Asignacion implements IAsignacion
@@ -36,15 +35,18 @@ public class Asignacion implements IAsignacion
 
 	public Collection<DTAsignacion> asignarCap(DTDepositoVRP d)
 	{
-		return UrgenciasCap2.getInstancia().asignar(d);		
+		return UrgenciasCap.getInstancia().asignar(d);		
 	}
 	
 	public Collection<DTAsignacion> asignarCap2(DTDepositoVRP d) //SEGUIR ACA
 	{
-		return UrgenciasCap22.getInstancia().asignar(d);		
+		return UrgenciasCap2.getInstancia().asignar(d);		
 	}
 
-
+	public Collection<DTAsignacion> asignarCap22(DTDepositoVRP d)
+	{
+		return UrgenciasCap22.getInstancia().asignar(d);		
+	}
 }
 
 

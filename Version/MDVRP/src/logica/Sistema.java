@@ -274,7 +274,18 @@ public class Sistema implements ISistema
 		return Fabrica.getInstancia().getAsignacion().asignarCap2(d);
 	}
 
-	
+	public Collection<DTAsignacion> asignarCap22(DTDepositoVRP d)
+	{
+		return Fabrica.getInstancia().getAsignacion().asignarCap22(d);
+	}
+	public Collection<DTRuteo> post2intraroute(DTAsignacion dt,int capacidad)
+	{
+		return Fabrica.getInstancia().getRuteo().post2intraroute(dt, capacidad);
+	}
+	public Collection<DTRuteo> rutearopt(DTAsignacion dt,int capacidad)
+	{
+		return Fabrica.getInstancia().getRuteo().rutear4opt(dt,capacidad);
+	}
 	
 	private int estadoConsulta;
 	private double progreso;
@@ -324,7 +335,9 @@ public class Sistema implements ISistema
 	public void setParciales(Collection<DTAsignacion> m){this.pareciales=m;}
 	public Collection<DTAsignacion> getParciales(){return this.pareciales;}
 	
-	public void setResaltados(Collection<DTNodo> m){this.resaltados.addAll(m);}
+	public void setResaltados(Collection<DTNodo> m){
+		if(this.resaltados==null) resaltados=new ArrayList<DTNodo>();
+		this.resaltados.addAll(m);}
 	public Collection<DTNodo> getResaltados(){return this.resaltados;}
 	public void setMensaje(String m)
 	{mensaje=mensaje+m+"\n";}

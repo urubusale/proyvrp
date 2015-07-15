@@ -12,7 +12,9 @@ import datatypes.DTAsignacion;
 import datatypes.DTDistancia;
 import datatypes.DTNodo;
 import datatypes.DTRuteo;
+import logica.Fabrica;
 import logica.IRuteo;
+import logica.ruteo.opt.Landainterchange;
 
 public class ClarkWright implements IRuteo
 {
@@ -107,5 +109,25 @@ public class ClarkWright implements IRuteo
 		return solucion;
 	}
 	
+	public Collection<DTRuteo> rutear4opt(DTAsignacion dt,int capacidad)
+	{
+		ArrayList<DTRuteo> cw=new ArrayList<DTRuteo>(this.rutear(dt, capacidad));
+		ArrayList<DTRuteo> opt=new ArrayList<DTRuteo>();
+		Iterator<DTRuteo> it=cw.iterator();
+		while(it.hasNext())
+		{
+			DTRuteo dta=it.next();
+			DTRuteo nuevo=logica.ruteo.opt.Route14opt.getInstancia().opt4(dta,5);
+			opt.add(nuevo);
+			
+		}
+		return opt;
 
+	}
+	
+	public Collection<DTRuteo> post2intraroute(DTAsignacion dt,int capacidad)
+	{
+		Collection<DTRuteo> asig=Fabrica.getInstancia().getRuteo().rutear4opt(dt, capacidad);
+		return Landainterchange.getInstancia().route2(asig,capacidad);
+	}
 }

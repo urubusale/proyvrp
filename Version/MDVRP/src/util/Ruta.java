@@ -113,4 +113,17 @@ public class Ruta {
 			}
 		}else return false;
 	}
+	
+	public int getCostoCW(Collection<DTRuteo> col,int cap)
+	{
+		int costo=0;
+		Iterator<DTRuteo> it=col.iterator();
+		while(it.hasNext())
+		{
+			DTRuteo dtr=it.next();
+			this.setCosto(dtr);
+			costo=costo+dtr.getCosto();
+		}
+		return costo;
+	}
 }

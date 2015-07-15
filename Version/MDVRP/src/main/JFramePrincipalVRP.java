@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
@@ -68,7 +69,7 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 		private JToolBar tlb;
 		private JPanelEtiquetas etiquetas;
 		private JPanelNodos nodos;
-		private JPanelMapa mapa;
+		private JPanelMapaZoom2 mapa;
 		private JPanelRutas rutas;
 		public JFramePrincipalVRP() 
 		{
@@ -94,11 +95,11 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 				nodos=new JPanelNodos(new JTableNodos());
 				jpgeneral.add(nodos, BorderLayout.EAST);
 				
-				mapa=new JPanelMapa();
+				mapa=new JPanelMapaZoom2();
 				rutas=new JPanelRutas(new JTableRutas());
 				JPanel aux=new JPanel();
 				aux.setLayout(new BorderLayout());
-				aux.add(mapa, BorderLayout.CENTER);
+				aux.add(new JScrollPane(mapa), BorderLayout.CENTER);
 				aux.add(rutas,BorderLayout.SOUTH);
 				jpgeneral.add(aux,BorderLayout.CENTER);
 				
@@ -463,18 +464,33 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 				}
 				
 				
-				public int transformarX(int x)
+			 public int transformarX(int x)
 				{
+					try{
 					int posrelativa=x-xminimo;
 					return ancho*posrelativa/ancho2+borde;
+					}catch(Exception ex)
+					{
+						ex.printStackTrace();
+						System.out.println("alto2"+alto2+"  borde "+borde);
+						int posrelativa=x-xminimo;
+						return ancho*posrelativa/(ancho2+1)+borde;	
+					}
 					
 
 				}
 				
 				public int transformarY(int y)
 				{
+					try{
 					int posrelativa=y-yminimo;
-					return alto*posrelativa/alto2+borde;
+					return alto*posrelativa/alto2+borde;}
+					catch(Exception ex){
+						ex.printStackTrace();
+						System.out.println("alto2"+alto2+"  borde "+borde);
+						int posrelativa=y-yminimo;
+						return alto*posrelativa/(alto2+1)+borde;
+					}
 					
 				}
 				
