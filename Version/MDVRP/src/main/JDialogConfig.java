@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,10 +29,10 @@ public class JDialogConfig extends JDialog
 	}
 	public void init()
 	{
-		setSize(300,220);				
+		setSize(300,275);
 	    setLocation(533,  200);
 	    setTitle("CONFIGURACIÓN");
-	    setResizable(false);
+	    //setResizable(false);
 	    
 	    // Condiciones de Parada
 	    final JRadioButton ningunoButton = new JRadioButton("Ninguno");
@@ -168,22 +167,24 @@ public class JDialogConfig extends JDialog
 	    
 	    // Holgura en los Depósitos
 	    int holguraDep = Config.getInstancia().getHolguraDep();
-	    JPanel panelHolgura = new JPanel(new GridLayout(0, 3));
+	    JPanel panelHolgura = new JPanel(new GridLayout(0, 4));
 	    Border borderHolgura = BorderFactory.createTitledBorder("Holgura en los Depósitos");
 	    panelHolgura.setBorder(borderHolgura);
 	    panelHolgura.add(new JLabel("Holgura"));
 	    final JSpinner jSpinerHolgura = new JSpinner(new SpinnerNumberModel(holguraDep,100,200,1));
 	    panelHolgura.add(jSpinerHolgura);
 	    panelHolgura.add(new JLabel(" %"));
+	    panelHolgura.add(new JLabel(""));
 	    
 	    // Lambda-Opt
-	    JPanel panelLambda = new JPanel(new GridLayout(0, 3));
+	    JPanel panelLambda = new JPanel(new GridLayout(0, 4));
 	    Border borderLambda = BorderFactory.createTitledBorder("Lambda-Opt");
 	    panelLambda.setBorder(borderLambda);
-	    panelLambda.add(new JLabel("Cantidad"));
+	    panelLambda.add(new JLabel("Lambda-Opt"));
 	    final JFormattedTextField fieldLambda = new JFormattedTextField (new Integer(Config.getInstancia().getLambdaOpt()));
 	    panelLambda.add(fieldLambda);
-	    panelLambda.add(new JLabel(" Segmentos"));
+	    panelLambda.add(new JLabel(""));
+	    panelLambda.add(new JLabel(""));
 	    
 	    // Botones
 	    JPanel Jbotton=new JPanel();
@@ -219,12 +220,15 @@ public class JDialogConfig extends JDialog
 				dispose();
 			}
 		});
-	    JPanel p=(JPanel)this.getContentPane();
-	    p.add(panelCond,BorderLayout.NORTH);
-	    p.add(panelHolgura);
-	    p.add(panelLambda);
-	    p.add(Jbotton,BorderLayout.SOUTH);
-			    
+	    
+	    panelCond.setBounds(0, 0, 282, 120);
+	    panelHolgura.setBounds(0, 130, 282, 45);
+	    panelLambda.setBounds(0, 185, 282, 45);
+	    Jbotton.setBounds(0, 245, 282, 40);
+		this.add(panelCond);
+		this.add(panelHolgura);
+		this.add(panelLambda);
+		this.add(Jbotton);
 		setVisible(true);
 	}
 }
