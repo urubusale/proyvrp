@@ -6,7 +6,6 @@ import java.util.Collection;
 import util.Config;
 import datatypes.DTNodo;
 
-///////////////// OJO 1.2 HARCODEADO /////////////////
 public class Deposito 
 {
 	private DTNodo nodo;
@@ -18,6 +17,8 @@ public class Deposito
 		this.nodo=d;
 		asignados=new ArrayList<Cliente>();
 		capacidadLibre=d.getDemanda();
+		double dep1 = Config.getInstancia().getHolguraDep1();
+		System.out.println("getHolguraDep1 " +dep1);
 		capacidadLibrePonderada= (int)(d.getDemanda()*(Config.getInstancia().getHolguraDep1()));
 	}
 	

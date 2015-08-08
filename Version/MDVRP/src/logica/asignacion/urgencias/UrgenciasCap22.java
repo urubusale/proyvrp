@@ -25,6 +25,8 @@ public class UrgenciasCap22 {
 	}
 	private UrgenciasCap22()
 	{
+		// UrgenciasCap22 - Algoritmo = 1
+		Config.getInstancia().setAlgoritmo(Config.urgenciasCapLento);
 	}
 	
 	private Collection<ClienteCap2> clientes;
@@ -142,9 +144,10 @@ public class UrgenciasCap22 {
 		// Inicializo el Tiempo en Config
 		Config.getInstancia().empezarAlgoritmo(costomenor);
 		
-		boolean terminarPorConfig=false;
+		boolean mostrarMensaje=false;
 		boolean terminar=false;
 		String mensaje=null;
+		boolean terminarPorConfig=false;
 		while(!terminar)
 		{
 			resaltado=new ArrayList<DTNodo>();
@@ -157,7 +160,8 @@ public class UrgenciasCap22 {
 			{
 				Enagenado ena=itena.next();
 				//System.out.println(ena.getCliente().getNodo().getId()+" enagenado! ");
-				if(ena.getDepositoDestino().getCapacidadLibre()>=ena.getCliente().getNodo().getDemanda())
+				//if(ena.getDepositoDestino().getCapacidadLibre()>=ena.getCliente().getNodo().getDemanda())
+				if(ena.getDepositoDestino().getCapacidadLibrePonderada()>=ena.getCliente().getNodo().getDemanda())
 				{
 					//hacer copia de los datos
 					//ArrayList<Deposito> respaldoDep=new ArrayList<Deposito>();
@@ -194,6 +198,7 @@ public class UrgenciasCap22 {
 						costomenor=costo;
 						mensaje="*1 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se pasó al cliente "+ena.getCliente().getNodo().getId()+ " desde el deposito "+ ena.getDeposito().getNodo().getId()+" al deposito destino "+ena.getDepositoDestino().getNodo().getId();
 						System.out.println(mensaje);
+						mostrarMensaje=true;
 						resaltado.add(ena.getCliente().getNodo());
 						resaltado.add(ena.getDeposito().getNodo());
 						resaltado.add(ena.getDepositoDestino().getNodo());
@@ -212,7 +217,8 @@ public class UrgenciasCap22 {
 						if(depo.getNodo().getId()!=ena.getDeposito().getNodo().getId())
 							if(depo.getNodo().getId()!=ena.getDepositoDestino().getNodo().getId())
 							{
-								if(depo.getCapacidadLibre()>=demanda)
+								//if(depo.getCapacidadLibre()>=demanda)
+								if(depo.getCapacidadLibrePonderada()>=demanda)
 								{
 									int dist=Distancia.getInstancia().getDistancia(depo.getNodo(),ena.getCliente().getNodo());
 									if(dist<masposible)
@@ -287,8 +293,13 @@ public class UrgenciasCap22 {
 				par.add(dta);
 			}
 			//Sistema.getInstancia().setParciales(par);
-			if(!terminar)Sistema.getInstancia().setResaltados(resaltado);
-			if(!terminar)Sistema.getInstancia().setMensaje(mensaje);
+			//if(!terminar)Sistema.getInstancia().setResaltados(resaltado);
+			if(!terminar && mostrarMensaje)
+			{
+				Sistema.getInstancia().setResaltados(resaltado);
+				Sistema.getInstancia().setMensaje(mensaje);
+				mostrarMensaje=false;
+			}
 		
 		}
 	
@@ -308,7 +319,8 @@ public class UrgenciasCap22 {
 
 				int demanda=ena.getCliente().getNodo().getDemanda();
 				Deposito hacerlugar=ena.getDepositoDestino();
-				int lugarnecesario=demanda-ena.getDepositoDestino().getCapacidadLibre();
+				//int lugarnecesario=demanda-ena.getDepositoDestino().getCapacidadLibre();
+				int lugarnecesario=demanda-ena.getDepositoDestino().getCapacidadLibrePonderada();
 				Cliente candidato=null;
 				Iterator<Enagenado> iten=this.enagenados.iterator();
 				while(iten.hasNext())
@@ -335,7 +347,8 @@ public class UrgenciasCap22 {
 						Deposito depo=itnnn.next();
 						if(depo.getNodo().getId()!=ena.getDepositoDestino().getNodo().getId())
 						{
-							if(depo.getCapacidadLibre()>=candidato.getNodo().getDemanda())
+							//if(depo.getCapacidadLibre()>=candidato.getNodo().getDemanda())
+							if(depo.getCapacidadLibrePonderada()>=candidato.getNodo().getDemanda())
 							{
 								int dist=Distancia.getInstancia().getDistancia(depo.getNodo(),candidato.getNodo());
 								if(dist<masposible)
@@ -345,7 +358,8 @@ public class UrgenciasCap22 {
 									}
 								}
 								if(depo.getNodo().getId()==ena.getDeposito().getNodo().getId())
-								if((depo.getCapacidadLibre()-ena.getCliente().getNodo().getDemanda())>=candidato.getNodo().getDemanda())
+								//if((depo.getCapacidadLibre()-ena.getCliente().getNodo().getDemanda())>=candidato.getNodo().getDemanda())
+								if((depo.getCapacidadLibrePonderada()-ena.getCliente().getNodo().getDemanda())>=candidato.getNodo().getDemanda())
 								{
 									int dist=Distancia.getInstancia().getDistancia(depo.getNodo(),candidato.getNodo());
 									if(dist<masposible)
@@ -401,6 +415,7 @@ public class UrgenciasCap22 {
 										+ " desde el depostio "+ena.getDeposito().getNodo().getId()	+" al deposito "+ena.getDepositoDestino().getNodo().getId() +" y para hacer \n lugar se pasó al cliente "+ candidato.getNodo().getId() +" del deposito"
 										+ ena.getDepositoDestino().getNodo().getId() +" al deposito "+candidatodep.getNodo().getId(); 
 								System.out.println(mensaje);
+								mostrarMensaje=true;
 								resaltado.add(ena.getCliente().getNodo());
 								resaltado.add(ena.getDeposito().getNodo());
 								resaltado.add(ena.getDepositoDestino().getNodo());
@@ -420,7 +435,8 @@ public class UrgenciasCap22 {
 								if(depo.getNodo().getId()!=ena.getDeposito().getNodo().getId())
 									if(depo.getNodo().getId()!=ena.getDepositoDestino().getNodo().getId())
 									{
-										if(depo.getCapacidadLibre()>=demanda)
+										//if(depo.getCapacidadLibre()>=demanda)
+										if(depo.getCapacidadLibrePonderada()>=demanda)
 										{
 											int dist=Distancia.getInstancia().getDistancia(depo.getNodo(),ena.getCliente().getNodo());
 											if(dist<masposible)
@@ -467,6 +483,7 @@ public class UrgenciasCap22 {
 									mensaje="*3 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
 											+ " desde el depostio "+ena.getDeposito().getNodo().getId()+	" al deposito "+candidato2.getNodo().getId();
 									System.out.println(mensaje) ;
+									mostrarMensaje=true;
 									resaltado.add(ena.getCliente().getNodo());
 									resaltado.add(ena.getDeposito().getNodo());
 									resaltado.add(candidato2.getNodo());
@@ -493,7 +510,8 @@ public class UrgenciasCap22 {
 							if(depo.getNodo().getId()!=ena.getDeposito().getNodo().getId())
 								if(depo.getNodo().getId()!=ena.getDepositoDestino().getNodo().getId())
 								{
-									if(depo.getCapacidadLibre()>=demanda)
+									//if(depo.getCapacidadLibre()>=demanda)
+									if(depo.getCapacidadLibrePonderada()>=demanda)
 									{
 										int dist=Distancia.getInstancia().getDistancia(depo.getNodo(),ena.getCliente().getNodo());
 										if(dist<masposible)
@@ -540,6 +558,7 @@ public class UrgenciasCap22 {
 								mensaje="*4 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
 										+ " desde el depostio "+ena.getDeposito().getNodo().getId()+	" al deposito "+candidato2.getNodo().getId();
 								System.out.println(mensaje) ;
+								mostrarMensaje=true;
 								resaltado.add(ena.getCliente().getNodo());
 								resaltado.add(ena.getDeposito().getNodo());
 								resaltado.add(candidato2.getNodo());
@@ -576,8 +595,13 @@ public class UrgenciasCap22 {
 			}
 			//Sistema.getInstancia().setParciales(par);
 
-			if(!terminar)Sistema.getInstancia().setResaltados(resaltado);
-			if(!terminar)Sistema.getInstancia().setMensaje(mensaje);
+			//if(!terminar)Sistema.getInstancia().setResaltados(resaltado);
+			if(!terminar && mostrarMensaje)
+			{
+				Sistema.getInstancia().setResaltados(resaltado);
+				Sistema.getInstancia().setMensaje(mensaje);
+				mostrarMensaje=false;
+			}
 
 		}
 		// construir DT de salida.
@@ -680,7 +704,8 @@ public class UrgenciasCap22 {
 		while(it.hasNext())
 		{
 			Deposito n=it.next();
-			if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+			//if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+			if(n.getCapacidadLibrePonderada()>=c.getNodo().getDemanda())
 			{
 				if(Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo())<distanciaMasCercano)
 				{
@@ -695,7 +720,8 @@ public class UrgenciasCap22 {
 		while(it2.hasNext())
 		{
 			Deposito n=it2.next();
-			if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+			//if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+			if(n.getCapacidadLibrePonderada()>=c.getNodo().getDemanda())
 			{
 				if(n.getNodo().getId()!=masCercano.getNodo().getId())
 				{

@@ -9,6 +9,14 @@ import datatypes.DTRuteo;
 
 public class Ruta {
 	static private Ruta instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public Ruta getInstancia()
 	{
 		if (instancia==null)  
@@ -18,6 +26,16 @@ public class Ruta {
 		}else return instancia;
 	}
 	
+	/**
+	 * Retorna la ruta donde el cliente <code>nodo_i</code> es el ultimo cliente en la ruta. 
+	 * 
+	 * @param		ListRutas Colección de rutas.
+	 * @param		nodo_i Cliente que deseamos encontrar como último cliente en una ruta.
+	 * @return  	Devuelve el valor de la ruta donde el cliente <code>nodo_i</code> es el ultimo cliente en la ruta.
+	 * <p>
+	 * En caso de encontrar ninguna ruta donde <code>nodo_i</code> no es el ultimo cliente en la ruta devuelve <code>null</code>.
+	 * 
+	 */
 	public DTRuteo getRutaDondeClienteEsUltimo(Collection<DTRuteo> ListRutas, DTNodo nodo_i){
 		DTRuteo rutaEncontrada = null;
 		for (DTRuteo rutaActual : ListRutas) {
@@ -31,6 +49,16 @@ public class Ruta {
 		return rutaEncontrada;
 	}
 	
+	/**
+	 * Retorna la ruta donde el cliente <code>nodo_i</code> es el primer cliente en la ruta. 
+	 * 
+	 * @param		ListRutas Colección de rutas.
+	 * @param		nodo_i Cliente que deseamos encontrar como primer cliente en una ruta.
+	 * @return  	Devuelve el valor de la ruta donde el cliente <code>nodo_i</code> es el primer cliente en la ruta.
+	 * <p>
+	 * En caso de encontrar ninguna ruta donde <code>nodo_i</code> no es el primer cliente en la ruta devuelve <code>null</code>.
+	 * 
+	 */
 	public DTRuteo getRutaDondeClienteEsPrimero(Collection<DTRuteo> ListRutas, DTNodo nodo_i){
 		DTRuteo rutaEncontrada = null;
 		for (DTRuteo rutaActual : ListRutas) {
@@ -44,6 +72,19 @@ public class Ruta {
 		return rutaEncontrada;
 	}
 
+	/**
+	 * Remueve las rutas <code>ruta1</code> y <code>ruta2</code> la coleccion de rutas <code>solucion</code>.
+	 * <p>
+	 * Reliza el merge entre las rutas <code>ruta1</code> y <code>ruta2</code> y la ruta unida se agrega a la colección de rutas <code>solucion</code>. Se actualiza el costo de la nueva ruta.
+	 * <p>
+	 * Retorna la nueva ruta <code>solucion</code>.
+	 * 
+	 * @param		solucion Colección de rutas de la solución.
+	 * @param		ruta1 Ruta a realizar el merge.
+	 * @param		ruta2 Ruta a realizar el merge.
+	 * @return  	Devuelve la colección de rutas producto de realizar el merge entre la <code>ruta1</code> y la <code>ruta2</code>.
+	 * 
+	 */
 	public Collection<DTRuteo> mergeRutas(Collection<DTRuteo> solucion, DTRuteo ruta1, DTRuteo ruta2) {
 		
 		// Remuevo las rutas de la solucion
@@ -66,6 +107,12 @@ public class Ruta {
 		return solucion;
 	}
 	
+	/**
+	 * Calcula y setea el costo de una ruta.
+	 *  
+	 * @param		dt Ruta a calcular y setar el costo.
+	 *  
+	 */
 	public void setCosto(DTRuteo dt)
 	{
 		DTNodo dep=dt.getDeposito();
@@ -83,6 +130,12 @@ public class Ruta {
 		
 	}
 	
+	/**
+	 * Retorna la demanda de todos los cliente que estan en la ruta <code>dt</code>. 
+	 * 
+	 * @return      Devuelve el valor de la demanda de todos los cliente que estan en la ruta <code>dt</code>.
+	 * 
+	 */
 	public int getCarga(DTRuteo dt)
 	{
 		DTNodo dep=dt.getDeposito();
@@ -95,6 +148,15 @@ public class Ruta {
 		}
 		return carga;
 	}
+	
+	/**
+	 * Retorna <code>true</code> si las ruta <code>uno</code> y ruta <code>dos</code> son las mismas. 
+	 * 
+	 * @param	uno Ruta a comparar.
+	 * @param	dos Ruta a comparar.
+	 * @return      Devuelve true <code>true</code> si las ruta <code>uno</code> y ruta <code>dos</code> son las mismas.
+	 * 
+	 */
 	public boolean sonMismaRuta(DTRuteo uno,DTRuteo dos)
 	{
 		if(uno.getDeposito().getId()==dos.getDeposito().getId())
@@ -114,6 +176,13 @@ public class Ruta {
 		}else return false;
 	}
 	
+	/**
+	 * Retorna el costo de la colección de rutas. 
+	 * 
+	 * @param	col Colección de rutas a calcular el costo.	 * 
+	 * @return      Devuelve el costo de la colección de rutas.
+	 * 
+	 */
 	public int getCostoCW(Collection<DTRuteo> col,int cap)
 	{
 		int costo=0;
