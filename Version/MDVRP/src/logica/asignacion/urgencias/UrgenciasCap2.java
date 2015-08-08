@@ -24,6 +24,8 @@ public class UrgenciasCap2 {
 	}
 	private UrgenciasCap2()
 	{
+		// UrgenciasCap2 - Algoritmo = 0
+		Config.getInstancia().setAlgoritmo(Config.urgenciasCapRapido);
 	}
 	
 	private Collection<ClienteCap2> clientes;

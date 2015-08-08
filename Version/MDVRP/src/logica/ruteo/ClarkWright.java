@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import util.Config;
 import util.Distancia;
 import util.Ruta;
 import datatypes.DTAsignacion;
@@ -15,6 +16,7 @@ import datatypes.DTRuteo;
 import logica.Fabrica;
 import logica.IRuteo;
 import logica.ruteo.opt.Landainterchange;
+//import logica.ruteo.opt.Landainterchange;
 
 public class ClarkWright implements IRuteo
 {
@@ -98,14 +100,14 @@ public class ClarkWright implements IRuteo
 	            {
 	            	if(!Ruta.getInstancia().sonMismaRuta(ruta1,ruta2)) 
 	                if (Ruta.getInstancia().getCarga(ruta1) + Ruta.getInstancia().getCarga(ruta2) <= capacidad) 
-	                { 
-	                //	 Si el merge es Factible
+	                {
+	                //	Si el merge es Factible
 	                //	if(Ruta.getInstancia().sonMismaRuta(ruta1,ruta2)) System.out.println("son la misma ruta!!!! en el merge");
 	                	solucion = Ruta.getInstancia().mergeRutas(solucion, ruta1, ruta2);
 	                }
 	            }
 	        }
-	    }		
+	    }
 		return solucion;
 	}
 	
@@ -117,12 +119,10 @@ public class ClarkWright implements IRuteo
 		while(it.hasNext())
 		{
 			DTRuteo dta=it.next();
-			DTRuteo nuevo=logica.ruteo.opt.Route14opt.getInstancia().opt4(dta,5);
+			DTRuteo nuevo=logica.ruteo.opt.Route14opt.getInstancia().opt4(dta,Config.getInstancia().getLambdaOpt());
 			opt.add(nuevo);
-			
 		}
 		return opt;
-
 	}
 	
 	public Collection<DTRuteo> post2intraroute(DTAsignacion dt,int capacidad)

@@ -9,6 +9,7 @@ import java.awt.event.ItemListener;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -22,17 +23,29 @@ import util.Config;
 
 public class JDialogConfig extends JDialog
 {
+	private JPanel superior;
+	
+	/*
+	 * Constructor por defecto
+	 * 
+	 */
 	public JDialogConfig() 
 	{
 		super();
 		init();
 	}
-	public void init()
+	
+	/*
+	 * Llamado por el constructor para inicializar el JDialogConfig
+	 * 
+	 */
+	private void init()
 	{
-		setSize(300,275);
-	    setLocation(533,  200);
+		setSize(300, 330);
+	    setLocation(533, 200);
 	    setTitle("CONFIGURACIÓN");
-	    //setResizable(false);
+	    setResizable(false);
+	    setModal(true);
 	    
 	    // Condiciones de Parada
 	    final JRadioButton ningunoButton = new JRadioButton("Ninguno");
@@ -97,6 +110,7 @@ public class JDialogConfig extends JDialog
 			mejoraButton.setFocusable(true);
 		}
 		
+		// Condiciones de Parada ItemListener
 	    ningunoButton.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {								
@@ -167,32 +181,48 @@ public class JDialogConfig extends JDialog
 	    
 	    // Holgura en los Depósitos
 	    int holguraDep = Config.getInstancia().getHolguraDep();
-	    JPanel panelHolgura = new JPanel(new GridLayout(0, 4));
+	    JPanel panelHolgura = new JPanel(new GridLayout(3, 1));
 	    Border borderHolgura = BorderFactory.createTitledBorder("Holgura en los Depósitos");
 	    panelHolgura.setBorder(borderHolgura);
-	    panelHolgura.add(new JLabel("Holgura"));
+	    JPanel panelHolgura1 = new JPanel(new GridLayout(1, 4));
+	    panelHolgura1.add(new JLabel("Holgura"));
 	    final JSpinner jSpinerHolgura = new JSpinner(new SpinnerNumberModel(holguraDep,100,200,1));
-	    panelHolgura.add(jSpinerHolgura);
-	    panelHolgura.add(new JLabel(" %"));
-	    panelHolgura.add(new JLabel(""));
+	    panelHolgura1.add(jSpinerHolgura);
+	    panelHolgura1.add(new JLabel(" %"));
+	    panelHolgura1.add(new JLabel(" "));
+	    JPanel panelHolgura2 = new JPanel(new GridLayout(1, 1));
+	    panelHolgura2.add(new JLabel("Aplicar en algoritmos:"));
+	    JPanel panelHolgura3 = new JPanel(new GridLayout(1, 2));
+	    final JCheckBox CheckBoxRapido = new JCheckBox("Asignación Rápida");
+	    CheckBoxRapido.setSelected(Config.getInstancia().getHolguraAlgoritmo(Config.urgenciasCapRapido));
+	    panelHolgura3.add(CheckBoxRapido);
+	    final JCheckBox CheckBoxLento = new JCheckBox("Asignación Lenta");
+	    CheckBoxLento.setSelected(Config.getInstancia().getHolguraAlgoritmo(Config.urgenciasCapLento));
+	    panelHolgura3.add(CheckBoxLento);	    
+	    
+	    panelHolgura.add(panelHolgura1);
+	    panelHolgura.add(panelHolgura2);
+	    panelHolgura.add(panelHolgura3);
 	    
 	    // Lambda-Opt
-	    JPanel panelLambda = new JPanel(new GridLayout(0, 4));
-	    Border borderLambda = BorderFactory.createTitledBorder("Lambda-Opt");
+	    JPanel panelLambda = new JPanel(new GridLayout(1, 4));
+	    Border borderLambda = BorderFactory.createTitledBorder("Optimización en Rutas");
 	    panelLambda.setBorder(borderLambda);
-	    panelLambda.add(new JLabel("Lambda-Opt"));
-	    final JFormattedTextField fieldLambda = new JFormattedTextField (new Integer(Config.getInstancia().getLambdaOpt()));
-	    panelLambda.add(fieldLambda);
-	    panelLambda.add(new JLabel(""));
-	    panelLambda.add(new JLabel(""));
+	    panelLambda.add(new JLabel("Lambda-Opt  "));
+	    final JSpinner jSpinerLambda = new JSpinner(new SpinnerNumberModel(Config.getInstancia().getLambdaOpt(),2,4,1));
+	    panelLambda.add(jSpinerLambda);
+	    panelLambda.add(new JLabel(" "));
+	    panelLambda.add(new JLabel(" "));
 	    
 	    // Botones
 	    JPanel Jbotton=new JPanel();
+	    Jbotton.setLayout(new GridLayout(1,2));
 		JButton aceptar=new JButton("ACEPTAR");
-		Jbotton.add(aceptar);
 		JButton cancelar=new JButton("CANCELAR");
+		Jbotton.add(aceptar);
 		Jbotton.add(cancelar);
-				
+		
+		// Botones ActionListener
 		aceptar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{				
@@ -208,7 +238,11 @@ public class JDialogConfig extends JDialog
 				if (mejoraButton.isSelected())
 					Config.getInstancia().setMejora((double) fieldMejora.getValue());
 				
-				Config.getInstancia().setHolguraDep((int) jSpinerHolgura.getValue());
+				Config.getInstancia().setHolguraDep((int) jSpinerHolgura.getValue());				
+				Config.getInstancia().setHolguraAlgoritmo(Config.urgenciasCapRapido, CheckBoxRapido.isSelected());
+				Config.getInstancia().setHolguraAlgoritmo(Config.urgenciasCapLento, CheckBoxLento.isSelected());
+				
+				Config.getInstancia().setLambdaOpt((int) jSpinerLambda.getValue());
 				
 				dispose();
 			}
@@ -221,14 +255,14 @@ public class JDialogConfig extends JDialog
 			}
 		});
 	    
-	    panelCond.setBounds(0, 0, 282, 120);
-	    panelHolgura.setBounds(0, 130, 282, 45);
-	    panelLambda.setBounds(0, 185, 282, 45);
-	    Jbotton.setBounds(0, 245, 282, 40);
-		this.add(panelCond);
-		this.add(panelHolgura);
-		this.add(panelLambda);
-		this.add(Jbotton);
-		setVisible(true);
+		this.superior=new JPanel();
+		this.add(superior);
+						
+	    this.superior.add(panelCond);
+		this.superior.add(panelHolgura);
+		this.superior.add(panelLambda);
+		this.superior.add(Jbotton);
+		
+		this.setVisible(true);
 	}
 }
