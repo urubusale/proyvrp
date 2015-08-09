@@ -2,7 +2,6 @@ package logica;
 import java.util.Collection;
 
 import datatypes.DTAsignacion;
-import datatypes.DTDepositoVRP;
 import datatypes.DTRuteo;
 
 public interface IRuteo 

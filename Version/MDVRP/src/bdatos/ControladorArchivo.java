@@ -7,6 +7,14 @@ import java.util.ArrayList;
 public class ControladorArchivo 
 {
 	static private ControladorArchivo instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public ControladorArchivo getInstancia()
 	{
 		if (instancia==null)  
@@ -17,10 +25,21 @@ public class ControladorArchivo
 		else return instancia;
 	}
 	
+	/** 
+	 * Constructor por defecto.
+	 * 
+	 */
 	private ControladorArchivo()
 	{
 	}
 
+	/** 
+	 * Lee las lineas que contiene el archivo de depositos de VRP.
+	 * 
+	 * @param	path Path donde se encuentra el archivo.
+	 * @return      Devuelve la colección de lineas que contiene el archivo.
+	 * 
+	 */
 	public Collection<String> leerArchivoDepositoVRP(String path)
 	{
 		ArrayList<String> ar=new ArrayList<String>();

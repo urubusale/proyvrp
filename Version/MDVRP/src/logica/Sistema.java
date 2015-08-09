@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.StringTokenizer;
 
 import datatypes.*;
@@ -11,6 +10,14 @@ import datatypes.*;
 public class Sistema implements ISistema
 {
 	static private Sistema instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public Sistema getInstancia()
 	{
 		if (instancia==null)  
@@ -19,10 +26,35 @@ public class Sistema implements ISistema
 			return instancia;
 		}else return instancia;
 	}
+	
+	/** 
+	 * Constructor por defecto.
+	 * 
+	 */
 	private Sistema()
 	{
 	}
 	
+	/** 
+	 * Genera un nuevo<code>DTDepositoVRP</code> con los datos <code>datos</code>.
+	 * <p>
+	 * Realiza la llamada a 
+	 * <code>setNAME</code>, 
+	 * <code>setCAPACITY</code>, 
+	 * <code>setCOMMENT</code>, 
+	 * <code>setDIMENSION</code>, 
+	 * <code>setDISPLAY_DATA_TYPE</code>, 
+	 * <code>setEDGE_WEIGHT_FORMAT</code>, 
+	 * <code>setEDGE_WEIGHT_TYPE</code>, 
+	 * <code>setTYPE</code>, 
+	 * <code>setNodos</code> 
+	 * de <code>DTDepositoVRP</code>
+	 * 
+	 * Colección de String que contiene los datos para generar un <code>DTDepositoVRP</code>.
+	 * 
+	 * @return      Retorna un nuevo<code>DTDepositoVRP</code> con los datos <code>datos</code> pasados por parametro. 
+	 * 
+	 */
 	public DTDepositoVRP ImportarDepositoVRP(Collection<String> datos) throws Exception
 	{
 		

@@ -179,7 +179,7 @@ public class Ruta {
 	/**
 	 * Retorna el costo de la colección de rutas. 
 	 * 
-	 * @param	col Colección de rutas a calcular el costo.	 * 
+	 * @param	col Colección de rutas a calcular el costo. 
 	 * @return      Devuelve el costo de la colección de rutas.
 	 * 
 	 */
