@@ -13,6 +13,14 @@ import datatypes.DTNodo;
 public class Distancia 
 {
 	static private Distancia instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public Distancia getInstancia()
 	{
 		if (instancia==null)  
@@ -21,6 +29,11 @@ public class Distancia
 			return instancia;
 		}else return instancia;
 	}
+	
+	/**
+	 * Constructor por defecto. 
+	 * 
+	 */
 	private Distancia()
 	{
 		euclidia=true;
@@ -36,6 +49,14 @@ public class Distancia
 	static private Collection<Integer> valores;
 	static private Random ran;
 
+	/**
+	 * Retorna la distancia entre el nodo <code>n1</code> y el nodo <code>n2</code>. Resuelve el calculo si EDGE_WEIGHT_TYPE del archivo se presenta en forma euclideana o explicita.
+	 * 
+	 * @param	n1 Primer nodo para calcular la distancia.
+	 * @param	n2 Segundo nodo para calcular la distancia.
+	 * @return      Devuelve la distancia entre el nodo <code>n1</code> y el nodo <code>n2</code>.
+	 * 
+	 */
 	public int getDistancia(DTNodo n1,DTNodo n2)
 	{
 		if(euclidia)
@@ -60,6 +81,14 @@ public class Distancia
 		}
 	}
 	
+	/**
+	 * Retorna la distancia entre el nodo <code>n1</code> y el nodo <code>n2</code>. Resuelve el calculo si EDGE_WEIGHT_FORMAT del archivo se presenta en forma LOWER_COL.
+	 * 
+	 * @param	n1 Primer nodo para calcular la distancia.
+	 * @param	n2 Segundo nodo para calcular la distancia.
+	 * @return      Devuelve la distancia entre el nodo <code>n1</code> y el nodo <code>n2</code>.
+	 * 
+	 */
 	private int obtenerDistExplicitaLowerCol(DTNodo n1,DTNodo n2)
 	{
 		DTNodo menor;
@@ -93,6 +122,14 @@ public class Distancia
 		return 1;
 	}
 
+	/**
+	 * Retorna la distancia entre el nodo <code>n1</code> y el nodo <code>n2</code>. Resuelve el calculo si EDGE_WEIGHT_FORMAT del archivo se presenta en forma LOWER_ROW.
+	 * 
+	 * @param	n1 Primer nodo para calcular la distancia.
+	 * @param	n2 Segundo nodo para calcular la distancia.
+	 * @return      Devuelve la distancia entre el nodo <code>n1</code> y el odo <code>n2</code>.
+	 * 
+	 */
 	private int obtenerDistExplicitaLowerRow(DTNodo n1,DTNodo n2)
 	{
 		DTNodo menor;
@@ -126,6 +163,13 @@ public class Distancia
 		return 1;
 	}
 
+	/**
+	 * Setea los valores a los atributos para los archivos cuya EDGE_WEIGHT_FORMAT del archivo se presenta en forma LOWER_COL.
+	 * 
+	 * @param	d Dimension.
+	 * @param	valores Colección de valores.
+	 * 
+	 */
 	public void setearMatrizExplicitaLowerCol(int d,Collection<Integer> valores)
 	{
 		this.dimension=d;
@@ -135,6 +179,13 @@ public class Distancia
 		this.lowerrow=false;
 	}
 	
+	/**
+	 * Setea los valores a los atributos para los archivos cuya EDGE_WEIGHT_FORMAT del archivo se presenta en forma LOWER_ROW.
+	 * 
+	 * @param	d Dimension.
+	 * @param	valores Colección de valores.
+	 * 
+	 */
 	public void setearMatrizExplicitaLowerRow(int d,Collection<Integer> valores)
 	{
 		this.dimension=d;
@@ -143,12 +194,24 @@ public class Distancia
 		this.lowercol=false;
 		this.lowerrow=true;
 	}
+	
+	/**
+	 * Setea los valores a los atributos para los archivos cuya EDGE_WEIGHT_TYPE del archivo se presenta en forma euclideana.
+	 * 
+	 */
 	public void setearEuclidia()
 	{
 		this.euclidia=true;
 		this.lowercol=false;
 		this.lowerrow=false;
 	}
+	
+	/**
+	 * Mapea la matriz a partir de la colección de nodos <code>col</code>.
+	 * 
+	 * @param	col Colección de nodos.
+	 * 
+	 */
 	public void mapearMatriz(Collection<DTNodo> col)
 	{
 		int mayorDistancia=0;
@@ -229,7 +292,15 @@ public class Distancia
 	
 	}
 	
-	public void insertarNodo(ArrayList<DTNodo> maps,DTNodo p,int rango)
+	/**
+	 * Inserta el nodo <code>p</code> con rango <code>rango</code> al mapa <code>maps</code>.
+	 * 
+	 * @param	maps Mapa a insertar el nodo.
+	 * @param	p Nodo a insertar al mapa.
+	 * @param	rango Rango del nodo.
+	 * 
+	 */
+	private void insertarNodo(ArrayList<DTNodo> maps,DTNodo p,int rango)
 	{
 		Sistema.getInstancia().adelantarPorgresoDeAvance((float)100/this.dimension);
 	//	try{Thread.sleep(500);}catch(Exception ex){ex.printStackTrace();}
@@ -320,6 +391,14 @@ public class Distancia
 
 	}
 	
+	/**
+	 * Retorna la distancia gráfica entre el nodo <code>n1</code> y el nodo <code>n2</code>.
+	 * 
+	 * @param	n1 Primer nodo para calcular la distancia.
+	 * @param	n2 Segundo nodo para calcular la distancia.
+	 * @return      Devuelve el valor de la distancia gráfica entre el nodo <code>n1</code> y el nodo <code>n2</code>.
+	 * 
+	 */
 	public BigDecimal getDistanciaGrafica(DTNodo n1,DTNodo n2)
 	{
 		int difx=n1.getX()-n2.getX();
