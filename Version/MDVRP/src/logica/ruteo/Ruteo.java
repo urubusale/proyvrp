@@ -9,6 +9,14 @@ import datatypes.*;
 public class Ruteo implements IRuteo
 {
 	static private Ruteo instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public Ruteo getInstancia()
 	{
 		if (instancia==null)  
@@ -17,6 +25,11 @@ public class Ruteo implements IRuteo
 			return instancia;
 		}else return instancia;
 	}
+	
+	/** 
+	 * Constructor por defecto.
+	 * 
+	 */
 	private Ruteo()
 	{
 	}
