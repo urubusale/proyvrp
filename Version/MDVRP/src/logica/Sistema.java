@@ -50,9 +50,9 @@ public class Sistema implements ISistema
 	 * <code>setNodos</code> 
 	 * de <code>DTDepositoVRP</code>
 	 * 
-	 * Colección de String que contiene los datos para generar un <code>DTDepositoVRP</code>.
-	 * 
+	 * @param		Colección de String que contiene los datos para generar un <code>DTDepositoVRP</code>.	 * 
 	 * @return      Retorna un nuevo<code>DTDepositoVRP</code> con los datos <code>datos</code> pasados por parametro. 
+	 * @throws		<code>Exception</code> si hay error al leer el archivo.
 	 * 
 	 */
 	public DTDepositoVRP ImportarDepositoVRP(Collection<String> datos) throws Exception
@@ -285,35 +285,102 @@ public class Sistema implements ISistema
 			return vrp;
 	}
 	
-	
+	/**
+	 * El método se encarga de realizar la asignación sin capacidades. No concidera las capacidades en los Depositos.
+	 * <p>
+	 * Realiza la llamada al método <code>asignar</code> de la interfase <code>IAsignacion</code>.
+	 * <p>
+	 * Recibe por parámetro <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * <p>
+	 * Retorna una colección de <code>DTAsignacion</code>. Cada <code>DTAsignacion</code> contiene un deposito y una colección de clientes que estan asignados al deposito.
+	 *
+	 * @param	d <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * @return      Devuelve una colección de <code>DTAsignacion</code>.
+	 * 
+	 */
 	public Collection<DTAsignacion> asignar(DTDepositoVRP d)
 	{
 		return Fabrica.getInstancia().getAsignacion().asignar(d);
 	}
 
-	public Collection<DTRuteo> rutear(DTAsignacion dt,int capacidad)
-	{
-		return Fabrica.getInstancia().getRuteo().rutear(dt,capacidad);
-	}
-	
+	/**
+	 * El método se encarga de realizar la asignación con capacidades. Concidera las capacidades en los Depositos.
+	 * <p>
+	 * Realiza la llamada al método <code>asignarCap</code> de la interfase <code>IAsignacion</code>.
+	 * <p>
+	 * Recibe por parámetro <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * <p>
+	 * Retorna una colección de <code>DTAsignacion</code>. Cada <code>DTAsignacion</code> contiene un deposito y una colección de clientes que estan asignados al deposito.
+	 *
+	 * @param	d <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * @return      Devuelve una colección de <code>DTAsignacion</code>.
+	 * 
+	 */
 	public Collection<DTAsignacion> asignarCap(DTDepositoVRP d)
 	{
 		return Fabrica.getInstancia().getAsignacion().asignarCap(d);
 	}
 	
+	/**
+	 * El metodo se encarga de realizar la asignación Hibrida para depósitos con capacidad limitada (Algoritmo 1).
+	 * <p>
+	 * Realiza la llamada al método <code>asignarCap2</code> de la interfase <code>IAsignacion</code>.
+	 * <p>
+	 * Recibe por parámetro <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * <p>
+	 * Retorna una colección de <code>DTAsignacion</code>. Cada <code>DTAsignacion</code> contiene un deposito y una colección de clientes que estan asignados al deposito.
+	 *
+	 * @param	d <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * @return      Devuelve una colección de <code>DTAsignacion</code>.
+	 * 
+	 */
 	public Collection<DTAsignacion> asignarCap2(DTDepositoVRP d)
 	{
 		return Fabrica.getInstancia().getAsignacion().asignarCap2(d);
 	}
 
+	/**
+	 * El metodo se encarga de realizar la asignación Hibrida para depósitos con capacidad limitada (Algoritmo 2).
+	 * <p>
+	 * Realiza la llamada al método <code>asignarCap22</code> de la interfase <code>IAsignacion</code>.
+	 * <p>
+	 * Recibe por parámetro <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * <p>
+	 * Retorna una colección de <code>DTAsignacion</code>. Cada <code>DTAsignacion</code> contiene un deposito y una colección de clientes que estan asignados al deposito.
+	 *
+	 * @param	d <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * @return      Devuelve una colección de <code>DTAsignacion</code>.
+	 * 
+	 */
 	public Collection<DTAsignacion> asignarCap22(DTDepositoVRP d)
 	{
 		return Fabrica.getInstancia().getAsignacion().asignarCap22(d);
 	}
+
+	/**
+	 * El método se encarga de realizar el ruteo. Se realiza una exploración limitada del espacio de b´usqueda y dan soluciones de calidad aceptable en tiempos de cálculo generalmente moderados.
+	 * <p>
+	 * Realiza la llamada al método <code>rutear</code> de la interfase <code>IRuteo</code>.
+	 * <p>
+	 * Recibe por parámetro el deposito y la colección de clientes que estan asigandos a ese depositos (<code>DTAsignacion</code>), y la <code>capacidad</code> de los vehiculos.
+	 * <p>
+	 * Retorna una colección de <code>DTRuteo</code>. Cada <code>DTRuteo</code> contiene el deposito, una lista de clientes que representa la ruta y el costo de la misma.
+	 *
+	 * @param	dt <code>DTAsignacion</code> donde contiene el deposito y la colección de clientes que estan asigandos a ese depositos.
+	 * @param	capacidad Capacidad de los vehiculos.
+	 * @return      Devuelve una colección de <code>DTRuteo</code>.
+	 * 
+	 */
+	public Collection<DTRuteo> rutear(DTAsignacion dt,int capacidad)
+	{
+		return Fabrica.getInstancia().getRuteo().rutear(dt,capacidad);
+	}
+	
 	public Collection<DTRuteo> post2intraroute(DTAsignacion dt,int capacidad)
 	{
 		return Fabrica.getInstancia().getRuteo().post2intraroute(dt, capacidad);
 	}
+	
 	public Collection<DTRuteo> rutearopt(DTAsignacion dt,int capacidad)
 	{
 		return Fabrica.getInstancia().getRuteo().rutear4opt(dt,capacidad);
@@ -326,14 +393,17 @@ public class Sistema implements ISistema
 	{
 		return estadoConsulta;
 	}
+	
 	synchronized public void setAbortoEstadoConsulta()
 	{
 		estadoConsulta=-1;
 	}
+	
 	synchronized public void setFinalizadoOkEstadoConsulta()
 	{
 		estadoConsulta=1;
 	}
+	
 	synchronized public void setInicioEstadoConsulta()
 	{
 		estadoConsulta=0;
@@ -348,6 +418,7 @@ public class Sistema implements ISistema
 		return (int) Math.round(progreso);
 	
 	}
+	
 	synchronized public void adelantarPorgresoDeAvance(float p)
 	{
 //		System.out.println("adelantado .... "+p);
@@ -360,19 +431,28 @@ public class Sistema implements ISistema
 	private Collection<DTAsignacion> pareciales;
 	private String mensaje;
 	private DTNodo radio;
+	
 	public DTNodo getRadio(){return radio;}
+	
 	public void setRadio(DTNodo s){this.radio=s;}
+	
 	public void setMapeados(Collection<DTNodo> m){this.mapeados=m;}
+	
 	public Collection<DTNodo> getMapeados(){return this.mapeados;}
+	
 	public void setParciales(Collection<DTAsignacion> m){this.pareciales=m;}
+	
 	public Collection<DTAsignacion> getParciales(){return this.pareciales;}
 	
 	public void setResaltados(Collection<DTNodo> m){
 		if(this.resaltados==null) resaltados=new ArrayList<DTNodo>();
 		this.resaltados.addAll(m);}
+	
 	public Collection<DTNodo> getResaltados(){return this.resaltados;}
+	
 	public void setMensaje(String m)
 	{mensaje=mensaje+m+"\n";}
+	
 	public String getMensaje(){return this.mensaje;}
 
 }

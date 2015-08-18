@@ -2,11 +2,8 @@ package logica.ruteo.opt;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import util.Ruta;
-import logica.Fabrica;
-import datatypes.DTAsignacion;
 import datatypes.DTNodo;
 import datatypes.DTRuteo;
 
