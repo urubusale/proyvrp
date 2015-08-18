@@ -9,6 +9,8 @@ public class JPanelAsignaciones extends JScrollPane
 {
 	private JTableAsignaciones tabla;
 	private JPanelMapa mapa;
+	
+	
 	public JPanelAsignaciones(JTableAsignaciones n)
 	{
 		super(n);

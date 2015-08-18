@@ -25,7 +25,7 @@ public class JDialogConfig extends JDialog
 {
 	private JPanel superior;
 	
-	/*
+	/**
 	 * Constructor por defecto
 	 * 
 	 */
@@ -35,8 +35,8 @@ public class JDialogConfig extends JDialog
 		init();
 	}
 	
-	/*
-	 * Llamado por el constructor para inicializar el JDialogConfig
+	/**
+	 *Constructor que realiza la inicialización de <code>JDialogConfig</code>
 	 * 
 	 */
 	private void init()

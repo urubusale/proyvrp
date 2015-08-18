@@ -1,45 +1,33 @@
 package main;
 import java.awt.BorderLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.border.Border;
 
 import util.Config;
 import util.Distancia;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
-import datatypes.DTRuteo;
 import bdatos.ControladorArchivo;
 
 import java.awt.event.WindowListener;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -71,6 +59,11 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 		private JPanelNodos nodos;
 		private JPanelMapaZoom2 mapa;
 		private JPanelRutas rutas;
+		
+		/**
+		 * Constructor por defecto
+		 * 
+		 */
 		public JFramePrincipalVRP() 
 		{
 			super("MDVRP");
@@ -79,8 +72,10 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 			initConfiguration();
 		}
 		
-	
-
+		/**
+		 *Constructor que realiza la inicialización del <code>JFramePrincipalVRP</code> 
+		 * 
+		 */
 		public void initGUI() 
 		{
 			try 
@@ -499,6 +494,10 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 			
 		}
 		
+		/**
+		 * Constructor que realiza la inicialización de las configuraciones
+		 * 
+		 */
 		public void initConfiguration() 
 		{
 			Config.getInstancia();			
