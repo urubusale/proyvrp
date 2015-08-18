@@ -9,7 +9,7 @@ public class DTRuteo
 	private int costo;
 	
 	/**
-	 * Constructor por parametro. Se crea <code>DTRuteo</code> con el deposito <code>d</code>, ruta de clientesvacia y con costo cero.
+	 * Constructor por parametro. Se crea <code>DTRuteo</code> con el deposito <code>d</code>, ruta de clientes vacia y con costo cero.
 	 * 
  	 * @param	d Deposito.
  	 *  
