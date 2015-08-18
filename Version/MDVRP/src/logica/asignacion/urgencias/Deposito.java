@@ -12,6 +12,7 @@ public class Deposito
 	private Collection<Cliente> asignados;
 	private int capacidadLibre;
 	private int capacidadLibrePonderada;
+	
 	public Deposito(DTNodo d)
 	{
 		this.nodo=d;
@@ -29,8 +30,11 @@ public class Deposito
 		this.capacidadLibre=dep.getCapacidadLibre();
 		this.capacidadLibrePonderada=dep.getCapacidadLibrePonderada();
 	}
+	
 	public DTNodo getNodo(){return nodo;}
+	
 	public Collection<Cliente> getAsignados(){return asignados;}
+	
 	public void agregarCliente(Cliente c)
 	{
 		this.asignados.add(c);
@@ -46,7 +50,10 @@ public class Deposito
 	}
 	
 	public void setCapacidadLibre(int c){this.capacidadLibre=c;}
+	
 	public int getCapacidadLibre(){return this.capacidadLibre;}
+	
 	public void setCapacidadLibrePonderada(double c){this.capacidadLibrePonderada = (int)(c*this.nodo.getDemanda());}
+	
 	public int getCapacidadLibrePonderada(){return this.capacidadLibrePonderada;}
 }

@@ -11,6 +11,7 @@ import datatypes.DTNodo;
 public class Urgencias
 {
 	static private Urgencias instancia=null;
+	
 	static public Urgencias getInstancia()
 	{
 		if (instancia==null)  
@@ -19,6 +20,7 @@ public class Urgencias
 			return instancia;
 		}else return instancia;
 	}
+	
 	private Urgencias()
 	{
 	}

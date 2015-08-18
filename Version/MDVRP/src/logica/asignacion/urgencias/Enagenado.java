@@ -5,6 +5,7 @@ public class Enagenado implements Comparable{
 	private Deposito deposito;
 	private Deposito depositoDestino;
 	private int mu;
+	
 	public Enagenado (ClienteCap2 c, Deposito d, Deposito depositoDestino) {
 		this.setCliente(c) ;
 		this.setDeposito(d) ;
@@ -34,9 +35,14 @@ public class Enagenado implements Comparable{
 	public void setDeposito(Deposito deposito) {
 		this.deposito = deposito;
 	}
-	public void setMu(int m)
-	{this.mu=m;}
-	public int getMu(){return mu;}
+	
+	public void setMu(int m) {
+		this.mu=m;
+	}
+	
+	public int getMu() {
+		return mu;
+	}
 	
 	public int compareTo(Object o)
 	{
