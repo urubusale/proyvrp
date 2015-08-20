@@ -35,11 +35,20 @@ public class Tiempo {
 	 * Variables estaticas.
 	 */
 	static private double inicio;
-		
+	
+	/** 
+	 * Establece el tiempo de inicio del algoritmo.
+	 */
 	public void inicioAlgoritmo() {
 		inicio = System.currentTimeMillis();
 	}
 	
+	/**
+	 * Retorna el tiempo total del algoritmo. 
+	 * 
+	 * @return      Devuelve el tiempo total del algoritmo.
+	 * 
+	 */
 	public BigDecimal finAlgoritmo() {
 		long fin = System.currentTimeMillis();
 		double tiempoTotal = fin - inicio;
