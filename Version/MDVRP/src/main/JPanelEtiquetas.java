@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,12 +15,14 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import util.Tiempo;
 import logica.Fabrica;
 import logica.Sistema;
 import datatypes.DTAsignacion;
@@ -189,6 +193,9 @@ public class JPanelEtiquetas extends JPanel
 		rutear.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Inicializo el tiempo del algoritmo
+				Tiempo.getInstancia().inicioAlgoritmo();
+				
 				Iterator<DTAsignacion> it=asignaciones.iterator();
 				rutas=new ArrayList<DTRuteo>();
 				while(it.hasNext())
@@ -200,11 +207,21 @@ public class JPanelEtiquetas extends JPanel
 //				inferior.setAsignaciones(asignaciones);
 //				mapa.setAsignaciones(asignaciones);
 			//	rutear.setEnabled(false);
+				
+				// Establezco el Fin del tiempo del algoritmo
+				BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
+				JOptionPane optionPane = new JOptionPane("Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos", JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null, "Tiempo del algoritmo");
+				dialog.setLocation(545, 305);
+				dialog.setVisible(true);
 			}
 		});
 		rutearopt.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Inicializo el tiempo del algoritmo
+				Tiempo.getInstancia().inicioAlgoritmo();
+				
 				Iterator<DTAsignacion> it=asignaciones.iterator();
 				rutas=new ArrayList<DTRuteo>();
 				while(it.hasNext())
@@ -216,12 +233,22 @@ public class JPanelEtiquetas extends JPanel
 //				inferior.setAsignaciones(asignaciones);
 //				mapa.setAsignaciones(asignaciones);
 			//	rutearopt.setEnabled(false);
+				
+				// Establezco el Fin del tiempo del algoritmo
+				BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
+				JOptionPane optionPane = new JOptionPane("Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos", JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null, "Tiempo del algoritmo");
+				dialog.setLocation(545, 305);
+				dialog.setVisible(true);
 			}
 		});
 
 		rutearoptintra.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Inicializo el tiempo del algoritmo
+				Tiempo.getInstancia().inicioAlgoritmo();
+				
 				Iterator<DTAsignacion> it=asignaciones.iterator();
 				rutas=new ArrayList<DTRuteo>();
 				while(it.hasNext())
@@ -233,6 +260,13 @@ public class JPanelEtiquetas extends JPanel
 //				inferior.setAsignaciones(asignaciones);
 //				mapa.setAsignaciones(asignaciones);
 			//	rutearopt.setEnabled(false);
+				
+				// Establezco el Fin del tiempo del algoritmo
+				BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
+				JOptionPane optionPane = new JOptionPane("Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos", JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null, "Tiempo del algoritmo");
+				dialog.setLocation(545, 305);
+				dialog.setVisible(true);
 			}
 		});
 
@@ -247,6 +281,9 @@ public class JPanelEtiquetas extends JPanel
 		asignar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Inicializo el tiempo del algoritmo
+				Tiempo.getInstancia().inicioAlgoritmo();
+				 
 				asignaciones=Fabrica.getInstancia().getSistema().asignar(vrp);
 				inferior.setAsignaciones(asignaciones);
 				inferior2.setAsignaciones(asignaciones);
@@ -258,6 +295,13 @@ public class JPanelEtiquetas extends JPanel
 				rutearoptintra.setEnabled(true);
 
 				panrutas.setRutas(new ArrayList<DTRuteo>());
+				
+				// Establezco el Fin del tiempo del algoritmo
+				BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
+				JOptionPane optionPane = new JOptionPane("Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos", JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null, "Tiempo del algoritmo");
+				dialog.setLocation(545, 305);
+				dialog.setVisible(true);
 			}
 		});
 
@@ -270,6 +314,9 @@ public class JPanelEtiquetas extends JPanel
 		asignarCap.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Inicializo el tiempo
+				Tiempo.getInstancia().inicioAlgoritmo();
+				
 				asignaciones=Fabrica.getInstancia().getSistema().asignarCap(vrp);
 				inferior.setAsignaciones(asignaciones);
 				inferior2.setAsignaciones(asignaciones);
@@ -279,6 +326,13 @@ public class JPanelEtiquetas extends JPanel
 				rutearopt.setEnabled(true);
 				rutearoptintra.setEnabled(true);
 				panrutas.setRutas(new ArrayList<DTRuteo>());
+				
+				// Establezco el Fin del tiempo del algoritmo
+				BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
+				JOptionPane optionPane = new JOptionPane("Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos", JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null, "Tiempo del algoritmo");
+				dialog.setLocation(545, 305);
+				dialog.setVisible(true);
 			}
 		});
 		
@@ -291,6 +345,9 @@ public class JPanelEtiquetas extends JPanel
 		asignarCap2.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Inicializo el tiempo
+				Tiempo.getInstancia().inicioAlgoritmo();
+				
 				asignaciones=Fabrica.getInstancia().getSistema().asignarCap2(vrp);
 				inferior.setAsignaciones(asignaciones);
 				inferior2.setAsignaciones(asignaciones);
@@ -302,6 +359,13 @@ public class JPanelEtiquetas extends JPanel
 				panrutas.setRutas(new ArrayList<DTRuteo>());
 	//			Cargador car=new Cargador(padre);
 				//car.setVisible(true);
+				
+				// Establezco el Fin del tiempo del algoritmo
+				BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
+				JOptionPane optionPane = new JOptionPane("Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos", JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = optionPane.createDialog(null, "Tiempo del algoritmo");
+				dialog.setLocation(545, 305);
+				dialog.setVisible(true);
 			}
 		});
 		
@@ -314,6 +378,9 @@ public class JPanelEtiquetas extends JPanel
 		asignarCap22.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				// Inicializo el tiempo del algoritmo
+				Tiempo.getInstancia().inicioAlgoritmo();
+				
 			/*	asignaciones=Fabrica.getInstancia().getSistema().asignarCap2(vrp);
 				inferior.setAsignaciones(asignaciones);
 				inferior2.setAsignaciones(asignaciones);
@@ -509,7 +576,7 @@ public class JPanelEtiquetas extends JPanel
 			setVisible(true);	
 		}
 		public void termino()
-		{
+		{			
 			JPanel norte=new JPanel();
 			JButton fin=new JButton("ACEPTAR");
 			norte.add(fin);
@@ -598,7 +665,7 @@ public class JPanelEtiquetas extends JPanel
 			 public void done()
 			 {
 				 	done=true;
-		    		diw.termino();
+				 	diw.termino();
 			 }
 		 }
 		

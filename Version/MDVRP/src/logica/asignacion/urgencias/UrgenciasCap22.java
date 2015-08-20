@@ -1,4 +1,5 @@
 package logica.asignacion.urgencias;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,6 +9,7 @@ import logica.Fabrica;
 import logica.Sistema;
 import util.Config;
 import util.Distancia;
+import util.Tiempo;
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
@@ -620,6 +622,13 @@ public class UrgenciasCap22 {
 			}
 			ar.add(dta);
 		}
+		
+
+	 	// Establezco el Fin del tiempo del algoritmo
+		BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
+		String mensajeTiempo = "*** Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos ***";
+		Sistema.getInstancia().setMensaje(mensajeTiempo);
+		
 		return ar;
 	}
 	
