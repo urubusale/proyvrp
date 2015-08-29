@@ -6,7 +6,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -582,6 +581,16 @@ public class JPanelEtiquetas extends JPanel
 			norte.add(fin);
 			JPanel p=(JPanel)this.getContentPane();
 			p.add(norte,BorderLayout.NORTH);
+			
+			// Establezco el Fin del tiempo del algoritmo
+			BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
+			String mensajeTiempo = "*** Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos ***";
+			String mensaje = Sistema.getInstancia().getMensaje();
+	        if(mensaje!=null)
+	        {
+	        	this.mensaje.setText(mensaje + mensajeTiempo);
+	        }else this.mensaje.setText(mensajeTiempo);
+			
 			fin.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e)
 			{
 				inferior.setAsignaciones(asignaciones);
@@ -593,7 +602,8 @@ public class JPanelEtiquetas extends JPanel
 				rutearoptintra.setEnabled(true);
 
 				panrutas.setRutas(new ArrayList<DTRuteo>());
-	    		System.out.println("terminó");
+				
+				System.out.println("terminó");
 
 				dispose();}});
 			progressBar.setVisible(false);

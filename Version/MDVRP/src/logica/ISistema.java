@@ -1,5 +1,6 @@
 package logica;
 import java.util.Collection;
+
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
 import datatypes.DTRuteo;
@@ -117,5 +118,5 @@ public interface ISistema
 	public void setInicioEstadoConsulta();
 	
 	public int getPorgresoDeAvance();
-
+	
 }

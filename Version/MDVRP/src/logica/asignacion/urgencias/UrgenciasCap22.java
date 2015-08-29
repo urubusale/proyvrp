@@ -622,13 +622,7 @@ public class UrgenciasCap22 {
 			}
 			ar.add(dta);
 		}
-		
-
-	 	// Establezco el Fin del tiempo del algoritmo
-		BigDecimal tiempoAlgoritmo = Tiempo.getInstancia().finAlgoritmo();
-		String mensajeTiempo = "*** Tiempo del algoritmo: " + tiempoAlgoritmo + " segundos ***";
-		Sistema.getInstancia().setMensaje(mensajeTiempo);
-		
+			 	
 		return ar;
 	}
 	
@@ -752,10 +746,10 @@ public class UrgenciasCap22 {
 		{
 			ClienteCap2 clientetmp=it.next();
 				if((Distancia.getInstancia().getDistancia(clientetmp.getNodo(), c.getNodo())< distanciaMasCercano1) && (clientetmp.getNodo().getId() != c.getNodo().getId()))
-					{
+				{
 					c.setClieteMasCercano1(clientetmp);
 					distanciaMasCercano1 = Distancia.getInstancia().getDistancia(clientetmp.getNodo(), c.getNodo());
-					}
+				}
 				else 
 					if((Distancia.getInstancia().getDistancia(clientetmp.getNodo(), c.getNodo())< distanciaMasCercano2) && (clientetmp.getNodo().getId() != c.getNodo().getId()))
 					{

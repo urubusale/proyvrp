@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
-
 import logica.Fabrica;
 import util.Config;
 import util.Distancia;
@@ -125,7 +124,8 @@ public class UrgenciasCap2 {
 
 		// Inicializo el Tiempo en Config
 		Config.getInstancia().empezarAlgoritmo(costomenor);
-
+		ArrayList<Integer> aux,tmp;
+		tmp = new ArrayList<Integer>();
 		boolean terminar=false;
 		while(!terminar)
 		{
@@ -134,10 +134,14 @@ public class UrgenciasCap2 {
 			this.calcularEnagenamiento();
 			// Aplico todos los cambios de la lista de enagenados ....
 
+			aux = new ArrayList<Integer>();
 			Iterator<Enagenado> itena= this.enagenados.iterator();
 			while(itena.hasNext())
 			{
 				Enagenado ena=itena.next();
+				
+				aux.add(ena.getCliente().getNodo().getId());
+				
 				if(ena.getDepositoDestino().getCapacidadLibrePonderada()>=ena.getCliente().getNodo().getDemanda())
 				{
 					Iterator<Deposito> respita=this.depositos.iterator();
@@ -164,8 +168,12 @@ public class UrgenciasCap2 {
 				}
 			}
 			
-			//if(cantidadIteraciones==5) terminar=true;
-			if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costomenor))
+			boolean equalLists = ((aux.size() == tmp.size()) && (tmp.containsAll(aux)));
+			tmp = new ArrayList<Integer>();
+			tmp.addAll(aux);
+			
+			
+			if((Config.getInstancia().terminarPorConfig(cantidadIteraciones,costomenor)) || equalLists)
 				terminar=true;
 		}
 		// construir DT de salida.
@@ -306,10 +314,10 @@ public class UrgenciasCap2 {
 		{
 			ClienteCap2 clientetmp=it.next();
 				if((Distancia.getInstancia().getDistancia(clientetmp.getNodo(), c.getNodo())< distanciaMasCercano1) && (clientetmp.getNodo().getId() != c.getNodo().getId()))
-					{
+				{
 					c.setClieteMasCercano1(clientetmp);
 					distanciaMasCercano1 = Distancia.getInstancia().getDistancia(clientetmp.getNodo(), c.getNodo());
-					}
+				}
 				else 
 					if((Distancia.getInstancia().getDistancia(clientetmp.getNodo(), c.getNodo())< distanciaMasCercano2) && (clientetmp.getNodo().getId() != c.getNodo().getId()))
 					{
