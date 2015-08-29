@@ -1,5 +1,4 @@
 package logica.asignacion.urgencias;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -9,14 +8,22 @@ import logica.Fabrica;
 import logica.Sistema;
 import util.Config;
 import util.Distancia;
-import util.Tiempo;
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
 import datatypes.DTRuteo;
 
 public class UrgenciasCap22 {
+	
 	static private UrgenciasCap22 instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public UrgenciasCap22 getInstancia()
 	{
 		if (instancia==null)  
@@ -25,6 +32,11 @@ public class UrgenciasCap22 {
 			return instancia;
 		}else return instancia;
 	}
+	
+	/** 
+	 * Constructor por defecto.
+	 * 
+	 */
 	private UrgenciasCap22()
 	{
 		// UrgenciasCap22 - Algoritmo = 1

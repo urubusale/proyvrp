@@ -29,6 +29,11 @@ public class UrgenciasCap2 {
 			return instancia;
 		}else return instancia;
 	}
+	
+	/** 
+	 * Constructor por defecto.
+	 * 
+	 */
 	private UrgenciasCap2()
 	{
 		// UrgenciasCap2 - Algoritmo = 0
