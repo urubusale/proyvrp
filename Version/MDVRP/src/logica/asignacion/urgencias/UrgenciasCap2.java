@@ -13,6 +13,14 @@ import datatypes.DTRuteo;
 
 public class UrgenciasCap2 {
 	static private UrgenciasCap2 instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public UrgenciasCap2 getInstancia()
 	{
 		if (instancia==null)  
