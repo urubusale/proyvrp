@@ -10,6 +10,14 @@ import datatypes.DTRuteo;
 public class Landainterchange 
 {
 	static private Landainterchange instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public Landainterchange getInstancia()
 	{
 		if (instancia==null)  
@@ -18,10 +26,16 @@ public class Landainterchange
 			return instancia;
 		}else return instancia;
 	}
+	
+	/** 
+	 * Constructor por defecto.
+	 * 
+	 */
 	private Landainterchange()
 	{
 	}
-		
+	
+	
 	public Collection<DTRuteo> route2(Collection<DTRuteo> cols,int cap)
 	{
 		int costooptimo=Ruta.getInstancia().getCostoCW(cols, cap);

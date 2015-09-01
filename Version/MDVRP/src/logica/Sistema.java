@@ -50,7 +50,7 @@ public class Sistema implements ISistema
 	 * <code>setNodos</code> 
 	 * de <code>DTDepositoVRP</code>
 	 * 
-	 * @param		Colección de String que contiene los datos para generar un <code>DTDepositoVRP</code>.	 * 
+	 * @param		datos Colección de String que contiene los datos para generar un <code>DTDepositoVRP</code>.	 * 
 	 * @return      Retorna un nuevo<code>DTDepositoVRP</code> con los datos <code>datos</code> pasados por parametro. 
 	 * @throws		<code>Exception</code> si hay error al leer el archivo.
 	 * 
@@ -376,11 +376,27 @@ public class Sistema implements ISistema
 		return Fabrica.getInstancia().getRuteo().rutear(dt,capacidad);
 	}
 	
+	/**
+	 * El metodo se encarga de realizar el ruteo aplicando el algoritmo de ruteo y optimiza el conjunto de rutas solución. 
+	 * 
+	 * @param	dt <code>DTAsignacion</code> donde contiene el deposito y la colección de clientes que estan asigandos a ese depositos.
+	 * @param	capacidad Capacidad de los vehiculos.
+	 * @return      Devuelve una colección de <code>DTRuteo</code>.
+	 * 
+	 */
 	public Collection<DTRuteo> post2intraroute(DTAsignacion dt,int capacidad)
 	{
 		return Fabrica.getInstancia().getRuteo().post2intraroute(dt, capacidad);
 	}
 	
+	/**
+	 * El metodo se encarga de realizar el ruteo aplicando el algoritmo de ruteo y optimiza el conjunto de rutas solución. 
+	 * 
+	 * @param	dt <code>DTAsignacion</code> donde contiene el deposito y la colección de clientes que estan asigandos a ese depositos.
+	 * @param	capacidad Capacidad de los vehiculos.
+	 * @return      Devuelve una colección de <code>DTRuteo</code>.
+	 * 
+	 */
 	public Collection<DTRuteo> rutearopt(DTAsignacion dt,int capacidad)
 	{
 		return Fabrica.getInstancia().getRuteo().rutear4opt(dt,capacidad);
@@ -389,46 +405,77 @@ public class Sistema implements ISistema
 	private int estadoConsulta;
 	private double progreso;
 
+	/**
+	 * Retorna el estado consulta del algoritmo. 
+	 * 
+	 * @return      Devuelve el estado consulta del algoritmo.
+	 * 
+	 */
 	synchronized public int getEstadoConsulta()
 	{
 		return estadoConsulta;
 	}
 	
+	/**
+	 * Setea el estado consulta del algoritmo como <code>ABORTADO</code>. 
+	 * 
+	 */
 	synchronized public void setAbortoEstadoConsulta()
 	{
 		estadoConsulta=-1;
 	}
 	
+	/**
+	 * Setea el estado consulta del algoritmo como <code>FINALIZADO OK</code>. 
+	 * 
+	 */
 	synchronized public void setFinalizadoOkEstadoConsulta()
 	{
 		estadoConsulta=1;
 	}
 	
+	/**
+	 * Inicializa el estado consulta del algoritmo. 
+	 * <p>
+	 * Setea el progreso de avance igual 0, los mensajes vacios y arreglo de resaltados vacia.
+	 * 
+	 */
 	synchronized public void setInicioEstadoConsulta()
 	{
 		estadoConsulta=0;
 		progreso=0;
 		mensaje="";
 		resaltados=new ArrayList<DTNodo>();
-		pareciales=null;
+		parciales=null;
 	}
 	
+	/**
+	 * Retorna el progreso de avance del algoritmo. 
+	 * 
+	 * @return      Devuelve el progreso de avance del algoritmo.
+	 * 
+	 */
 	public int getPorgresoDeAvance()
 	{
 		return (int) Math.round(progreso);
 	
 	}
 	
+	/**
+	 * Adelanta el progreso de avance en <code>p</code> unidades
+	 * 
+	 * @param	p unidades a adelantar el progreso de avance.
+	 * 
+	 */
 	synchronized public void adelantarPorgresoDeAvance(float p)
 	{
-//		System.out.println("adelantado .... "+p);
 		this.progreso=this.progreso+p;
 	}
 
 	private Collection<DTNodo> mapeados;
 	
 	private Collection<DTNodo> resaltados;
-	private Collection<DTAsignacion> pareciales;
+	private Collection<DTAsignacion> parciales;
 	private String mensaje;
 	private DTNodo radio;
 	
@@ -436,23 +483,60 @@ public class Sistema implements ISistema
 	
 	public void setRadio(DTNodo s){this.radio=s;}
 	
+	
+	/**
+	 * Setea a la colección <code>m</code> como colección de nodos mapeados. 
+	 * 
+	 * @param	m Devuelve la colección de nodos mapeados.
+	 * 
+	 */
 	public void setMapeados(Collection<DTNodo> m){this.mapeados=m;}
 	
+	/**
+	 * Retorna la colección de nodos mapeados. 
+	 * 
+	 * @return      Devuelve la colección de nodos mapeados.
+	 * 
+	 */
 	public Collection<DTNodo> getMapeados(){return this.mapeados;}
 	
-	public void setParciales(Collection<DTAsignacion> m){this.pareciales=m;}
+	public void setParciales(Collection<DTAsignacion> m){this.parciales=m;}
 	
-	public Collection<DTAsignacion> getParciales(){return this.pareciales;}
+	public Collection<DTAsignacion> getParciales(){return this.parciales;}
 	
+	/**
+	 * Setea a la colección <code>m</code> como colección de nodos resaltados en el mapa. 
+	 * 
+	 * @param	m Devuelve la colección de nodos mapeados.
+	 * 
+	 */
 	public void setResaltados(Collection<DTNodo> m){
 		if(this.resaltados==null) resaltados=new ArrayList<DTNodo>();
 		this.resaltados.addAll(m);}
 	
+	/**
+	 * Retorna la colección de nodos mapeados. 
+	 * 
+	 * @return      Devuelve la colección de nodos resaltados en el mapa.
+	 * 
+	 */
 	public Collection<DTNodo> getResaltados(){return this.resaltados;}
 	
+	/**
+	 * Agrega el String <code>m</code> a los mensajes a mostrar. 
+	 * 
+	 * @param	m String a agregar a los mensajes a mostrar.
+	 * 
+	 */
 	public void setMensaje(String m)
 	{mensaje=mensaje+m+"\n";}
 	
+	/**
+	 * Retorna los mensajes a mostrar en pantalla. 
+	 * 
+	 * @return      los mensajes a mostrar en pantalla.
+	 * 
+	 */
 	public String getMensaje(){return this.mensaje;}
 
 }

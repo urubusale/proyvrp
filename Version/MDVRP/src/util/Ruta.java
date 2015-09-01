@@ -138,7 +138,6 @@ public class Ruta {
 	 */
 	public int getCarga(DTRuteo dt)
 	{
-		DTNodo dep=dt.getDeposito();
 		Iterator<DTNodo> it=dt.getRuta().iterator();
 		int carga=0;
 		while(it.hasNext())

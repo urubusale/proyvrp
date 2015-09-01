@@ -11,6 +11,14 @@ import datatypes.DTRuteo;
 public class Route14opt 
 {
 	static private Route14opt instancia=null;
+	
+	/**
+	 * Crea una nueva instancia de la clase que representa este objeto. 
+	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
+	 * La clase se inicializa si ya no se ha inicializado. 
+	 * 
+	 * @return      Una nueva instancia de la clase
+	 */
 	static public Route14opt getInstancia()
 	{
 		if (instancia==null)  
@@ -19,10 +27,27 @@ public class Route14opt
 			return instancia;
 		}else return instancia;
 	}
+	
+	/** 
+	 * Constructor por defecto.
+	 * 
+	 */
 	private Route14opt()
 	{
 	}
 	
+	/**
+	 * Mejora parte de una ruta, prueba todas las combinaciones posibles que surgen de cambiar <code>opt</code> aristas del grafo a la vez.
+	 * <p> 		
+	 * Viendo a la ruta como un grafo con vértices y aristas donde el vértice representa al cliente y la arista el camino entre dos clientes. 
+	 * <p> 
+	 * De esta forma se busca el óptimo local en el espacio de soluciones
+	 * 
+	 * @param	dt <code>DTRuteo</code> con el deposito <code>d</code> y ruta de clientes.
+	 * @param	opt numero de caminos entre dos clientes a cambiar.
+	 * @return      <code>DTRuteo</code> con el deposito <code>d</code> y nueva ruta de clientes optimizada.
+	 * 
+	 */
 	public DTRuteo opt4(DTRuteo dt,int opt)
 	{
 		
@@ -54,7 +79,15 @@ public class Route14opt
 		return retu;
 	}
 	
-	public ArrayList<ArrayList<DTNodo>> combinacionesTomadas(Collection<DTNodo> c,int ca)
+	/**
+	 * Retorna todas las combinaciones posibles tomando <code>ca</code> clientes de la colección de clientes <code>c</code>.
+	 * 
+	 * @param	c Colección de clientes que pertenecen a la ruta.
+	 * @param	ca numero de clientes a tomar para realizar todas las combinaciones posibles.
+	 * @return      Colección de colección clientes con todas las combinaciones posibles.
+	 * 
+	 */	
+	private ArrayList<ArrayList<DTNodo>> combinacionesTomadas(Collection<DTNodo> c,int ca)
 	{
 		if(c.size()==ca)
 		{
@@ -118,7 +151,23 @@ public class Route14opt
 		}
 	}
 	
-	public ArrayList<DTNodo> permutarBuscaOptimo(ArrayList<DTNodo> orig,ArrayList<DTNodo> permutar,int mejorcosto,DTNodo dep)
+	
+	
+	
+	
+	/**
+	 * Retorna la ruta optimizada luego de realizar la la permutación <code>permutar</code>. 
+	 * <p>
+	 * Si no se encuentra mejora retorna la ruta origianl <code>orig</code>.
+	 * 
+	 * @param	orig Ruta de clientes original.
+	 * @param	permutar Ruta de clientes a permutar.
+	 * @param	mejorcosto Mejor costo de la ruta.
+	 * @param	dep Deposito origen de la ruta <code>orig</code>.
+	 * @return      Ruta nueva optimizada.
+	 * 
+	 */
+	private ArrayList<DTNodo> permutarBuscaOptimo(ArrayList<DTNodo> orig,ArrayList<DTNodo> permutar,int mejorcosto,DTNodo dep)
 	{
 		int mejor=mejorcosto;
 		ArrayList<DTNodo> mejora=orig;
@@ -150,6 +199,14 @@ public class Route14opt
 		return mejora;
 	}
 	
+	/**
+	 * Retorna <code>true</code> si <code>d</code> pertenece a <code>l</code>.
+	 * 
+	 * @param	d <code>DTNodo</code> Cliente.
+	 * @param	l Lista de Clientes.
+	 * @return      <code>true</code> si <code>d</code> pertenece a <code>l</code>.
+	 * 
+	 */
 	private boolean pertenece(DTNodo d,List<DTNodo> l)
 	{
 		boolean ret=false;

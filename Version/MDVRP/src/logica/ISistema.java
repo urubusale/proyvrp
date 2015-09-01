@@ -22,7 +22,7 @@ public interface ISistema
 	 * <code>setNodos</code> 
 	 * de <code>DTDepositoVRP</code>
 	 * 
-	 * @param		<code>datos</code> Colección de String que contiene los datos para generar un <code>DTDepositoVRP</code>.	 * 
+	 * @param		datos Colección de String que contiene los datos para generar un <code>DTDepositoVRP</code>.	 * 
 	 * @return      Retorna un nuevo<code>DTDepositoVRP</code> con los datos <code>datos</code> pasados por parametro. 
 	 * @throws		<code>Exception</code> si hay error al leer el archivo.
 	 * 
@@ -105,18 +105,52 @@ public interface ISistema
 	 */
 	public Collection<DTRuteo> rutear(DTAsignacion dt,int capacidad);
 	
+	/**
+	 * El metodo se encarga de realizar el ruteo aplicando el algoritmo de ruteo y optimiza el conjunto de rutas solución. 
+	 * 
+	 * @param	dt <code>DTAsignacion</code> donde contiene el deposito y la colección de clientes que estan asigandos a ese depositos.
+	 * @param	capacidad Capacidad de los vehiculos.
+	 * @return      Devuelve una colección de <code>DTRuteo</code>.
+	 * 
+	 */
 	public Collection<DTRuteo> rutearopt(DTAsignacion dt,int capacidad);
 	
 	public Collection<DTRuteo> post2intraroute(DTAsignacion dt,int capacidad);
 	
+	/**
+	 * Retorna el estado consulta. 
+	 * 
+	 * @return      Devuelve el estado consulta.
+	 * 
+	 */
 	public int getEstadoConsulta();
 	
+	/**
+	 * Setea el estado consulta como Abortado. 
+	 * 
+	 */
 	public void setAbortoEstadoConsulta();
 	
+	/**
+	 * Setea el estado consulta como Finalizado Ok. 
+	 * 
+	 */
 	public void setFinalizadoOkEstadoConsulta();
 	
+	/**
+	 * Inicializa el estado consulta del algoritmo. 
+	 * <p>
+	 * Setea el progreso de avance igual 0, los mensajes vacios y arreglo de resaltados vacia.
+	 * 
+	 */
 	public void setInicioEstadoConsulta();
 	
+	/**
+	 * Retorna el progreso de avance del algoritmo. 
+	 * 
+	 * @return      Devuelve el progreso de avance del algoritmo.
+	 * 
+	 */
 	public int getPorgresoDeAvance();
 	
 }
