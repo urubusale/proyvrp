@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
-import util.Distancia;
+import util.*;
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
@@ -92,6 +92,7 @@ public class Urgencias
 			}
 			ar.add(dta);
 		}
+		Penalization.getInstancia().getCalculoPenalidad(ar);
 		
 		return ar;
 	}

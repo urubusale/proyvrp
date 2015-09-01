@@ -6,7 +6,7 @@ import java.util.TreeSet;
 
 import logica.Fabrica;
 import logica.Sistema;
-import util.Distancia;
+import util.*;
 import datatypes.DTAsignacion;
 import datatypes.DTDepositoVRP;
 import datatypes.DTNodo;
@@ -481,6 +481,9 @@ public class UrgenciasCap21 {
 			}
 			ar.add(dta);
 		}
+		
+		Penalization.getInstancia().getCalculoPenalidad(ar);
+		
 		return ar;
 	}
 	
