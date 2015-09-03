@@ -52,7 +52,6 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 	}
 		private DTDepositoVRP vrpcargado;
 
-	//	private ISistema is;
 		private JPanel jpgeneral;
 		private JToolBar tlb;
 		private JPanelEtiquetas etiquetas;
@@ -73,7 +72,7 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 		}
 		
 		/**
-		 *Constructor que realiza la inicialización del <code>JFramePrincipalVRP</code> 
+		 * Constructor que realiza la inicialización del <code>JFramePrincipalVRP</code> 
 		 * 
 		 */
 		public void initGUI() 
@@ -141,22 +140,7 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 									etiquetas.setPanRutas(rutas);
 									rutas.setEtiquetas(etiquetas);
 									vrpcargado=dep;
-										/*
-										 * 
-					 etiquetas.setVRP(resultado);
-				  	 mapa.setVRP(resultado);
-					 nodos.setVRP(resultado);
-					 nodos.setMapa(mapa);
-					 etiquetas.setMapa(mapa);
-					 rutas.setMapa(mapa);
-					 rutas.setVRP(resultado);
-					 etiquetas.setPanRutas(rutas);
-					 rutas.setEtiquetas(etiquetas);
-					 vrpcargado=resultado;
-										 */
 								}
-								
-								
 							}
 						}
 						catch(Exception ex)
@@ -208,12 +192,22 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
 			}
 		}
 		
+		/**
+		 * Se invoca cuando la ventana pasa a ser la ventana activa. 
+		 * 
+		 */
 		public void windowActivated(WindowEvent e){} 
 
-        public void windowClosed(WindowEvent e)
-        {
-        } 
+		/**
+		 * Se invoca cuando una ventana se ha cerrado como resultado de llamar a cerrar en la ventana. 
+		 * 
+		 */
+        public void windowClosed(WindowEvent e){} 
  
+        /**
+		 * Se invoca cuando el usuario intenta cerrar la ventana desde el menú del sistema. 
+		 * 
+		 */
         public void windowClosing(WindowEvent e)
         {
         	int i=JOptionPane.showConfirmDialog(this, new String("¿Desea salir?"),"SALIR",JOptionPane.YES_NO_OPTION);
@@ -224,14 +218,36 @@ public class JFramePrincipalVRP extends javax.swing.JFrame implements WindowList
         	}
         } 
  
+        /**
+		 * Se invoca cuando la ventana deja de ser la ventana activa. 
+		 * 
+		 */
         public void windowDeactivated(WindowEvent e){} 
          
+        /**
+		 * Se invoca cuando la ventana pasa de minimizado a normal. 
+		 * 
+		 */
         public void windowDeiconified(WindowEvent e){} 
-         
+        
+        /**
+		 * Se invoca cuando la ventana pasa de normal a minimizado. 
+		 * 
+		 */
         public void windowIconified(WindowEvent e){} 
-         
+        
+        /**
+		 * Se invoca la primera vez que una ventana se hace visible.
+		 * 
+		 */
         public void windowOpened(WindowEvent e){} 
-				
+		
+        /**
+		 * Retorna el objeto JFramePrincipalVRP.
+		 * 
+		 * @return      Devuelve el objeto <code>JFramePrincipalVRP</code>. 
+		 * 
+		 */
 		public JFramePrincipalVRP getThis(){return this;}
 		
 		private class Cargador extends JDialog implements java.beans.PropertyChangeListener

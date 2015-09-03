@@ -52,6 +52,10 @@ public class JPanelMapa extends JPanel
 	
 	private int escalaBD;
 	
+	/**
+	 * Constructor por defecto.
+	 * 
+	 */
 	public JPanelMapa()
 	{
 		super();
@@ -68,6 +72,12 @@ public class JPanelMapa extends JPanel
 		escalaBD=8;
 	}
 	
+	/**
+	 * Setea VRP a partir de <code>d</code>.
+	 * 
+	 * @param	d <code>DTDepositoVRP</code>.	
+	 * 
+	 */
 	public void setVRP(DTDepositoVRP d)
 	{
 		this.vrp=d;
@@ -96,6 +106,12 @@ public class JPanelMapa extends JPanel
 		
 	}
 
+	/**
+	 * Invocado para dibujar los distintos componenete.
+	 * 
+	 * @param	g Gráfico a dibujar.	
+	 * 
+	 */
 	public void paint (Graphics g) 
 	{
 		super.paint (g);
@@ -573,13 +589,9 @@ public class JPanelMapa extends JPanel
 		this.repaint();
 	}
 
-
 	public void setRutas(Collection<DTRuteo> c)
 	{
-		this.rutas=c;
-
-		
-	
+		this.rutas=c;	
 		ruteado=true;
 		this.repaint();
 	}
@@ -672,6 +684,7 @@ public class JPanelMapa extends JPanel
 		this.contornos=c;
 		this.repaint();
 	}
+	
 	public void setSombreado(boolean c)
 	{
 		this.sombreado=c;

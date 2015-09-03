@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Collection;
 import java.util.ArrayList;
+
 public class ControladorArchivo 
 {
 	static private ControladorArchivo instancia=null;

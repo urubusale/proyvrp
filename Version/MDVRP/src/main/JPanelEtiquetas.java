@@ -83,7 +83,14 @@ public class JPanelEtiquetas extends JPanel
 	
 	private JLabel sombreados;
 	private JCheckBox chsomb;
-	private JFramePrincipalVRP padre;	
+	private JFramePrincipalVRP padre;
+	
+	/**
+	 * Constructor por parametro. Se crea <code>JPanelEtiquetas</code> con el frame principal <code>JFramePrincipalVRP</code>.
+	 * 
+	 * @param	a Frame Principal.	
+	 * 
+	 */
 	public JPanelEtiquetas(JFramePrincipalVRP a)
 	{
 		super();
@@ -468,6 +475,12 @@ public class JPanelEtiquetas extends JPanel
 		this.setPreferredSize(new Dimension(280,10));
 	}
 	
+	/**
+	 * Setea todos los atributos del VRP a partir de <code>dt</code>.
+	 * 
+	 * @param	dt <code>DTDepositoVRP</code>.	
+	 * 
+	 */
 	public void setVRP(DTDepositoVRP dt)
 	{
 		this.tNAME.setText(dt.getNAME());
@@ -506,6 +519,12 @@ public class JPanelEtiquetas extends JPanel
 		this.costototalt.setText("-");
 	}
 	
+	/**
+	 * Setea el panel del Mapa <code>m</code> a <code>JPanelEtiquetas</code>
+	 * 
+	 * @param	m Panel del Mapa.	
+	 * 
+	 */
 	public void setMapa(JPanelMapa m)
 	{
 		this.mapa=m;
@@ -513,29 +532,42 @@ public class JPanelEtiquetas extends JPanel
 		tabla2.setMapa(m);
 	}
 	
+	/**
+	 * Setea el panel de Rutas <code>m</code> a <code>JPanelEtiquetas</code>.
+	 * 
+	 * @param	m Panel de Rutas.	
+	 * 
+	 */
 	public void setPanRutas(JPanelRutas m)
 	{
 		this.panrutas=m;
-		//tabla.setMapa(m);
 	}
 	
+	/**
+	 * Setea el costo <code>c</code> al TextField de costo total.
+	 * 
+	 * @param	c costo.	
+	 * 
+	 */
 	public void setCosto(int c)
 	{
 		this.costototalt.setText(String.valueOf(c));
 	}
 	
-	//********************
+
 	private class Cargador extends JDialog implements java.beans.PropertyChangeListener
 	{
 		private TaskWorker task;
 		private boolean done;
 		private JProgressBar progressBar;
 		private JTextArea mensaje;
+		
 		public Cargador(JFramePrincipalVRP pad) 
 		{
 			super(pad,true);
 			init();
 		}
+		
 		public void init()
 		{
 			mensaje=new JTextArea();
@@ -545,7 +577,6 @@ public class JPanelEtiquetas extends JPanel
 			general.add(centro,BorderLayout.SOUTH);
 			JScrollPane centrob=new JScrollPane(mensaje);
 			general.add(centrob,BorderLayout.CENTER);
-		//	centrob.add(mensaje);
 			Fabrica.getInstancia().getSistema().setInicioEstadoConsulta();
 			setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 			Toolkit kit = getToolkit();
@@ -565,8 +596,6 @@ public class JPanelEtiquetas extends JPanel
 			centro.add(progressBar);
 			this.setContentPane(general);
 			progressBar.setValue(0);
-			//progressBar.setStringPainted(true);
-			//progressBar.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			progressBar.setIndeterminate(true);
 			done = false;
 			task = new TaskWorker(this);
@@ -574,6 +603,7 @@ public class JPanelEtiquetas extends JPanel
 			task.execute();
 			setVisible(true);	
 		}
+		
 		public void termino()
 		{			
 			JPanel norte=new JPanel();
@@ -611,9 +641,9 @@ public class JPanelEtiquetas extends JPanel
 			
 			this.doLayout();
 		}
-		 public void propertyChange(java.beans.PropertyChangeEvent evt) 
-		 {
-			    if (!done) 
+		public void propertyChange(java.beans.PropertyChangeEvent evt) 
+		{
+				if (!done) 
 			    {
 			        int progress = task.getProgress();
 			        progressBar.setValue(progress);
@@ -634,9 +664,8 @@ public class JPanelEtiquetas extends JPanel
 			        {
 			        	this.mensaje.setText(mensaje);
 			        }else this.mensaje.setText("");
-			    //    taskOutput.append(String.format(		                "Completed %d%% of task.\n", progress));
 			    }
-		 }
+		}
 			
 		private class TaskWorker extends javax.swing.SwingWorker<Void, Void>
 		{
@@ -645,11 +674,11 @@ public class JPanelEtiquetas extends JPanel
 			{
 				super();
 			 	this.diw=dia;
-			 }
+			}
 			 
-			 @Override
-		     public Void doInBackground() 
-			 {
+			@Override
+		    public Void doInBackground() 
+			{
 		         int progress = 0;
 		         setProgress(0);
 		         Hilo h=new Hilo();
@@ -670,15 +699,14 @@ public class JPanelEtiquetas extends JPanel
 		             setProgress(Math.min(progress, 100));
 		         }
 		         return null;
-		     }
-			 @Override
-			 public void done()
-			 {
+		    }
+			@Override
+			public void done()
+			{
 				 	done=true;
 				 	diw.termino();
-			 }
-		 }
-		
+			}
+		}
 		
 		
 		private class Hilo extends Thread 
@@ -697,9 +725,5 @@ public class JPanelEtiquetas extends JPanel
 			}
 		}
 	}
-	//********************
-
-
-//*****************************
 	
 }
