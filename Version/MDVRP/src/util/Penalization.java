@@ -1,16 +1,10 @@
 package util;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.xml.soap.Detail;
-
-import logica.asignacion.urgencias.Cliente;
-import logica.asignacion.urgencias.Deposito;
 import datatypes.DTAsignacion;
 import datatypes.DTNodo;
-import datatypes.DTRuteo;
 
 public class Penalization {
 	static private double inicio;
@@ -32,19 +26,20 @@ public class Penalization {
 		}else return instancia;
 	}
 	
+	/** 
+	 * Constructor por defecto.
+	 * 
+	 */
 	private Penalization()
 	{
 		inicio=0;
 	}
 	
 	/**
-	 * En . 
+	 * Realiza el cálculo de la penalidad para el algoritmo.
 	 * 
-	 * @param		ListRutas Colección de rutas.
-	 * @param		nodo_i Cliente que deseamos encontrar como primer cliente en una ruta.
-	 * @return  	Devuelve el valor de la ruta donde el cliente <code>nodo_i</code> es el primer cliente en la ruta.
-	 * <p>
-	 * En caso de encontrar ninguna ruta donde <code>nodo_i</code> no es el primer cliente en la ruta devuelve <code>null</code>.
+	 * @param		ListAsignacion Colección de <code>DTAsignacion</code>.
+	 * @return  	Devuelve el valor del cálculo de la penalidad para el algoritmo.
 	 * 
 	 */
 	public double getCalculoPenalidad (Collection<DTAsignacion> ListAsignacion){
@@ -67,14 +62,19 @@ public class Penalization {
 				sumatoria = sumatoria + (CapClientes - dep.getDeposito().getDemanda());	    
 		}
 		
-		System.out.println("El calculo de la penalidad para el algoritmo es "+ sumatoria);
+		System.out.println("El cálculo de la penalidad para el algoritmo es: "+ sumatoria);
 		inicio = sumatoria;
 		return sumatoria;
 	}
 	
+	/**
+	 * Retorna el valor de la penalidad para el algoritmo.
+	 * 
+	 * @param		ListAsignacion Colección de <code>DTAsignacion</code>.
+	 * @return  	Devuelve el valor del cálculo de la penalidad para el algoritmo.
+	 * 
+	 */
 	public double getPenalidad (Collection<DTAsignacion> ListAsignacion){
 		return inicio;
 	}
-	
-	
 }
