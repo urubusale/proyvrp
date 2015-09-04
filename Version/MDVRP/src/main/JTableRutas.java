@@ -17,6 +17,10 @@ public class JTableRutas extends JTable
 	private JPanelMapa mapa;
 	private Collection<DTRuteo> rutas;
 
+	/**
+	 * Constructor por defecto. Invoca al constructor de <code>JTable</code>
+	 * 
+	 */
 	public JTableRutas()
 	{
 		super();
@@ -40,10 +44,14 @@ public class JTableRutas extends JTable
 		this.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.getSelectionModel().addListSelectionListener(this);
 		this.getTableHeader().setReorderingAllowed(false);
-		
-	
 	}
 	
+	/**
+	 * Setea la colección de rutas <code>col</code> a <code>JTableRutas</code>. Invoca a <code>setRutas</code> de <code>JPanelMapa</code>.
+	 * 
+	 * @param	col Colección de Rutas.	
+	 * 
+	 */
 	public void setRutas(Collection<DTRuteo> col)
 	{
 		TableModel dataModel=new ModeloTablaRutas(col);
@@ -72,7 +80,20 @@ public class JTableRutas extends JTable
 			
 	}
 	
+	/**
+	 * Setea el mapa <code>m</code> a <code>JTableRutas</code>
+	 * 
+	 * @param	m Mapa.	
+	 * 
+	 */
 	public void setMapa(JPanelMapa m){this.mapa=m;}
+	
+	/**
+	 * Se invoca cada vez que cambie el valor de la selección. Invoca a <code>valueChanged</code> de <code>JTable</code>
+	 * 
+	 * @param	e ListSelectionEvent.
+	 * 
+	 */
 	public void valueChanged(ListSelectionEvent e)
 	{
 		super.valueChanged(e);
@@ -217,9 +238,6 @@ public class JTableRutas extends JTable
 		{
 			return false;
 		}
-
-
-
 	}
 
 	private class DTLineaTabla

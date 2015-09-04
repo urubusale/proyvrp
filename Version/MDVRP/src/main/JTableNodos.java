@@ -13,6 +13,11 @@ import datatypes.DTNodo;
 public class JTableNodos extends JTable 
 {
 	private JPanelMapa mapa;
+	
+	/**
+	 * Constructor por defecto. Invoca al constructor de <code>JTable</code>
+	 * 
+	 */
 	public JTableNodos()
 	{
 		super();
@@ -30,10 +35,14 @@ public class JTableNodos extends JTable
 		this.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.getSelectionModel().addListSelectionListener(this);
 		this.getTableHeader().setReorderingAllowed(false);
-		
-	
 	}
 	
+	/**
+	 * Setea todos los atributos del VRP a partir de <code>d</code>.
+	 * 
+	 * @param	d <code>DTDepositoVRP</code>.	
+	 * 
+	 */
 	public void setVRP(DTDepositoVRP d)
 	{
 		TableModel dataModel=new ModeloTablaNodos(d);
@@ -52,11 +61,22 @@ public class JTableNodos extends JTable
 		trsr.setComparator(3, new Comparador());
 		this.setRowSorter(trsr);
 		trsr.toggleSortOrder(0);
-
-			
 	}
 	
+	/**
+	 * Setea el mapa <code>m</code> a <code>JTableNodos</code>
+	 * 
+	 * @param	m Mapa.	
+	 * 
+	 */
 	public void setMapa(JPanelMapa m){this.mapa=m;}
+	
+	/**
+	 * Se invoca cada vez que cambie el valor de la selección. Invoca a <code>valueChanged</code> de <code>JTable</code>
+	 * 
+	 * @param	e ListSelectionEvent.
+	 * 
+	 */
 	public void valueChanged(ListSelectionEvent e)
 	{
 		super.valueChanged(e);
@@ -162,10 +182,5 @@ public class JTableNodos extends JTable
 		{
 			return false;
 		}
-
-
-
 	}
-
-
 }
