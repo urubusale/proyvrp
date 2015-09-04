@@ -47,13 +47,28 @@ public class Deposito
 		this.capacidadLibrePonderada=dep.getCapacidadLibrePonderada();
 	}
 	
-	
+	/**
+	 * Devuelve la información del Deposito: coordenadas (x, y), el id, la capacidad.
+	 * 
+	 * @return	Información del Deposito.
+	 * 
+	 */
 	public DTNodo getNodo(){return nodo;}
 	
-	
+	/**
+	 * Devuelve la colección de clientes asignados al depósito.
+	 * 
+	 * @return	Retorna la colección de clientes asignados al depósito.
+	 * 
+	 */
 	public Collection<Cliente> getAsignados(){return asignados;}
 	
-	
+	/**
+	 * Agrega el cliente <code>c</code> a la colección de clientes asignados al depósito. Calcula la capacidad libre y la capacidad libre ponderada del depósito.
+	 * 
+	 * @param	c Cliente a agregar al depósito.
+	 * 
+	 */
 	public void agregarCliente(Cliente c)
 	{
 		this.asignados.add(c);
@@ -61,7 +76,12 @@ public class Deposito
 		this.capacidadLibrePonderada=this.capacidadLibrePonderada -c.getNodo().getDemanda();
 	}
 	
-	
+	/**
+	 * Remueve el cliente <code>c</code> de la colección de clientes asignados al depósito. Calcula la capacidad libre y la capacidad libre ponderada del depósito
+	 * 
+	 * @param	c Cliente a remover del depósito.
+	 * 
+	 */
 	public void sacarCliente(Cliente c)
 	{
 		this.asignados.remove(c);
@@ -69,15 +89,36 @@ public class Deposito
 		this.capacidadLibrePonderada=this.capacidadLibrePonderada + c.getNodo().getDemanda();
 	}
 	
-	
+	/**
+	 * Setea a <code>c</code> como la capacidad libre del depósito.
+	 * 
+	 * @param	c Capacidad libre a setear en el depósito.
+	 * 
+	 */
 	public void setCapacidadLibre(int c){this.capacidadLibre=c;}
 	
-	
+	/**
+	 * Devuelve la capacidad libre del depósito.
+	 * 
+	 * @param	Retorna el valor de la capacidad libre del depósito.
+	 * 
+	 */
 	public int getCapacidadLibre(){return this.capacidadLibre;}
 	
-	
+	/**
+	 * Setea a <code>c</code> como la capacidad libre ponderada del depósito.
+	 * 
+	 * @param	c Capacidad libre ponderada a setear en el depósito.
+	 * 
+	 */
 	public void setCapacidadLibrePonderada(double c){this.capacidadLibrePonderada = (int)(c*this.nodo.getDemanda());}
 	
-	
+	/**
+	 * Devuelve la capacidad libre ponderada del depósito.
+	 * 
+	 * @param	Retorna el valor de la capacidad libre ponderada del depósito.
+	 * 
+	 */
 	public int getCapacidadLibrePonderada(){return this.capacidadLibrePonderada;}
+	
 }

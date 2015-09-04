@@ -44,6 +44,17 @@ public class UrgenciasCap2 {
 	private Collection<Deposito> depositos;
 	private Collection<Enagenado> enagenados;
 	
+	/**
+	 * El metodo se encarga de realizar la asignación Hibrida para depósitos con capacidad limitada (Algoritmo 1).
+	 * <p>
+	 * Recibe por parámetro <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * <p>
+	 * Retorna una colección de <code>DTAsignacion</code>. Cada <code>DTAsignacion</code> contiene un deposito y una colección de clientes que estan asignados al deposito.
+	 *
+	 * @param	d <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * @return      Devuelve una colección de <code>DTAsignacion</code>.. 
+	 * 
+	 */
 	public Collection<DTAsignacion> asignar(DTDepositoVRP d)
 	{
 
@@ -340,8 +351,8 @@ public class UrgenciasCap2 {
 						c.setClieteMasCercano2(clientetmp);
 						distanciaMasCercano2 = Distancia.getInstancia().getDistancia(clientetmp.getNodo(), c.getNodo());
 					}
-		}	
-	
+		}
+
 		return c; 
 	}	
 }

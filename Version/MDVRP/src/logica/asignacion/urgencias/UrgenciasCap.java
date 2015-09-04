@@ -40,6 +40,19 @@ public class UrgenciasCap
 	private Collection<Cliente> clientes;
 	private Collection<Deposito> depositos;
 	
+	/**
+	 * El metodo se encarga de realizar la asignación con capacidades. Concidera las capacidades en los Depositos.
+	 * <p>
+	 * La urgencia o prioridad que tienen los clientes determina la forma de asignarlos. Un cliente con más urgencia se asigna primero.
+	 * <p>
+	 * Recibe por parámetro <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * <p>
+	 * Retorna una colección de <code>DTAsignacion</code>. Cada <code>DTAsignacion</code> contiene un deposito y una colección de clientes que estan asignados al deposito.
+	 *
+	 * @param	d <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
+	 * @return      Devuelve una colección de <code>DTAsignacion</code>.. 
+	 * 
+	 */
 	public Collection<DTAsignacion> asignar(DTDepositoVRP d)
 	{
 		clientes=new ArrayList<Cliente>();
