@@ -35,7 +35,14 @@ public class Landainterchange
 	{
 	}
 	
-	
+	/**
+	 * El metodo se encarga de optimizar el conjunto de rutas solución (Intraroute). 
+	 * 
+	 * @param	cols <code>DTAsignacion</code> donde contiene el deposito y la colección de clientes que estan asigandos a ese depositos.
+	 * @param	cap Capacidad de los vehiculos.
+	 * @return      Devuelve una colección de <code>DTRuteo</code>.
+	 * 
+	 */
 	public Collection<DTRuteo> route2(Collection<DTRuteo> cols,int cap)
 	{
 		int costooptimo=Ruta.getInstancia().getCostoCW(cols, cap);
@@ -175,7 +182,7 @@ public class Landainterchange
 	}
 	
 	
-	public ArrayList<ArrayList<DTRuteolanda>> combinacionesTomadas(Collection<DTRuteolanda> c,int ca)
+	private ArrayList<ArrayList<DTRuteolanda>> combinacionesTomadas(Collection<DTRuteolanda> c,int ca)
 	{
 		if(c.size()==ca)
 		{
@@ -246,7 +253,7 @@ public class Landainterchange
 	}
 
 	
-	public ArrayList<DTRuteolanda> dosRouteBuscaOptimo(ArrayList<DTRuteolanda> orig,int cap)
+	private ArrayList<DTRuteolanda> dosRouteBuscaOptimo(ArrayList<DTRuteolanda> orig,int cap)
 	{
 		DTRuteolanda primera=(DTRuteolanda)orig.toArray()[0];
 		DTRuteolanda segunda=(DTRuteolanda)orig.toArray()[1];
@@ -358,7 +365,7 @@ public class Landainterchange
 	}
 	
 	
-	public int getCostoCWl(Collection<DTRuteolanda> col,int cap)
+	private int getCostoCWl(Collection<DTRuteolanda> col,int cap)
 	{
 		int costo=0;
 		Iterator<DTRuteolanda> it=col.iterator();
@@ -372,7 +379,7 @@ public class Landainterchange
 	}
 	
 	
-	public ArrayList<DTRuteolanda> swapBuscaOptimo(ArrayList<DTRuteolanda> orig,int cap)
+	private ArrayList<DTRuteolanda> swapBuscaOptimo(ArrayList<DTRuteolanda> orig,int cap)
 	{
 		DTRuteolanda primera=(DTRuteolanda)orig.toArray()[0];
 		DTRuteolanda segunda=(DTRuteolanda)orig.toArray()[1];
@@ -462,7 +469,7 @@ public class Landainterchange
 	}
 	
 	
-	public ArrayList<DTRuteolanda> swapBuscaOptimo2(ArrayList<DTRuteolanda> orig,int cap)
+	private ArrayList<DTRuteolanda> swapBuscaOptimo2(ArrayList<DTRuteolanda> orig,int cap)
 	{
 		DTRuteolanda primera=(DTRuteolanda)orig.toArray()[0];
 		DTRuteolanda segunda=(DTRuteolanda)orig.toArray()[1];
@@ -554,7 +561,7 @@ public class Landainterchange
 	}
 
 
-	public ArrayList<DTRuteolanda> swapBuscaOptimo3(ArrayList<DTRuteolanda> orig,int cap)
+	private ArrayList<DTRuteolanda> swapBuscaOptimo3(ArrayList<DTRuteolanda> orig,int cap)
 	{
 		DTRuteolanda primera=(DTRuteolanda)orig.toArray()[0];
 		DTRuteolanda segunda=(DTRuteolanda)orig.toArray()[1];
