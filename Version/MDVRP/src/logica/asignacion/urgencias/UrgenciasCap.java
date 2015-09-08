@@ -12,6 +12,9 @@ import datatypes.DTNodo;
 public class UrgenciasCap
 {
 	static private UrgenciasCap instancia=null;
+
+	private Collection<Cliente> clientes;
+	private Collection<Deposito> depositos;
 	
 	/**
 	 * Crea una nueva instancia de la clase que representa este objeto. 
@@ -36,10 +39,7 @@ public class UrgenciasCap
 	private UrgenciasCap()
 	{
 	}
-	
-	private Collection<Cliente> clientes;
-	private Collection<Deposito> depositos;
-	
+		
 	/**
 	 * El metodo se encarga de realizar la asignación con capacidades. Concidera las capacidades en los Depositos.
 	 * <p>
@@ -118,7 +118,14 @@ public class UrgenciasCap
 		
 		return ar;
 	}
-	
+
+	/**
+	 * Calcula el valor de <code>mu</code>. 
+	 *
+	 * @param	c Cliente.
+	 * @param	dep Colección de depósitos.
+	 * 
+	 */
 	private int calcularMu(Cliente c,Collection<Deposito> dep)
 	{
 		Deposito  masCercano=null;

@@ -100,7 +100,7 @@ public class Deposito
 	/**
 	 * Devuelve la capacidad libre del depósito.
 	 * 
-	 * @param	Retorna el valor de la capacidad libre del depósito.
+	 * @return	Retorna el valor de la capacidad libre del depósito.
 	 * 
 	 */
 	public int getCapacidadLibre(){return this.capacidadLibre;}
@@ -116,7 +116,7 @@ public class Deposito
 	/**
 	 * Devuelve la capacidad libre ponderada del depósito.
 	 * 
-	 * @param	Retorna el valor de la capacidad libre ponderada del depósito.
+	 * @return	Retorna el valor de la capacidad libre ponderada del depósito.
 	 * 
 	 */
 	public int getCapacidadLibrePonderada(){return this.capacidadLibrePonderada;}

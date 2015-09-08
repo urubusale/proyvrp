@@ -13,6 +13,10 @@ import datatypes.DTRuteo;
 
 public class UrgenciasCap2 {
 	static private UrgenciasCap2 instancia=null;
+
+	private Collection<ClienteCap2> clientes;
+	private Collection<Deposito> depositos;
+	private Collection<Enagenado> enagenados;
 	
 	/**
 	 * Crea una nueva instancia de la clase que representa este objeto. 
@@ -39,10 +43,6 @@ public class UrgenciasCap2 {
 		// UrgenciasCap2 - Algoritmo = 0
 		Config.getInstancia().setAlgoritmo(Config.urgenciasCapRapido);
 	}
-	
-	private Collection<ClienteCap2> clientes;
-	private Collection<Deposito> depositos;
-	private Collection<Enagenado> enagenados;
 	
 	/**
 	 * El metodo se encarga de realizar la asignación Hibrida para depósitos con capacidad limitada (Algoritmo 1).
@@ -222,6 +222,11 @@ public class UrgenciasCap2 {
 		return ar;
 	}
 	
+	/**
+	 * Calcula los nodos que son enajendados.
+	 * 
+	 *  
+	 */
 	private void calcularEnagenamiento()
 	{
 		Iterator<Deposito> itd1=depositos.iterator();
@@ -288,6 +293,13 @@ public class UrgenciasCap2 {
 
 	}
 	
+	/**
+	 * Calcula el valor de <code>mu</code>. 
+	 *
+	 * @param	c Cliente.
+	 * @param	dep Colección de depósitos.
+	 * 
+	 */
 	private int calcularMu(ClienteCap2 c,Collection<Deposito> dep)
 	{
 		Deposito  masCercano=null;
@@ -331,6 +343,15 @@ public class UrgenciasCap2 {
 		return sumatoriaDistancias-distanciaMasCercano;
 	}
 	
+	/**
+	 * Agrega al ClienteCap2 <code>c</code> los dos cliente mas cercanos.
+	 * <p>
+	 * El método se encarga invocar a <code>setClieteMasCercano1</code>, <code>setClieteMasCercano2</code> de <code>ClienteCap2</code>
+	 * 
+	 * @param	c <code>ClienteCap2</code> donde contiene toda la información del problema a resolver.
+	 * @return      Devuelve <code>c</code> con la información de los dos clientes mas cercanos.
+	 * 
+	 */
 	private ClienteCap2 addClientesMasCercanos(ClienteCap2 c) 
 	{
 		Iterator<ClienteCap2> it=this.clientes.iterator();

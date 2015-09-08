@@ -507,6 +507,12 @@ public class JPanelMapa extends JPanel
 		
 	}
 	
+	/**
+	 * Retorna True si la ruta <code>r</code> esta resaltada. 
+	 *
+	 * @return      <code>true</code> si la ruta <code>r</code> esta resaltada. 
+	 * 
+	 */
 	public boolean estaResaltadaRuta(DTRuteo r)
 	{
 		Iterator<DTRuteo> it=this.resaltadosrutas.iterator();
@@ -532,19 +538,38 @@ public class JPanelMapa extends JPanel
 		return false;
 	}
 	
+	/**
+	 * Transforma <code>X</code> para poder ser dibujado en el mapa.
+	 * 
+	 * @param	x Punto a dibujar.
+	 * @return      Punto transformado para dibujar.
+	 * 
+	 */
 	public int transformarX(int x)
 	{
 		int posrelativa=x-xminimo;
 		return ancho*posrelativa/ancho2+borde;
-
 	}
 	
+	/**
+	 * Transforma <code>Y</code> para poder ser dibujado en el mapa.
+	 * 
+	 * @param	y Punto a dibujar.
+	 * @return      Punto transformado para dibujar.
+	 * 
+	 */
 	public int transformarY(int y)
 	{
 		int posrelativa=y-yminimo;
 		return alto*posrelativa/alto2+borde;
 	}
 	
+	/**
+	 * Setea a la colección <code>c</code> como colección de nodos resaltados en el mapa y los dibuja. 
+	 * 
+	 * @param	c Colección de nodos resaltados.
+	 * 
+	 */
 	public void setResaltados(Collection<DTNodo> c)
 	{
 		this.resaltados=new Hashtable<Integer,DTNodo>();
@@ -557,6 +582,12 @@ public class JPanelMapa extends JPanel
 		this.repaint();
 	}
 
+	/**
+	 * Setea a la colección <code>c</code> como colección de rutas resaltadas en el mapa y las dibuja. 
+	 * 
+	 * @param	c Colección de rutas resaltadas.
+	 * 
+	 */
 	public void setRutasResaltadas(Collection<DTRuteo> c)
 	{
 		this.resaltadosrutas=c;
@@ -564,6 +595,12 @@ public class JPanelMapa extends JPanel
 		this.repaint();
 	}
 
+	/**
+	 * Setea la colección de asignaciones <code>c</code> y las dibuja.
+	 * 
+	 * @param	c Colección de <code>DTAsignacion</code>.	
+	 * 
+	 */
 	public void setAsignaciones(Collection<DTAsignacion> c)
 	{
 		this.asignaciones=new Hashtable<Integer,DTNodo>();
@@ -589,6 +626,12 @@ public class JPanelMapa extends JPanel
 		this.repaint();
 	}
 
+	/**
+	 * Setea la colección de rutas <code>c</code> y las dibuja.
+	 * 
+	 * @param	c Colección de Rutas.	
+	 * 
+	 */
 	public void setRutas(Collection<DTRuteo> c)
 	{
 		this.rutas=c;	
@@ -596,6 +639,13 @@ public class JPanelMapa extends JPanel
 		this.repaint();
 	}
 
+	/**
+	 * Retorna un color para el depósito<code>dep</code> de una paleta de colores. 
+	 *
+	 * @param	dep Depósito.	
+	 * @return      Color. 
+	 * 
+	 */
 	public Color getColor(int dep)
 	{
 		int numerodeposito=-1;
@@ -618,6 +668,13 @@ public class JPanelMapa extends JPanel
 
 	}
 	
+	/**
+	 * Retorna un color para la ruta <code>d</code> de una paleta de colores. 
+	 *
+	 * @param	d DTRuteo.	
+	 * @return      Color. 
+	 * 
+	 */
 	public Color getColorDeRuta(DTRuteo d)
 	{
 		int numeroderuta=-1;
@@ -649,6 +706,12 @@ public class JPanelMapa extends JPanel
 		return Color.BLACK;
 	}
 	
+	/**
+	 * Setea a la colección <code>vs</code> como colección de nodos resaltados asignaciones en el mapa y los dibuja. 
+	 * 
+	 * @param	vs Colección de nodos resaltados asignaciones.
+	 * 
+	 */
 	public void setResaltadosAsignaciones(Collection<Integer> vs)
 	{
 		this.resaltadosdeasginacion=new Hashtable<Integer,DTNodo>();
@@ -678,13 +741,25 @@ public class JPanelMapa extends JPanel
 		this.repaint();
 
 	}
-	
+
+	/**
+	 * Setea si tiene contorno y los dibuja. 
+	 *
+	 * @param	c <code>true</code> si tiene contorno.
+	 * 
+	 */
 	public void setContorno(boolean c)
 	{
 		this.contornos=c;
 		this.repaint();
 	}
 	
+	/**
+	 * Setea si tiene sombreado y los dibuja. 
+	 *
+	 * @param	c <code>true</code> si tiene sombreado. 
+	 * 
+	 */
 	public void setSombreado(boolean c)
 	{
 		this.sombreado=c;

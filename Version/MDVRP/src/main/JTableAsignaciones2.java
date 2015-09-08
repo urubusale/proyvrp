@@ -99,7 +99,7 @@ public class JTableAsignaciones2 extends JTable
 			DTLineaTabla n=((ModeloTablaAsignaciones2)this.getModel()).getNodoAt(this.convertRowIndexToModel(s));
 			ar.add(n);
 		}
-		//System.out.println("algunso resaltados "+ar.size());
+		//System.out.println("algunos resaltados "+ar.size());
 		Hashtable<Integer,Integer> depoasig=new Hashtable<Integer,Integer>();
 		Iterator<DTLineaTabla> itnnn=ar.iterator();
 		while(itnnn.hasNext())

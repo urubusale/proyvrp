@@ -85,7 +85,7 @@ public class Asignacion implements IAsignacion
 	 * @return      Devuelve una colección de <code>DTAsignacion</code>.. 
 	 * 
 	 */
-	public Collection<DTAsignacion> asignarCap2(DTDepositoVRP d) //SEGUIR ACA
+	public Collection<DTAsignacion> asignarCap2(DTDepositoVRP d)
 	{
 		return UrgenciasCap2.getInstancia().asignar(d);		
 	}

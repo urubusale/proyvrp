@@ -35,7 +35,6 @@ public class Ruteo implements IRuteo
 	}
 	
 	
-
 	public Collection<DTRuteo> rutear(DTAsignacion dt,int capacidad)
 	{
 		ArrayList<DTRuteo> ar=new ArrayList<DTRuteo>();
@@ -64,6 +63,7 @@ public class Ruteo implements IRuteo
 		ar.add(constr);
 		return ar;
 	}
+	
 	
 	public Collection<DTRuteo> rutear4opt(DTAsignacion dt,int capacidad)
 	{

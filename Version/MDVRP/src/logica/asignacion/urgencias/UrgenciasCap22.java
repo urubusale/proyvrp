@@ -15,6 +15,10 @@ import datatypes.DTRuteo;
 public class UrgenciasCap22 {
 	
 	static private UrgenciasCap22 instancia=null;
+
+	private Collection<ClienteCap2> clientes;
+	private Collection<Deposito> depositos;
+	private Collection<Enagenado> enagenados;
 	
 	/**
 	 * Crea una nueva instancia de la clase que representa este objeto. 
@@ -41,10 +45,6 @@ public class UrgenciasCap22 {
 		// UrgenciasCap22 - Algoritmo = 1
 		Config.getInstancia().setAlgoritmo(Config.urgenciasCapLento);
 	}
-	
-	private Collection<ClienteCap2> clientes;
-	private Collection<Deposito> depositos;
-	private Collection<Enagenado> enagenados;
 	
 	/**
 	 * El metodo se encarga de realizar la asignación Hibrida para depósitos con capacidad limitada (Algoritmo 2).
@@ -809,14 +809,10 @@ public class UrgenciasCap22 {
 	}
 	
 	/**
-	 * El metodo se encarga de realizar la asignación Hibrida para depósitos con capacidad limitada (Algoritmo 2).
-	 * 
-	 * Recibe por parámetro <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
-	 * <p>
-	 * Retorna una colección de <code>DTAsignacion</code>. Cada <code>DTAsignacion</code> contiene un deposito y una colección de clientes que estan asignados al deposito.
+	 * Calcula el valor de <code>mu</code>. 
 	 *
-	 * @param	c <code>DTDepositoVRP</code> donde contiene toda la información del problema a resolver.
-	 * @return      Devuelve una colección de <code>DTAsignacion</code>.
+	 * @param	c Cliente.
+	 * @param	dep Colección de depósitos.
 	 * 
 	 */
 	private int calcularMu(ClienteCap2 c,Collection<Deposito> dep)

@@ -11,7 +11,7 @@ public class Enagenado implements Comparable{
 	 * 
 	 * @param	c Los dos clientes mas cercanos.
 	 * @param	d Depósito Origen.
-	 * @param	d Depósito Destino.
+	 * @param	depositoDestino Depósito Destino.
 	 * 
 	 */
 	public Enagenado (ClienteCap2 c, Deposito d, Deposito depositoDestino) {

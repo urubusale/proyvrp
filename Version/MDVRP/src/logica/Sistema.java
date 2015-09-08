@@ -457,8 +457,7 @@ public class Sistema implements ISistema
 	 */
 	public int getPorgresoDeAvance()
 	{
-		return (int) Math.round(progreso);
-	
+		return (int) Math.round(progreso);	
 	}
 	
 	/**
@@ -478,16 +477,27 @@ public class Sistema implements ISistema
 	private Collection<DTAsignacion> parciales;
 	private String mensaje;
 	private DTNodo radio;
-	
+
+	/**
+	 * Retorna el radio. 
+	 * 
+	 * @return      Devuelve el valor del radio.
+	 * 
+	 */
 	public DTNodo getRadio(){return radio;}
 	
+	/**
+	 * Setea el radio con el valor <code>s</code>.
+	 * 
+	 * @param	s Radio.
+	 * 
+	 */
 	public void setRadio(DTNodo s){this.radio=s;}
-	
-	
+		
 	/**
 	 * Setea a la colección <code>m</code> como colección de nodos mapeados. 
 	 * 
-	 * @param	m Devuelve la colección de nodos mapeados.
+	 * @param	m Colección de nodos mapeados a setear.
 	 * 
 	 */
 	public void setMapeados(Collection<DTNodo> m){this.mapeados=m;}
@@ -500,19 +510,32 @@ public class Sistema implements ISistema
 	 */
 	public Collection<DTNodo> getMapeados(){return this.mapeados;}
 	
+	/**
+	 * Setea a la colección <code>m</code> como colección de asignaciones parciales. 
+	 * 
+	 * @param	m Colección parciales de asiganciones a setear.
+	 * 
+	 */
 	public void setParciales(Collection<DTAsignacion> m){this.parciales=m;}
 	
+	/**
+	 * Retorna la colección parciales de asiganciones. 
+	 * 
+	 * @return      Devuelve la colección parciales de asiganciones.
+	 * 
+	 */
 	public Collection<DTAsignacion> getParciales(){return this.parciales;}
 	
 	/**
 	 * Setea a la colección <code>m</code> como colección de nodos resaltados en el mapa. 
 	 * 
-	 * @param	m Devuelve la colección de nodos mapeados.
+	 * @param	m Colección de nodos resaltados.
 	 * 
 	 */
 	public void setResaltados(Collection<DTNodo> m){
 		if(this.resaltados==null) resaltados=new ArrayList<DTNodo>();
-		this.resaltados.addAll(m);}
+		this.resaltados.addAll(m);
+	}
 	
 	/**
 	 * Retorna la colección de nodos mapeados. 
@@ -540,5 +563,3 @@ public class Sistema implements ISistema
 	public String getMensaje(){return this.mensaje;}
 
 }
-
-

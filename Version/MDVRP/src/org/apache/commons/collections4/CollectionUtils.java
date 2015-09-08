@@ -32,7 +32,14 @@ import org.apache.commons.collections4.iterators.PermutationIterator;
  */
 public class CollectionUtils {
 
-
+	
+	/**
+	 * Devuelve una colección de todas las permutaciones de la colección de entrada.
+	 *
+	 * @param	collection La colección para crear las permutaciones, no puede ser nulo.
+	 * @return	Una colección desordenada de todas las permutaciones de la colección de entrada.
+	 * 
+	 */
     public static <E> Collection<List<E>> permutations(final Collection<E> collection) {
         final PermutationIterator<E> it = new PermutationIterator<E>(collection);
         final Collection<List<E>> result = new LinkedList<List<E>>();

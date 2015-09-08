@@ -12,6 +12,9 @@ public class Urgencias
 {
 	static private Urgencias instancia=null;
 	
+	private Collection<Cliente> clientes;
+	private Collection<Deposito> depositos;
+	
 	/**
 	 * Crea una nueva instancia de la clase que representa este objeto. 
 	 * La clase se instancia como por una nueva expresión con una lista de argumentos vacía. 
@@ -35,10 +38,7 @@ public class Urgencias
 	private Urgencias()
 	{
 	}
-	
-	private Collection<Cliente> clientes;
-	private Collection<Deposito> depositos;
-	
+		
 	/**
 	 * El metodo se encarga de realizar la asignación sin capacidades. No concidera las capacidades en los Depositos.
 	 * <p>
@@ -106,7 +106,14 @@ public class Urgencias
 		
 		return ar;
 	}
-	
+
+	/**
+	 * Calcula el valor de <code>mu</code>. 
+	 *
+	 * @param	c Cliente.
+	 * @param	dep Colección de depósitos.
+	 * 
+	 */
 	private int calcularMu(Cliente c,Collection<Deposito> dep)
 	{
 		Deposito  masCercano=null;

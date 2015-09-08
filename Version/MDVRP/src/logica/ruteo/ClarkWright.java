@@ -85,6 +85,7 @@ public class ClarkWright implements IRuteo
 				
 	}
 	
+	
 	@Override
 	public Collection<DTRuteo> rutear(DTAsignacion dt, int capacidad) 
 	{
@@ -151,7 +152,7 @@ public class ClarkWright implements IRuteo
 	}
 	
 	/**
-	 * El metodo se encarga de realizar el ruteo aplicando el algoritmo de Clark & Wright y optimiza el conjunto de rutas solución aplicando Lambda-Intercambio. 
+	 * El metodo se encarga de realizar el ruteo aplicando el algoritmo de Clark & Wright y optimiza el conjunto de rutas solución (Intraroute). 
 	 * 
 	 * @param	dt <code>DTAsignacion</code> donde contiene el deposito y la colección de clientes que estan asigandos a ese depositos.
 	 * @param	capacidad Capacidad de los vehiculos.

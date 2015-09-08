@@ -82,6 +82,7 @@ public class DTRuteo
 	 */
 	public int getCosto(){return this.costo;}
 	
+	
 	public void println()
 	{
 		System.out.print("dep: "+deposito.getId());

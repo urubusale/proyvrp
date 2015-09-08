@@ -108,8 +108,8 @@ public class Landainterchange
 			arinv.add((DTRuteolanda)nar.toArray()[0]);
 			//System.out.println(arinv+" arinv");
 
-			ArrayList<DTRuteolanda> optis=this.dosrouteBuscaOptimo(nar, cap);
-			ArrayList<DTRuteolanda> optis2=this.dosrouteBuscaOptimo(arinv, cap);
+			ArrayList<DTRuteolanda> optis=this.dosRouteBuscaOptimo(nar, cap);
+			ArrayList<DTRuteolanda> optis2=this.dosRouteBuscaOptimo(arinv, cap);
 			ArrayList<DTRuteolanda> optis3=this.swapBuscaOptimo(nar, cap);
 			ArrayList<DTRuteolanda> optis4=this.swapBuscaOptimo2(nar, cap);
 			ArrayList<DTRuteolanda> optis5=this.swapBuscaOptimo3(nar, cap);
@@ -173,6 +173,7 @@ public class Landainterchange
 		}
 		
 	}
+	
 	
 	public ArrayList<ArrayList<DTRuteolanda>> combinacionesTomadas(Collection<DTRuteolanda> c,int ca)
 	{
@@ -243,8 +244,9 @@ public class Landainterchange
 		
 		}
 	}
+
 	
-	public ArrayList<DTRuteolanda> dosrouteBuscaOptimo(ArrayList<DTRuteolanda> orig,int cap)
+	public ArrayList<DTRuteolanda> dosRouteBuscaOptimo(ArrayList<DTRuteolanda> orig,int cap)
 	{
 		DTRuteolanda primera=(DTRuteolanda)orig.toArray()[0];
 		DTRuteolanda segunda=(DTRuteolanda)orig.toArray()[1];
@@ -333,18 +335,7 @@ public class Landainterchange
 		return ar;
 	
 	}
-	/*
-	private boolean pertenece(DTNodo d,List<DTNodo> l)
-	{
-		boolean ret=false;
-		Iterator<DTNodo> it=l.iterator();
-		while(it.hasNext())
-		{
-			if(d.getId()==it.next().getId())
-				return true;
-		}
-		return ret;
-	}*/
+	
 	
 	private class DTRuteolanda extends DTRuteo
 	{
@@ -366,6 +357,7 @@ public class Landainterchange
 		}		
 	}
 	
+	
 	public int getCostoCWl(Collection<DTRuteolanda> col,int cap)
 	{
 		int costo=0;
@@ -378,6 +370,7 @@ public class Landainterchange
 		}
 		return costo;
 	}
+	
 	
 	public ArrayList<DTRuteolanda> swapBuscaOptimo(ArrayList<DTRuteolanda> orig,int cap)
 	{
@@ -467,6 +460,7 @@ public class Landainterchange
 		return ar;
 	
 	}
+	
 	
 	public ArrayList<DTRuteolanda> swapBuscaOptimo2(ArrayList<DTRuteolanda> orig,int cap)
 	{

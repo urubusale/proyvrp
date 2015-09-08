@@ -150,11 +150,7 @@ public class Route14opt
 			return result;
 		}
 	}
-	
-	
-	
-	
-	
+		
 	/**
 	 * Retorna la ruta optimizada luego de realizar la la permutación <code>permutar</code>. 
 	 * <p>

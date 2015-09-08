@@ -115,6 +115,15 @@ public interface ISistema
 	 */
 	public Collection<DTRuteo> rutearopt(DTAsignacion dt,int capacidad);
 	
+	
+	/**
+	 * El metodo se encarga de realizar el ruteo aplicando el algoritmo de ruteo y optimiza el conjunto de rutas solución (Intraroute). 
+	 * 
+	 * @param	dt <code>DTAsignacion</code> donde contiene el deposito y la colección de clientes que estan asigandos a ese depositos.
+	 * @param	capacidad Capacidad de los vehiculos.
+	 * @return      Devuelve una colección de <code>DTRuteo</code>.
+	 * 
+	 */
 	public Collection<DTRuteo> post2intraroute(DTAsignacion dt,int capacidad);
 	
 	/**

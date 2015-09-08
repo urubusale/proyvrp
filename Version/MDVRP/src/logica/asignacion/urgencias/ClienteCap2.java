@@ -58,5 +58,4 @@ public class ClienteCap2 extends Cliente implements Comparable {
 		this.clieteMasCercano2 = clieteMasCercano2;
 	}
 	
-
 }
