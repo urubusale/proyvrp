@@ -45,7 +45,8 @@ public class Penalization {
 	public double getCalculoPenalidad (Collection<DTAsignacion> ListAsignacion){
 		
 		int sumatoria=0;
-
+		int captotal=0;
+		
 		Iterator<DTAsignacion> itd=ListAsignacion.iterator();
 		while(itd.hasNext())
 		{
@@ -53,6 +54,7 @@ public class Penalization {
 		    
 		    Iterator<DTNodo> itc=dep.getClientes().iterator();
 		    int CapClientes = 0; 
+		    captotal += dep.getDeposito().getDemanda();
 			while(itc.hasNext())
 			{
 				DTNodo cliente=itc.next();
@@ -62,9 +64,9 @@ public class Penalization {
 				sumatoria = sumatoria + (CapClientes - dep.getDeposito().getDemanda());	    
 		}
 		
-		System.out.println("El cálculo de la penalidad para el algoritmo es: "+ sumatoria);
+		System.out.println("El cálculo de la penalidad para el algoritmo es: "+ sumatoria*100/captotal +"%");
 		inicio = sumatoria;
-		return sumatoria;
+		return (sumatoria*100/captotal);
 	}
 	
 	/**
