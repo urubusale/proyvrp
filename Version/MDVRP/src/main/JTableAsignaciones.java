@@ -16,6 +16,11 @@ import datatypes.DTNodo;
 public class JTableAsignaciones extends JTable 
 {
 	private JPanelMapa mapa;
+	
+	/**
+	 * Constructor por defecto. Invoca al constructor de <code>JTable</code>
+	 * 
+	 */
 	public JTableAsignaciones()
 	{
 		super();
@@ -29,10 +34,14 @@ public class JTableAsignaciones extends JTable
 		this.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	//	this.getSelectionModel().addListSelectionListener(this);
 		this.getTableHeader().setReorderingAllowed(false);
-		
-	
 	}
 	
+	/**
+	 * Setea la colección de Asignaciones <code>col</code> a <code>JTableAsignaciones</code>
+	 * 
+	 * @param	col Colección de Rutas.	
+	 * 
+	 */
 	public void setAsignaciones(Collection<DTAsignacion> col)
 	{
 		TableModel dataModel=new ModeloTablaAsignaciones(col);
@@ -52,7 +61,20 @@ public class JTableAsignaciones extends JTable
 			
 	}
 	
+	/**
+	 * Setea el mapa <code>m</code> a <code>JTableAsignaciones</code>
+	 * 
+	 * @param	m Mapa.	
+	 * 
+	 */
 	public void setMapa(JPanelMapa m){this.mapa=m;}
+	
+	/**
+	 * Se invoca cada vez que cambie el valor de la selección. Invoca a <code>valueChanged</code> de <code>JTable</code>
+	 * 
+	 * @param	e ListSelectionEvent.
+	 * 
+	 */
 	public void valueChanged(ListSelectionEvent e)
 	{
 		super.valueChanged(e);
