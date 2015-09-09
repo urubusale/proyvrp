@@ -1,1 +1,11 @@
+bdatos
+datatypes
+logica
+logica.asignacion
+logica.asignacion.urgencias
+logica.ruteo
 logica.ruteo.opt
+main
+org.apache.commons.collections4
+org.apache.commons.collections4.iterators
+util
