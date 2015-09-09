@@ -16,7 +16,7 @@ public class UrgenciasCap2 {
 
 	private Collection<ClienteCap2> clientes;
 	private Collection<Deposito> depositos;
-	private Collection<Enagenado> enagenados;
+	private Collection<Enajenado> enajenados;
 	
 	/**
 	 * Crea una nueva instancia de la clase que representa este objeto. 
@@ -62,7 +62,7 @@ public class UrgenciasCap2 {
 		
 		clientes=new ArrayList<ClienteCap2>();
 		depositos=new ArrayList<Deposito>();
-		enagenados=new ArrayList<Enagenado>();
+		enajenados=new ArrayList<Enajenado>();
 		
 		Iterator<DTNodo> it=d.getNodos().iterator();
 		while(it.hasNext())
@@ -156,13 +156,13 @@ public class UrgenciasCap2 {
 			cantidadIteraciones++;
 			System.out.println("Cantidad Iteraciones "+cantidadIteraciones);
 			this.calcularEnagenamiento();
-			// Aplico todos los cambios de la lista de enagenados ....
+			// Aplico todos los cambios de la lista de enajenados ....
 
 			aux = new ArrayList<Integer>();
-			Iterator<Enagenado> itena= this.enagenados.iterator();
+			Iterator<Enajenado> itena= this.enajenados.iterator();
 			while(itena.hasNext())
 			{
-				Enagenado ena=itena.next();
+				Enajenado ena=itena.next();
 				
 				aux.add(ena.getCliente().getNodo().getId());
 				
@@ -230,7 +230,7 @@ public class UrgenciasCap2 {
 	private void calcularEnagenamiento()
 	{
 		Iterator<Deposito> itd1=depositos.iterator();
-		this.enagenados=new ArrayList<Enagenado>();
+		this.enajenados=new ArrayList<Enajenado>();
 		while(itd1.hasNext())
 		{ 
 			Deposito dep1 = itd1.next();
@@ -260,7 +260,7 @@ public class UrgenciasCap2 {
 						}
 						if (encontre1 && encontre2) 
 						{
-							this.enagenados.add(new Enagenado(((ClienteCap2)clientebase), dep1, dep2));
+							this.enajenados.add(new Enajenado(((ClienteCap2)clientebase), dep1, dep2));
 							break;
 						}
 					}
@@ -270,11 +270,11 @@ public class UrgenciasCap2 {
 		
 		// limpio lista de enegenados por la distancia al deposito.
 		int distCaC1, distCaC2, distDep;
-		Iterator<Enagenado> itena= this.enagenados.iterator();
-		ArrayList<Enagenado> asacar=new ArrayList<Enagenado>();
+		Iterator<Enajenado> itena= this.enajenados.iterator();
+		ArrayList<Enajenado> asacar=new ArrayList<Enajenado>();
 		while(itena.hasNext())
 		{
-			Enagenado ena=itena.next();
+			Enajenado ena=itena.next();
 			distCaC1 = Distancia.getInstancia().getDistancia(ena.getCliente().getClieteMasCercano1().getNodo(), ena.getCliente().getNodo());
 			distCaC2 = Distancia.getInstancia().getDistancia(ena.getCliente().getClieteMasCercano2().getNodo(), ena.getCliente().getNodo());
 			distDep =  Distancia.getInstancia().getDistancia(ena.getCliente().getNodo(), ena.getDeposito().getNodo());
@@ -284,12 +284,12 @@ public class UrgenciasCap2 {
 			
 			
 			if (distCaC1 + distCaC2 > distDep)
-				asacar.add(ena);//this.enagenados.remove(ena);
+				asacar.add(ena);//this.enajenados.remove(ena);
 			else ena.setMu(distDep-(distCaC1+distCaC2));
 
 		}
-		Iterator<Enagenado> itsacar=asacar.iterator();
-		while(itsacar.hasNext()){this.enagenados.remove(itsacar.next());}
+		Iterator<Enajenado> itsacar=asacar.iterator();
+		while(itsacar.hasNext()){this.enajenados.remove(itsacar.next());}
 
 	}
 	

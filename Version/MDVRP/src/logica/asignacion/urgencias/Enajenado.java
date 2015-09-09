@@ -1,20 +1,20 @@
 package logica.asignacion.urgencias;
 
-public class Enagenado implements Comparable{
+public class Enajenado implements Comparable{
 	private ClienteCap2 cliente;
 	private Deposito deposito;
 	private Deposito depositoDestino;
 	private int mu;
 	
 	/**
-	 * Constructor por parametro. Se crea <code>Enagenado</code> con los dos clientes mas cercanos <code>c</code>, el depósito origen <code>d</code> y el depósito destino <code>depositoDestino</code>.
+	 * Constructor por parametro. Se crea <code>Enajenado</code> con los dos clientes mas cercanos <code>c</code>, el depósito origen <code>d</code> y el depósito destino <code>depositoDestino</code>.
 	 * 
 	 * @param	c Los dos clientes mas cercanos.
 	 * @param	d Depósito Origen.
 	 * @param	depositoDestino Depósito Destino.
 	 * 
 	 */
-	public Enagenado (ClienteCap2 c, Deposito d, Deposito depositoDestino) {
+	public Enajenado (ClienteCap2 c, Deposito d, Deposito depositoDestino) {
 		this.setCliente(c) ;
 		this.setDeposito(d) ;
 		this.setDepositoDestino(depositoDestino) ;
@@ -109,7 +109,7 @@ public class Enagenado implements Comparable{
 	 */
 	public int compareTo(Object o)
 	{
-		return Integer.valueOf(mu).compareTo(((Enagenado)o).mu);
+		return Integer.valueOf(mu).compareTo(((Enajenado)o).mu);
 	}
 	
 }
