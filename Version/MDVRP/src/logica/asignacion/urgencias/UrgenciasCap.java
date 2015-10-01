@@ -129,14 +129,8 @@ public class UrgenciasCap
 	private int calcularMu(Cliente c,Collection<Deposito> dep)
 	{
 		Deposito  masCercano=null;
-		if(dep.size()>0)
-		{
-			masCercano=dep.iterator().next();
-		}
-		else
-		{
-			return 0;
-		}
+	
+		
 		int distanciaMasCercano=Integer.MAX_VALUE;
 		Iterator<Deposito> it=dep.iterator();
 		while(it.hasNext())
@@ -152,21 +146,40 @@ public class UrgenciasCap
 			}
 		}
 		
-		int sumatoriaDistancias=0;
-		Iterator<Deposito> it2=dep.iterator();
-		while(it2.hasNext())
+		if(masCercano!=null)
 		{
-			Deposito n=it2.next();
-			if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+			int sumatoriaDistancias=0;
+			Iterator<Deposito> it2=dep.iterator();
+			while(it2.hasNext())
 			{
-				if(n.getNodo().getId()!=masCercano.getNodo().getId())
+				Deposito n=it2.next();
+				if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
 				{
-					sumatoriaDistancias=sumatoriaDistancias+Distancia.getInstancia().getDistancia(n.getNodo(),c.getNodo());
+					if(n.getNodo().getId()!=masCercano.getNodo().getId())
+					{
+						sumatoriaDistancias=sumatoriaDistancias+Distancia.getInstancia().getDistancia(n.getNodo(),c.getNodo());
+					}
 				}
 			}
+			c.setMasCercano(masCercano);
+			return sumatoriaDistancias-distanciaMasCercano;
+		}else
+		{
+			int distanciaMasCercano2=Integer.MAX_VALUE;
+			Iterator<Deposito> it2=dep.iterator();
+			while(it2.hasNext())
+			{
+				Deposito n=it2.next();
+				if(Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo())<distanciaMasCercano2)
+				{
+					masCercano=n;
+					distanciaMasCercano2=Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo());
+				}
+			}
+			c.setMasCercano(masCercano);
+			return 0;
 		}
-		c.setMasCercano(masCercano);
-		return sumatoriaDistancias-distanciaMasCercano;
 		
+	
 	}
 }

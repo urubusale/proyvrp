@@ -536,151 +536,9 @@ public class UrgenciasCap22 {
 							resaltado.add(candidatodep.getNodo());
 							break;
 						}else System.out.println("el costo dio**** "+costo);
-					}/*
-					else
-					{
-						//    int demanda=ena.getCliente().getNodo().getDemanda();
-						itnnn=this.depositos.iterator();
-						masposible=Integer.MAX_VALUE;
-						Deposito candidato2=null;
-						while(itnnn.hasNext())
-						{
-							Deposito depo=itnnn.next();
-							if(depo.getNodo().getId()!=ena.getDeposito().getNodo().getId())
-								if(depo.getNodo().getId()!=ena.getDepositoDestino().getNodo().getId())
-								{
-									//if(depo.getCapacidadLibre()>=demanda)
-									if(depo.getCapacidadLibrePonderada()>=demanda)
-									{
-										int dist=Distancia.getInstancia().getDistancia(depo.getNodo(),ena.getCliente().getNodo());
-										if(dist<masposible)
-										{
-											candidato2=depo;
-											masposible=dist;
-										}
-									}
-								}
-						}
-						if(candidato2!=null)
-						{
-							Iterator<Deposito> respita=this.depositos.iterator();
-							int costo=0;
-							while(respita.hasNext())
-							{
-								Deposito dep=respita.next();
-								Deposito nuevo=new Deposito(dep);
-								if(nuevo.getNodo().getId()==ena.getDeposito().getNodo().getId())
-									nuevo.sacarCliente(ena.getCliente());
-								if(nuevo.getNodo().getId()==candidato2.getNodo().getId())
-									nuevo.agregarCliente(ena.getCliente());
-							//    respaldoDep.add(nuevo);
-								
-								DTAsignacion dta=new DTAsignacion(nuevo.getNodo());
-								Iterator<Cliente> itcli=nuevo.getAsignados().iterator();
-								while(itcli.hasNext())
-								{
-									Cliente cli=itcli.next();
-									dta.agregarCliente(cli.getNodo());
-								}
-								Iterator<DTRuteo> itrut=Fabrica.getInstancia().getRuteo().rutear(dta, capacidadvehiculo).iterator();
-								while(itrut.hasNext())
-								{
-									DTRuteo next=itrut.next();
-									costo=costo+next.getCosto();
-								}
-							}
-							if(costo<costomenor)
-							{
-								ena.getDeposito().sacarCliente(ena.getCliente());
-								candidato2.agregarCliente(ena.getCliente());
-								costomenor=costo;
-								mensaje="*4 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se  pasó al cliente " +ena.getCliente().getNodo().getId()
-										+ " desde el depostio "+ena.getDeposito().getNodo().getId()+    " al deposito "+candidato2.getNodo().getId();
-								System.out.println(mensaje) ;
-								mostrarMensaje=true;
-								resaltado.add(ena.getCliente().getNodo());
-								resaltado.add(ena.getDeposito().getNodo());
-								resaltado.add(candidato2.getNodo());
-
-								resaltado.add(candidato2.getNodo());
-							
-								break;
-							}else System.out.println("el costo dio---- "+costo);
-
-						}
-					}*/
-				}/*
-				else
-				{
-					Iterator<Deposito> itnnn=this.depositos.iterator();
-					int masposible=Integer.MAX_VALUE;
-					Deposito candidato2=null;
-					while(itnnn.hasNext())
-					{
-						Deposito depo=itnnn.next();
-						if(depo.getNodo().getId()!=ena.getDeposito().getNodo().getId())
-							if(depo.getNodo().getId()!=ena.getDepositoDestino().getNodo().getId())
-							{
-								//if(depo.getCapacidadLibre()>=demanda)
-								if(depo.getCapacidadLibrePonderada()>=demanda)
-								{
-									int dist=Distancia.getInstancia().getDistancia(depo.getNodo(),ena.getCliente().getNodo());
-									if(dist<masposible)
-									{
-										candidato2=depo;
-										masposible=dist;
-									}
-								}
-							}
 					}
-					if(candidato2!=null)
-					{
-						Iterator<Deposito> respita=this.depositos.iterator();
-						int costo=0;
-						while(respita.hasNext())
-						{
-							Deposito dep=respita.next();
-							Deposito nuevo=new Deposito(dep);
-							if(nuevo.getNodo().getId()==ena.getDeposito().getNodo().getId())
-								nuevo.sacarCliente(ena.getCliente());
-							if(nuevo.getNodo().getId()==candidato2.getNodo().getId())
-								nuevo.agregarCliente(ena.getCliente());
-						//    respaldoDep.add(nuevo);
-							
-							DTAsignacion dta=new DTAsignacion(nuevo.getNodo());
-							Iterator<Cliente> itcli=nuevo.getAsignados().iterator();
-							while(itcli.hasNext())
-							{
-								Cliente cli=itcli.next();
-								dta.agregarCliente(cli.getNodo());
-							}
-							Iterator<DTRuteo> itrut=Fabrica.getInstancia().getRuteo().rutear(dta, capacidadvehiculo).iterator();
-							while(itrut.hasNext())
-							{
-								DTRuteo next=itrut.next();
-								costo=costo+next.getCosto();
-							}
-						}
-						if(costo<costomenor)
-						{
-							ena.getDeposito().sacarCliente(ena.getCliente());
-							candidato2.agregarCliente(ena.getCliente());
-							costomenor=costo;
-							mensaje="*5 mejora en iteracion "+cantidadIteraciones+", costo: "+costomenor +" se pasó al cliente " +ena.getCliente().getNodo().getId()
-									+ " desde el depostio "+ena.getDeposito().getNodo().getId()+    " al deposito "+candidato2.getNodo().getId();
-							System.out.println(mensaje) ;
-							mostrarMensaje=true;
-							resaltado.add(ena.getCliente().getNodo());
-							resaltado.add(ena.getDeposito().getNodo());
-							resaltado.add(candidato2.getNodo());
-
-							resaltado.add(candidato2.getNodo());
-							
-							break;
-						}else System.out.println("el costo dio---- "+costo);
-					}
-				}*/
-            }
+				}
+			}
             if(costoahora==costomenor)
                 terminar=true;
             if(Config.getInstancia().terminarPorConfig(cantidadIteraciones,costomenor))
@@ -817,6 +675,8 @@ public class UrgenciasCap22 {
 	 */
 	private int calcularMu(ClienteCap2 c,Collection<Deposito> dep)
 	{
+		
+		/*
 		Deposito  masCercano=null;
 		if(dep.size()>0)
 		{
@@ -857,7 +717,58 @@ public class UrgenciasCap22 {
 			}
 		}
 		c.setMasCercano(masCercano);
-		return sumatoriaDistancias-distanciaMasCercano;
+		return sumatoriaDistancias-distanciaMasCercano;*/
+	Deposito  masCercano=null;
+	
+		
+		int distanciaMasCercano=Integer.MAX_VALUE;
+		Iterator<Deposito> it=dep.iterator();
+		while(it.hasNext())
+		{
+			Deposito n=it.next();
+			if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+			{
+				if(Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo())<distanciaMasCercano)
+				{
+					masCercano=n;
+					distanciaMasCercano=Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo());
+				}
+			}
+		}
+		
+		if(masCercano!=null)
+		{
+			int sumatoriaDistancias=0;
+			Iterator<Deposito> it2=dep.iterator();
+			while(it2.hasNext())
+			{
+				Deposito n=it2.next();
+				if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+				{
+					if(n.getNodo().getId()!=masCercano.getNodo().getId())
+					{
+						sumatoriaDistancias=sumatoriaDistancias+Distancia.getInstancia().getDistancia(n.getNodo(),c.getNodo());
+					}
+				}
+			}
+			c.setMasCercano(masCercano);
+			return sumatoriaDistancias-distanciaMasCercano;
+		}else
+		{
+			int distanciaMasCercano2=Integer.MAX_VALUE;
+			Iterator<Deposito> it2=dep.iterator();
+			while(it2.hasNext())
+			{
+				Deposito n=it2.next();
+				if(Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo())<distanciaMasCercano2)
+				{
+					masCercano=n;
+					distanciaMasCercano2=Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo());
+				}
+			}
+			c.setMasCercano(masCercano);
+			return 0;
+		}
 	}
 	
 	/**
