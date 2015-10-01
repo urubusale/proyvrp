@@ -302,7 +302,7 @@ public class UrgenciasCap2 {
 	 */
 	private int calcularMu(ClienteCap2 c,Collection<Deposito> dep)
 	{
-		Deposito  masCercano=null;
+		/*Deposito  masCercano=null;
 		if(dep.size()>0)
 		{
 			masCercano=dep.iterator().next();
@@ -340,7 +340,58 @@ public class UrgenciasCap2 {
 			}
 		}
 		c.setMasCercano(masCercano);
-		return sumatoriaDistancias-distanciaMasCercano;
+		return sumatoriaDistancias-distanciaMasCercano;*/
+	Deposito  masCercano=null;
+	
+		
+		int distanciaMasCercano=Integer.MAX_VALUE;
+		Iterator<Deposito> it=dep.iterator();
+		while(it.hasNext())
+		{
+			Deposito n=it.next();
+			if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+			{
+				if(Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo())<distanciaMasCercano)
+				{
+					masCercano=n;
+					distanciaMasCercano=Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo());
+				}
+			}
+		}
+		
+		if(masCercano!=null)
+		{
+			int sumatoriaDistancias=0;
+			Iterator<Deposito> it2=dep.iterator();
+			while(it2.hasNext())
+			{
+				Deposito n=it2.next();
+				if(n.getCapacidadLibre()>=c.getNodo().getDemanda())
+				{
+					if(n.getNodo().getId()!=masCercano.getNodo().getId())
+					{
+						sumatoriaDistancias=sumatoriaDistancias+Distancia.getInstancia().getDistancia(n.getNodo(),c.getNodo());
+					}
+				}
+			}
+			c.setMasCercano(masCercano);
+			return sumatoriaDistancias-distanciaMasCercano;
+		}else
+		{
+			int distanciaMasCercano2=Integer.MAX_VALUE;
+			Iterator<Deposito> it2=dep.iterator();
+			while(it2.hasNext())
+			{
+				Deposito n=it2.next();
+				if(Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo())<distanciaMasCercano2)
+				{
+					masCercano=n;
+					distanciaMasCercano2=Distancia.getInstancia().getDistancia(n.getNodo(), c.getNodo());
+				}
+			}
+			c.setMasCercano(masCercano);
+			return 0;
+		}
 	}
 	
 	/**
