@@ -1,0 +1,23 @@
+----------------
+7" (ALE)
+introducción
+objetivos
+solución,analisis del problema
+----------------
+10"(JAVIER)
+solución,diseño y algoritmos - asignación
+solución,diseño y algoritmos - mejora de asignación
+solución,diseño y algoritmos - ruteo
+solución,diseño y algoritmos - postoptimización
+-----------------
+10"(FRAN)
+soluciónn, implementación
+matriz de distancia
+casos de prueba
+testeo
+analisis de resultado
+-----------------
+3"(ALE)
+conclusiones
+trabajos a futuro
+
